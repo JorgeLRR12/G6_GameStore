@@ -3,52 +3,55 @@ require_once __DIR__ . '/../model/Usuario.php';
 require_once __DIR__ . '/../accessData/UsuarioDAO.php';
 require_once __DIR__ . '/../misc/RespuestaJSON.php';
 
-$dao = new UsuarioDAO();
+class UsuarioController {
 
-switch ($_SERVER['REQUEST_METHOD']) {
-    case 'GET':
-        if (isset($_GET['id'])) {
-            try {
-                $usuario = $dao->obtenerPorId($_GET['id']);
-                if ($usuario) {
-                    RespuestaJSON::enviarRespuesta(200, "Usuario encontrado", $usuario);
-                } else {
-                    RespuestaJSON::enviarError(404, "Usuario no encontrado");
-                }
-            } catch (Exception $e) {
-                RespuestaJSON::enviarError(500, $e->getMessage());
-            }
-        } else {
-            try {
-                $usuarios = $dao->obtenerTodos();
-                RespuestaJSON::enviarRespuesta(200, "Usuarios encontrados", $usuarios);
-            } catch (Exception $e) {
-                RespuestaJSON::enviarError(500, $e->getMessage());
-            }
+    private $dao;
+
+    public function __construct() {
+        $this->dao = new UsuarioDAO();
+    }
+
+    public function obtenerTodos() {
+        try {
+            $usuarios = $this->dao->obtenerTodos();
+            RespuestaJSON::enviarRespuesta(200, "Usuarios encontrados", $usuarios);
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
         }
-        break;
+    }
 
-    case 'POST':
-        $datos = json_decode(file_get_contents("php://input"), true);
+    public function obtenerPorId($id) {
+        try {
+            $usuario = $this->dao->obtenerPorId($id);
+            if ($usuario) {
+                RespuestaJSON::enviarRespuesta(200, "Usuario encontrado", $usuario);
+            } else {
+                RespuestaJSON::enviarError(404, "Usuario no encontrado");
+            }
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
+        }
+    }
+
+    public function insertar($datos) {
         if (isset($datos['nombre'], $datos['correo'], $datos['clave'], $datos['fechaNacimiento'], $datos['rol'])) {
             try {
                 $usuario = new Usuario(null, $datos['nombre'], $datos['correo'], $datos['clave'], $datos['fechaNacimiento'], null, $datos['rol']);
-                $insertado = $dao->insertar($usuario);
-                RespuestaJSON::enviarRespuesta(201, "Usuario creado exitosamente", $insertado);
+                $this->dao->insertar($usuario);
+                RespuestaJSON::enviarRespuesta(201, "Usuario creado exitosamente");
             } catch (Exception $e) {
                 RespuestaJSON::enviarError(500, $e->getMessage());
             }
         } else {
             RespuestaJSON::enviarError(400, "Datos incompletos para crear usuario");
         }
-        break;
+    }
 
-    case 'PUT':
-        $datos = json_decode(file_get_contents("php://input"), true);
+    public function actualizar($datos) {
         if (isset($datos['idUsuario'], $datos['nombre'], $datos['correo'], $datos['clave'], $datos['fechaNacimiento'], $datos['rol'])) {
             try {
                 $usuario = new Usuario($datos['idUsuario'], $datos['nombre'], $datos['correo'], $datos['clave'], $datos['fechaNacimiento'], null, $datos['rol']);
-                $actualizado = $dao->actualizar($usuario);
+                $actualizado = $this->dao->actualizar($usuario);
                 if ($actualizado) {
                     RespuestaJSON::enviarRespuesta(200, "Usuario actualizado exitosamente");
                 } else {
@@ -60,15 +63,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         } else {
             RespuestaJSON::enviarError(400, "Datos incompletos para actualizar usuario");
         }
-        break;
+    }
 
-    case 'DELETE':
-    $input = file_get_contents("php://input");
-    $datos = json_decode($input, true);
-
-    if (is_array($datos) && isset($datos['idUsuario'])) {
+    public function eliminar($id) {
         try {
-            $eliminado = $dao->eliminar($datos['idUsuario']);
+            $eliminado = $this->dao->eliminar($id);
             if ($eliminado) {
                 RespuestaJSON::enviarRespuesta(200, "Usuario eliminado exitosamente");
             } else {
@@ -77,15 +76,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
         } catch (Exception $e) {
             RespuestaJSON::enviarError(500, "Error al eliminar usuario: " . $e->getMessage());
         }
-    } else {
-        RespuestaJSON::enviarError(400, "ID de usuario no proporcionado para eliminar");
     }
-    break;
-
-
-
-
-    default:
-        RespuestaJSON::enviarError(405, "Método HTTP no permitido");
-        break;
 }
+?>

@@ -1,17 +1,17 @@
 <?php
 
-// Permitir peticiones desde cualquier origen (CORS)
+// Permitir solicitudes desde cualquier origen (CORS)
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 
-// Manejar las peticiones OPTIONS (preflight para CORS)
+// Manejar solicitud preflight (para CORS en métodos como PUT o DELETE)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// Requerir el controlador necesario
+// Incluir el controlador necesario
 require_once __DIR__ . '/../controller/UsuarioController.php';
 require_once __DIR__ . '/../misc/RespuestaJSON.php';
 
@@ -38,7 +38,7 @@ switch ($metodo) {
         if ($datos) {
             $controlador->insertar($datos);
         } else {
-            RespuestaJSON::error("Datos no válidos para insertar");
+            RespuestaJSON::enviarError(400, "Datos no válidos para insertar");
         }
         break;
 
@@ -46,31 +46,19 @@ switch ($metodo) {
         if ($datos && isset($datos['idUsuario'])) {
             $controlador->actualizar($datos);
         } else {
-            RespuestaJSON::error("ID de usuario no proporcionado o datos incompletos para actualizar");
+            RespuestaJSON::enviarError(400, "ID de usuario no proporcionado o datos incompletos para actualizar");
         }
         break;
 
     case 'DELETE':
-    $datos = json_decode(file_get_contents("php://input"), true);
-
-    if (isset($datos['idUsuario'])) {
-        try {
-            $eliminado = UsuarioDAO::eliminar($datos['idUsuario']);
-            if ($eliminado) {
-                RespuestaJSON::enviarRespuesta(200, "Usuario eliminado exitosamente");
-            } else {
-                RespuestaJSON::enviarError(404, "Usuario no encontrado para eliminar");
-            }
-        } catch (Exception $e) {
-            RespuestaJSON::enviarError(500, "Error al eliminar usuario: " . $e->getMessage());
+        if ($datos && isset($datos['idUsuario'])) {
+            $controlador->eliminar($datos['idUsuario']);
+        } else {
+            RespuestaJSON::enviarError(400, "ID de usuario no proporcionado para eliminar");
         }
-    } else {
-        RespuestaJSON::enviarError(400, "ID de usuario no proporcionado para eliminar");
-    }
-    break;
-
+        break;
 
     default:
-        RespuestaJSON::error("Método HTTP no permitido", 405);
+        RespuestaJSON::enviarError(405, "Método HTTP no permitido");
         break;
 }

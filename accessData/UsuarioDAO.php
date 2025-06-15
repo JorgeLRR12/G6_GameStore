@@ -74,7 +74,7 @@ class UsuarioDAO {
     public static function actualizar(Usuario $usuario) {
         try {
             $conexion = Conexion::conectar();
-            $sql = "UPDATE g6_usuarios SET nombre = ?, correo = ?, clave = ?, fechaNacimiento = ?, rol = ? WHERE idUsuario = ?";
+            $sql = "UPDATE G6_usuarios SET nombre = ?, correo = ?, clave = ?, fechaNacimiento = ?, rol = ? WHERE idUsuario = ?";
             $stmt = $conexion->prepare($sql);
             return $stmt->execute([
                 $usuario->getNombre(),
