@@ -6,7 +6,7 @@ class UsuarioDAO {
     public static function obtenerTodos() {
         try {
             $conexion = Conexion::conectar();
-            $sql = "SELECT * FROM g6_usuarios";
+            $sql = "SELECT * FROM G6_usuarios";
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,7 +32,7 @@ class UsuarioDAO {
     public static function obtenerPorId($id) {
         try {
             $conexion = Conexion::conectar();
-            $sql = "SELECT * FROM g6_usuarios WHERE idUsuario = ?";
+            $sql = "SELECT * FROM G6_usuarios WHERE idUsuario = ?";
             $stmt = $conexion->prepare($sql);
             $stmt->execute([$id]);
             $fila = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,7 +57,7 @@ class UsuarioDAO {
     public static function insertar(Usuario $usuario) {
         try {
             $conexion = Conexion::conectar();
-            $sql = "INSERT INTO g6_usuarios (nombre, correo, clave, fechaNacimiento, rol) VALUES (?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO G6_usuarios (nombre, correo, clave, fechaNacimiento, rol) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conexion->prepare($sql);
             return $stmt->execute([
                 $usuario->getNombre(),
@@ -89,14 +89,19 @@ class UsuarioDAO {
         }
     }
 
-    public static function eliminar($id) {
-        try {
-            $conexion = Conexion::conectar();
-            $sql = "DELETE FROM g6_usuarios WHERE idUsuario = ?";
-            $stmt = $conexion->prepare($sql);
-            return $stmt->execute([$id]);
-        } catch (PDOException $e) {
-            throw new Exception("Error al eliminar usuario: " . $e->getMessage());
-        }
+    public static function eliminar($idUsuario) {
+    try {
+        $conexion = Conexion::conectar();
+        $sql = "DELETE FROM G6_usuarios WHERE idUsuario = :idUsuario";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    } catch (PDOException $e) {
+        throw new Exception("Error al eliminar el usuario: " . $e->getMessage());
     }
+   }
+
+
 }

@@ -1,22 +1,20 @@
 <?php
 class Conexion {
-    private static $host = "127.0.0.1";
-    private static $puerto = "3306";
-    private static $usuario = "root";
-    private static $clave = "Puntarenas09";
-    private static $baseDeDatos = "c16345_tiendapruebas";
-
     public static function conectar() {
+        // Parámetros de conexión
+        $host = 'srv863.hstgr.io';
+        $dbname = 'u484426513_ms125';
+        $usuario = 'u484426513_ms125';
+        $clave = 'N]18zvue';
+
         try {
-            $conexion = new PDO(
-                "mysql:host=" . self::$host . ";port=" . self::$puerto . ";dbname=" . self::$baseDeDatos . ";charset=utf8mb4",
-                self::$usuario,
-                self::$clave
-            );
-            $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $conexion;
+            $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $usuario, $clave);
+            // Configura PDO para que lance excepciones en caso de error
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $pdo;
         } catch (PDOException $e) {
-            die("Error al conectar a la base de datos: " . $e->getMessage());
+            die("Error de conexión a la base de datos: " . $e->getMessage());
         }
     }
 }
+?>
