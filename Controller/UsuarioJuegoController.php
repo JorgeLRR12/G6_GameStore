@@ -1,0 +1,53 @@
+<?php
+require_once __DIR__ . '/../model/UsuarioJuego.php';
+require_once __DIR__ . '/../accessData/UsuarioJuegoDAO.php';
+require_once __DIR__ . '/../misc/RespuestaJSON.php';
+
+$dao = new UsuarioJuegoDAO();
+
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'GET':
+        try {
+            $registros = $dao->obtenerTodos();
+            RespuestaJSON::enviarRespuesta(200, "Registros encontrados", $registros);
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
+        }
+        break;
+
+    case 'POST':
+        $datos = json_decode(file_get_contents("php://input"), true);
+        if (isset($datos['idUsuario'], $datos['idJuego'], $datos['fechaAdquisicion'])) {
+            try {
+                $registro = new UsuarioJuego($datos['idUsuario'], $datos['idJuego'], $datos['fechaAdquisicion']);
+                $insertado = $dao->insertar($registro);
+                RespuestaJSON::enviarRespuesta(201, "Registro creado exitosamente", $insertado);
+            } catch (Exception $e) {
+                RespuestaJSON::enviarError(500, $e->getMessage());
+            }
+        } else {
+            RespuestaJSON::enviarError(400, "Datos incompletos para crear usuario-juego");
+        }
+        break;
+
+    case 'DELETE':
+        if (isset($_GET['idUsuario'], $_GET['idJuego'])) {
+            try {
+                $eliminado = $dao->eliminar($_GET['idUsuario'], $_GET['idJuego']);
+                if ($eliminado) {
+                    RespuestaJSON::enviarRespuesta(200, "Registro eliminado exitosamente");
+                } else {
+                    RespuestaJSON::enviarError(404, "Registro no encontrado para eliminar");
+                }
+            } catch (Exception $e) {
+                RespuestaJSON::enviarError(500, $e->getMessage());
+            }
+        } else {
+            RespuestaJSON::enviarError(400, "Faltan parámetros idUsuario o idJuego");
+        }
+        break;
+
+    default:
+        RespuestaJSON::enviarError(405, "Método HTTP no permitido");
+        break;
+}
