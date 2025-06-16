@@ -66,4 +66,35 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         RespuestaJSON::enviarError(405, "Método HTTP no permitido");
         break;
+
+     case 'PUT':
+    $datos = json_decode(file_get_contents("php://input"), true);
+    if (isset($datos['idJuego'], $datos['nombre'], $datos['descripcion'], $datos['precio'],
+              $datos['fechaLanzamiento'], $datos['clasificacionEdad'], $datos['idCategoria'], $datos['idUsuario'])) {
+        try {
+            $juego = new Juego(
+                $datos['idJuego'],
+                $datos['nombre'],
+                $datos['descripcion'],
+                $datos['precio'],
+                $datos['fechaLanzamiento'],
+                $datos['clasificacionEdad'],
+                $datos['idCategoria'],
+                $datos['idUsuario']
+            );
+
+            $actualizado = $dao->actualizar($juego);
+            RespuestaJSON::enviarRespuesta(200, "Juego actualizado exitosamente", $actualizado);
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
+        }
+    } else {
+        RespuestaJSON::enviarError(400, "Datos incompletos para actualizar juego");
+    }
+    break;
+
+
+
+
+
 }

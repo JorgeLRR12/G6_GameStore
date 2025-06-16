@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../model/Desarrollador.php';
+
 require_once __DIR__ . '/../accessData/DesarrolladorDAO.php';
 require_once __DIR__ . '/../misc/RespuestaJSON.php';
 
@@ -59,6 +60,32 @@ switch ($_SERVER['REQUEST_METHOD']) {
             RespuestaJSON::enviarError(400, "ID de desarrollador no proporcionado para eliminar");
         }
         break;
+
+           case 'PUT':
+        $datos = json_decode(file_get_contents("php://input"), true);
+        if (isset($datos['idDesarrollador'], $datos['nombre'], $datos['pais'], $datos['idUsuario'])) {
+            try {
+                $desarrollador = new Desarrollador(
+                    $datos['idDesarrollador'],
+                    $datos['nombre'],
+                    $datos['pais'],
+                    $datos['idUsuario']
+                );
+                $actualizado = $dao->actualizar($desarrollador);
+                RespuestaJSON::enviarRespuesta(200, "Desarrollador actualizado exitosamente", $actualizado);
+            } catch (Exception $e) {
+                RespuestaJSON::enviarError(500, $e->getMessage());
+            }
+        } else {
+            RespuestaJSON::enviarError(400, "Datos incompletos para actualizar desarrollador");
+        }
+        break;
+
+
+
+
+
+
 
     default:
         RespuestaJSON::enviarError(405, "Método HTTP no permitido");

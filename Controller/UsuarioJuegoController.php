@@ -47,6 +47,26 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
+       case 'PUT':
+    $datos = json_decode(file_get_contents("php://input"), true);
+    if (isset($datos['idUsuario'], $datos['idJuego'], $datos['fechaAdquisicion'])) {
+        try {
+            $registro = new UsuarioJuego($datos['idUsuario'], $datos['idJuego'], $datos['fechaAdquisicion']);
+            $actualizado = $dao->actualizar($registro);
+            if ($actualizado) {
+                RespuestaJSON::enviarRespuesta(200, "Registro actualizado correctamente");
+            } else {
+                RespuestaJSON::enviarError(404, "Registro no encontrado o sin cambios");
+            }
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
+        }
+    } else {
+        RespuestaJSON::enviarError(400, "Datos incompletos para actualizar usuario-juego");
+    }
+    break;
+
+
     default:
         RespuestaJSON::enviarError(405, "Método HTTP no permitido");
         break;

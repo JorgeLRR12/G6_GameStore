@@ -9,8 +9,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../controller/DesarrolladorController.php';
-
-
-
-
-
