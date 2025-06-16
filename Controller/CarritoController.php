@@ -35,8 +35,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $datos = json_decode(file_get_contents("php://input"), true);
         if (isset($datos['idUsuario'])) {
             try {
-                // Si no se manda fecha, usar null para que la base de datos ponga la actual
-                $fechaCreacion = isset($datos['fechaCreacion']) ? $datos['fechaCreacion'] : null;
+                // Si no se manda fecha, usar la fecha y hora local actual
+                if (isset($datos['fechaCreacion']) && $datos['fechaCreacion'] !== "") {
+                    $fechaCreacion = $datos['fechaCreacion'];
+                } else {
+                    date_default_timezone_set('America/Costa_Rica'); // Cambia a tu zona horaria local
+                    $fechaCreacion = date('Y-m-d H:i:s');
+                }
                 $carrito = new Carrito(null, $datos['idUsuario'], $fechaCreacion);
                 $dao->insertar($carrito);
                 RespuestaJSON::enviarRespuesta(201, "Carrito creado correctamente");
