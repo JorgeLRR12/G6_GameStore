@@ -31,6 +31,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         $datos = json_decode(file_get_contents("php://input"), true);
         if (isset($datos['nombre'], $datos['correo'], $datos['clave'], $datos['fechaNacimiento'], $datos['rol'])) {
+           
+            // Validamos que el formato del correo sea correcto
+            if (!filter_var($datos['correo'], FILTER_VALIDATE_EMAIL)) {
+                RespuestaJSON::enviarError(400, "Formato de correo inválido");
+                exit();
+            }
+
+            // Validamos que la clave tenga al menos 6 caracteres
+            if (strlen($datos['clave']) < 6) {
+                RespuestaJSON::enviarError(400, "La clave debe tener al menos 6 caracteres");
+                exit();
+            }
             try {
                 $usuario = new Usuario(null, $datos['nombre'], $datos['correo'], $datos['clave'], $datos['fechaNacimiento'], $datos['rol']);
                 $dao->insertar($usuario);

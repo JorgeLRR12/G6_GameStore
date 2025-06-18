@@ -1,5 +1,5 @@
 <?php
-require_once "Conexion.php";
+require_once __DIR__ . '/../misc/Conexion.php';
 require_once __DIR__ . '/../model/UsuarioJuego.php';
 
 class UsuarioJuegoDAO {

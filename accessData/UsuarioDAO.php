@@ -1,5 +1,5 @@
 <?php
-require_once "Conexion.php";
+require_once __DIR__ . '/../misc/Conexion.php';
 require_once __DIR__ . '/../model/Usuario.php';
 
 class UsuarioDAO {
@@ -43,31 +43,44 @@ class UsuarioDAO {
     }
 
     public function insertar(Usuario $usuario) {
-        $pdo = Conexion::conectar();
-        $sql = "INSERT INTO G6_usuarios (nombre, correo, clave, fechaNacimiento, rol) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $pdo->prepare($sql);
+    $pdo = Conexion::conectar();
+
+    // 🔐 Generamos un hash seguro de la contraseña utilizando password_hash
+    $claveHasheada = password_hash($usuario->getClave(), PASSWORD_DEFAULT);
+
+    // 💾 Preparamos la consulta SQL con la clave ya hasheada
+    $sql = "INSERT INTO G6_usuarios (nombre, correo, clave, fechaNacimiento, rol) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+
+        // 🚀 Ejecutamos con los datos del objeto Usuario, usando la clave encriptada
         return $stmt->execute([
             $usuario->getNombre(),
             $usuario->getCorreo(),
-            $usuario->getClave(),
+            $claveHasheada, // aquí se usa la clave encriptada
             $usuario->getFechaNacimiento(),
             $usuario->getRol()
         ]);
     }
 
+
     public function actualizar(Usuario $usuario) {
-        $pdo = Conexion::conectar();
-        $sql = "UPDATE G6_usuarios SET nombre = ?, correo = ?, clave = ?, fechaNacimiento = ?, rol = ? WHERE idUsuario = ?";
-        $stmt = $pdo->prepare($sql);
+    $pdo = Conexion::conectar();
+
+    // 🔐 Re-hash de la nueva contraseña (aunque sea igual, no afecta seguridad)
+    $claveHasheada = password_hash($usuario->getClave(), PASSWORD_DEFAULT);
+
+    $sql = "UPDATE G6_usuarios SET nombre = ?, correo = ?, clave = ?, fechaNacimiento = ?, rol = ? WHERE idUsuario = ?";
+    $stmt = $pdo->prepare($sql);
         return $stmt->execute([
             $usuario->getNombre(),
             $usuario->getCorreo(),
-            $usuario->getClave(),
+            $claveHasheada,
             $usuario->getFechaNacimiento(),
             $usuario->getRol(),
             $usuario->getIdUsuario()
         ]);
     }
+
 
     public function eliminar($idUsuario) {
         $pdo = Conexion::conectar();

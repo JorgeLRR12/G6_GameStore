@@ -1,5 +1,5 @@
 <?php
-require_once "Conexion.php";
+require_once __DIR__ . '/../misc/Conexion.php';
 require_once __DIR__ . '/../model/Carrito.php';
 
 // DAO para manejar operaciones de carrito en la base de datos

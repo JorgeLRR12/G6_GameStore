@@ -1,5 +1,5 @@
 <?php
-require_once "Conexion.php";
+require_once __DIR__ . '/../misc/Conexion.php';
 require_once __DIR__ . '/../model/JuegoDesarrollador.php';
 
 // DAO para manejar la relación entre juegos y desarrolladores en la base de datos

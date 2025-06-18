@@ -6,6 +6,8 @@ require_once __DIR__ . '/../misc/RespuestaJSON.php';
 $dao = new CategoriaDAO();
 
 switch ($_SERVER['REQUEST_METHOD']) {
+
+    // 🔍 Obtener todas las categorías o una por ID
     case 'GET':
         if (isset($_GET['id'])) {
             try {
@@ -28,9 +30,23 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
+    // 📝 Crear una nueva categoría
     case 'POST':
         $datos = json_decode(file_get_contents("php://input"), true);
+
+        // Validación básica
         if (isset($datos['nombre'], $datos['idUsuario'])) {
+
+            if (empty(trim($datos['nombre']))) {
+                RespuestaJSON::enviarError(400, "El nombre de la categoría no puede estar vacío");
+                exit();
+            }
+
+            if (!is_numeric($datos['idUsuario'])) {
+                RespuestaJSON::enviarError(400, "El ID de usuario debe ser numérico");
+                exit();
+            }
+
             try {
                 $categoria = new Categoria(null, $datos['nombre'], $datos['idUsuario']);
                 $dao->insertar($categoria);
@@ -38,14 +54,28 @@ switch ($_SERVER['REQUEST_METHOD']) {
             } catch (Exception $e) {
                 RespuestaJSON::enviarError(500, $e->getMessage());
             }
+
         } else {
             RespuestaJSON::enviarError(400, "Datos incompletos para crear categoría");
         }
         break;
 
+    // ✏️ Actualizar una categoría existente
     case 'PUT':
         $datos = json_decode(file_get_contents("php://input"), true);
+
         if (isset($datos['idCategoria'], $datos['nombre'], $datos['idUsuario'])) {
+
+            if (!is_numeric($datos['idCategoria']) || !is_numeric($datos['idUsuario'])) {
+                RespuestaJSON::enviarError(400, "ID de categoría y usuario deben ser numéricos");
+                exit();
+            }
+
+            if (empty(trim($datos['nombre']))) {
+                RespuestaJSON::enviarError(400, "El nombre de la categoría no puede estar vacío");
+                exit();
+            }
+
             try {
                 $categoria = new Categoria($datos['idCategoria'], $datos['nombre'], $datos['idUsuario']);
                 $dao->actualizar($categoria);
@@ -53,14 +83,22 @@ switch ($_SERVER['REQUEST_METHOD']) {
             } catch (Exception $e) {
                 RespuestaJSON::enviarError(500, $e->getMessage());
             }
+
         } else {
             RespuestaJSON::enviarError(400, "Datos incompletos para actualizar categoría");
         }
         break;
 
+    // 🗑 Eliminar una categoría por ID
     case 'DELETE':
         $datos = json_decode(file_get_contents("php://input"), true);
+
         if (isset($datos['idCategoria'])) {
+            if (!is_numeric($datos['idCategoria'])) {
+                RespuestaJSON::enviarError(400, "El ID de la categoría debe ser numérico");
+                exit();
+            }
+
             try {
                 $dao->eliminar($datos['idCategoria']);
                 RespuestaJSON::enviarRespuesta(200, "Categoría eliminada correctamente");
@@ -72,6 +110,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
+    // 🚫 Método no permitido
     default:
         RespuestaJSON::enviarError(405, "Método HTTP no permitido");
         break;
