@@ -62,27 +62,31 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 
     case 'PUT':
-        $datos = json_decode(file_get_contents("php://input"), true);
+    $datos = json_decode(file_get_contents("php://input"), true);
 
-        if (isset($datos['idPromocion'], $datos['idJuego'], $datos['porcentajeDescuento'], $datos['fechaInicio'], $datos['fechaFin'], $datos['idUsuario'])) {
-            try {
-                $promocion = new Promocion(
-                    $datos['idJuego'],
-                    $datos['porcentajeDescuento'],
-                    $datos['fechaInicio'],
-                    $datos['fechaFin'],
-                    $datos['idUsuario'],
-                    $datos['idPromocion']
-                );
-                $ok = $dao->actualizar($datos['idPromocion'], $promocion);
-                RespuestaJSON::enviarRespuesta(200, "Promoción actualizada", $ok);
-            } catch (Exception $e) {
-                RespuestaJSON::enviarError(500, $e->getMessage());
+    if (isset($datos['idPromocion'], $datos['idJuego'], $datos['porcentajeDescuento'], $datos['fechaInicio'], $datos['fechaFin'], $datos['idUsuario'])) {
+        try {
+            $promocion = new Promocion(
+                $datos['idJuego'],
+                $datos['porcentajeDescuento'],
+                $datos['fechaInicio'],
+                $datos['fechaFin'],
+                $datos['idUsuario'],
+                $datos['idPromocion']
+            );
+            $ok = $dao->actualizar($datos['idPromocion'], $promocion);
+            if ($ok) {
+                RespuestaJSON::enviarRespuesta(200, "Promoción actualizada");
+            } else {
+                RespuestaJSON::enviarError(404, "Promoción no encontrada para actualizar");
             }
-        } else {
-            RespuestaJSON::enviarError(400, "Datos incompletos para actualizar promoción");
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
         }
-        break;
+    } else {
+        RespuestaJSON::enviarError(400, "Datos incompletos para actualizar promoción");
+    }
+    break;
 
     case 'DELETE':
         $datos = json_decode(file_get_contents("php://input"), true);

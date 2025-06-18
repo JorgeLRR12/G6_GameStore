@@ -39,28 +39,31 @@ class CompraDAO {
         }
     }
 
-    public function actualizar($id, $compra) {
+    public function actualizar($idCompra, $compra) {
         try {
             $pdo = Conexion::conectar();
-            $sql = "UPDATE G6_compra SET idUsuario = ?, total = ? WHERE idCompra = ?";
-            $stmt = $pdo->prepare($sql);
-            return $stmt->execute([
+            $stmt = $pdo->prepare("UPDATE G6_compra SET idUsuario = ?, total = ? WHERE idCompra = ?");
+            $stmt->execute([
                 $compra->getIdUsuario(),
                 $compra->getTotal(),
-                $id
+                $idCompra
             ]);
+            return $stmt->rowCount() > 0; // Devuelve true solo si se actualizó algo
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
         }
     }
 
-    public function eliminar($id) {
-        try {
-            $pdo = Conexion::conectar();
-            $stmt = $pdo->prepare("DELETE FROM G6_compra WHERE idCompra = ?");
-            return $stmt->execute([$id]);
-        } catch (PDOException $e) {
-            return ["error" => $e->getMessage()];
-        }
+
+    public function eliminar($idCompra) {
+    try {
+        $pdo = Conexion::conectar();
+        $stmt = $pdo->prepare("DELETE FROM G6_compra WHERE idCompra = ?");
+        $stmt->execute([$idCompra]);
+        return $stmt->rowCount() > 0; 
+    } catch (PDOException $e) {
+        return ["error" => $e->getMessage()];
     }
+}
+
 }

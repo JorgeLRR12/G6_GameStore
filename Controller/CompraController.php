@@ -43,23 +43,27 @@ switch ($_SERVER['REQUEST_METHOD']) {
         } else {
             RespuestaJSON::enviarError(400, "Datos incompletos para crear compra");
         }
-        break;
+    break;
 
     case 'PUT':
-        $datos = json_decode(file_get_contents("php://input"), true);
+    $datos = json_decode(file_get_contents("php://input"), true);
 
-        if (isset($datos['idCompra'], $datos['idUsuario'], $datos['total'])) {
-            try {
-                $compra = new Compra($datos['idUsuario'], $datos['total'], $datos['idCompra']);
-                $ok = $dao->actualizar($datos['idCompra'], $compra);
-                RespuestaJSON::enviarRespuesta(200, "Compra actualizada", $ok);
-            } catch (Exception $e) {
-                RespuestaJSON::enviarError(500, $e->getMessage());
+    if (isset($datos['idCompra'], $datos['idUsuario'], $datos['total'])) {
+        try {
+            $compra = new Compra($datos['idUsuario'], $datos['total'], $datos['idCompra']);
+            $ok = $dao->actualizar($datos['idCompra'], $compra);
+            if ($ok) {
+                RespuestaJSON::enviarRespuesta(200, "Compra actualizada");
+            } else {
+                RespuestaJSON::enviarError(404, "Compra no encontrada para actualizar");
             }
-        } else {
-            RespuestaJSON::enviarError(400, "Datos incompletos para actualizar compra");
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
         }
-        break;
+    } else {
+        RespuestaJSON::enviarError(400, "Datos incompletos para actualizar compra");
+    }
+    break;
 
     case 'DELETE':
         $datos = json_decode(file_get_contents("php://input"), true);

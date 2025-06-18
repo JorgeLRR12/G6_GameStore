@@ -58,32 +58,36 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 
     case 'PUT':
-        $datos = json_decode(file_get_contents("php://input"), true);
+    $datos = json_decode(file_get_contents("php://input"), true);
 
-        if (isset($datos['idCompra'], $datos['idJuego'], $datos['precioUnitario'], $datos['porcentajeDescuento'], $datos['cantidad'])) {
-            try {
-                $descuento = $datos['precioUnitario'] * ($datos['porcentajeDescuento'] / 100);
-                $subtotal = ($datos['precioUnitario'] - $descuento) * $datos['cantidad'];
+    if (isset($datos['idCompra'], $datos['idJuego'], $datos['precioUnitario'], $datos['porcentajeDescuento'], $datos['cantidad'])) {
+        try {
+            $descuento = $datos['precioUnitario'] * ($datos['porcentajeDescuento'] / 100);
+            $subtotal = ($datos['precioUnitario'] - $descuento) * $datos['cantidad'];
 
-                $compraJuego = new CompraJuego(
-                    $datos['idCompra'],
-                    $datos['idJuego'],
-                    $datos['precioUnitario'],
-                    $datos['porcentajeDescuento'],
-                    $datos['cantidad'],
-                    $subtotal,
-                    $datos['idPromocion'] ?? null
-                );
+            $compraJuego = new CompraJuego(
+                $datos['idCompra'],
+                $datos['idJuego'],
+                $datos['precioUnitario'],
+                $datos['porcentajeDescuento'],
+                $datos['cantidad'],
+                $subtotal,
+                $datos['idPromocion'] ?? null
+            );
 
-                $ok = $dao->actualizar($compraJuego);
-                RespuestaJSON::enviarRespuesta(200, "CompraJuego actualizado", $ok);
-            } catch (Exception $e) {
-                RespuestaJSON::enviarError(500, $e->getMessage());
+            $ok = $dao->actualizar($compraJuego);
+            if ($ok) {
+                RespuestaJSON::enviarRespuesta(200, "CompraJuego actualizado");
+            } else {
+                RespuestaJSON::enviarError(404, "CompraJuego no encontrado para actualizar");
             }
-        } else {
-            RespuestaJSON::enviarError(400, "Datos incompletos para actualizar CompraJuego");
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
         }
-        break;
+    } else {
+        RespuestaJSON::enviarError(400, "Datos incompletos para actualizar CompraJuego");
+    }
+    break;
 
     case 'DELETE':
         $datos = json_decode(file_get_contents("php://input"), true);

@@ -45,38 +45,37 @@ class CompraJuegoDAO {
         }
     }
 
-    public function actualizar($compraJuego) {
+    public function actualizar($idCompra, $idJuego, $compraJuego) {
         try {
             $pdo = Conexion::conectar();
-            $sql = "UPDATE G6_compra_juego SET 
-                        precioUnitario = ?, 
-                        porcentajeDescuento = ?, 
-                        cantidad = ?, 
-                        subtotal = ?, 
-                        idPromocion = ?
-                    WHERE idCompra = ? AND idJuego = ?";
-            $stmt = $pdo->prepare($sql);
-            return $stmt->execute([
+            $stmt = $pdo->prepare("UPDATE G6_compra_juego 
+                                SET precioUnitario = ?, porcentajeDescuento = ?, cantidad = ?, subtotal = ?, idPromocion = ?
+                                WHERE idCompra = ? AND idJuego = ?");
+            $stmt->execute([
                 $compraJuego->getPrecioUnitario(),
                 $compraJuego->getPorcentajeDescuento(),
                 $compraJuego->getCantidad(),
                 $compraJuego->getSubtotal(),
                 $compraJuego->getIdPromocion(),
-                $compraJuego->getIdCompra(),
-                $compraJuego->getIdJuego()
+                $idCompra,
+                $idJuego
             ]);
+            return $stmt->rowCount() > 0; // Solo true si se afectó una fila
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
         }
     }
 
-    public function eliminar($idCompra, $idJuego) {
+
+   public function eliminar($idCompra, $idJuego) {
         try {
             $pdo = Conexion::conectar();
             $stmt = $pdo->prepare("DELETE FROM G6_compra_juego WHERE idCompra = ? AND idJuego = ?");
-            return $stmt->execute([$idCompra, $idJuego]);
+            $stmt->execute([$idCompra, $idJuego]);
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
         }
     }
+
 }

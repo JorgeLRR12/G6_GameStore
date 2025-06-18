@@ -46,30 +46,32 @@ class PromocionDAO {
     public function actualizar($id, $promocion) {
         try {
             $pdo = Conexion::conectar();
-            $sql = "UPDATE G6_promocion 
-                    SET idJuego = ?, porcentajeDescuento = ?, fechaInicio = ?, fechaFin = ?, idUsuario = ?
-                    WHERE idPromocion = ?";
-            $stmt = $pdo->prepare($sql);
-            return $stmt->execute([
-                $promocion->getIdJuego(),
+            $stmt = $pdo->prepare("UPDATE G6_promocion 
+                                SET nombre = ?, descripcion = ?, porcentajeDescuento = ?, fechaInicio = ?, fechaFin = ?
+                                WHERE idPromocion = ?");
+            $stmt->execute([
+                $promocion->getNombre(),
+                $promocion->getDescripcion(),
                 $promocion->getPorcentajeDescuento(),
                 $promocion->getFechaInicio(),
                 $promocion->getFechaFin(),
-                $promocion->getIdUsuario(),
                 $id
             ]);
+            return $stmt->rowCount() > 0; // Solo devuelve true si se actualizó algo
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
         }
     }
 
-    public function eliminar($id) {
+    public function eliminar($idPromocion) {
         try {
             $pdo = Conexion::conectar();
             $stmt = $pdo->prepare("DELETE FROM G6_promocion WHERE idPromocion = ?");
-            return $stmt->execute([$id]);
+            $stmt->execute([$idPromocion]);
+            return $stmt->rowCount() > 0; // Verifica si se eliminó algo realmente
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
         }
     }
+
 }
