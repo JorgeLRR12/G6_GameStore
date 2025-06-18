@@ -24,9 +24,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $datos = json_decode(file_get_contents("php://input"), true);
         if (isset($datos['idUsuario'], $datos['asunto'], $datos['descripcion'])) {
             try {
-                $soporte = new Soporte(null, $datos['idUsuario'], $datos['asunto'], $datos['descripcion'], 'Abierto');
-                $dao->insertar($soporte);
-                RespuestaJSON::enviarRespuesta(201, "Ticket creado correctamente");
+                $insertado = $dao->insertar(
+                    $datos['idUsuario'],
+                    $datos['asunto'],
+                    $datos['descripcion'],
+                    'Abierto'
+                );
+                RespuestaJSON::enviarRespuesta(201, "Ticket creado correctamente", $insertado);
             } catch (Exception $e) {
                 RespuestaJSON::enviarError(400, $e->getMessage());
             }
@@ -39,9 +43,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $datos = json_decode(file_get_contents("php://input"), true);
         if (isset($datos['idSoporte'], $datos['estado'], $datos['descripcion'])) {
             try {
-                $soporte = new Soporte($datos['idSoporte'], null, null, $datos['descripcion'], $datos['estado']);
-                $dao->actualizar($soporte);
-                RespuestaJSON::enviarRespuesta(200, "Ticket actualizado correctamente");
+                $actualizado = $dao->actualizar(
+                    $datos['idSoporte'],
+                    $datos['estado'],
+                    $datos['descripcion']
+                );
+                RespuestaJSON::enviarRespuesta(200, "Ticket actualizado correctamente", $actualizado);
             } catch (Exception $e) {
                 RespuestaJSON::enviarError(500, $e->getMessage());
             }
@@ -51,15 +58,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 
     case 'DELETE':
-        if (isset($_GET['id'])) {
+        $datos = json_decode(file_get_contents("php://input"), true);
+        if (isset($datos['idSoporte'])) {
             try {
-                $dao->eliminar($_GET['id']);
-                RespuestaJSON::enviarRespuesta(200, "Ticket eliminado correctamente");
+                $eliminado = $dao->eliminar($datos['idSoporte']);
+                if ($eliminado) {
+                    RespuestaJSON::enviarRespuesta(200, "Ticket eliminado correctamente");
+                } else {
+                    RespuestaJSON::enviarError(404, "Ticket no encontrado para eliminar");
+                }
             } catch (Exception $e) {
                 RespuestaJSON::enviarError(500, $e->getMessage());
             }
         } else {
-            RespuestaJSON::enviarError(400, "ID de ticket no proporcionado");
+            RespuestaJSON::enviarError(400, "ID de ticket no proporcionado para eliminar");
         }
         break;
 
@@ -67,4 +79,3 @@ switch ($_SERVER['REQUEST_METHOD']) {
         RespuestaJSON::enviarError(405, "Método HTTP no permitido");
         break;
 }
-?>

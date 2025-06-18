@@ -52,10 +52,15 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 
     case 'DELETE':
-        if (isset($_GET['id'])) {
+        $datos = json_decode(file_get_contents("php://input"), true);
+        if (isset($datos['idValoracion'])) {
             try {
-                $dao->eliminar($_GET['id']);
-                RespuestaJSON::enviarRespuesta(200, "Valoración eliminada correctamente");
+                $eliminado = $dao->eliminar($datos['idValoracion']);
+                if ($eliminado) {
+                    RespuestaJSON::enviarRespuesta(200, "Valoración eliminada correctamente");
+                } else {
+                    RespuestaJSON::enviarError(404, "Valoración no encontrada");
+                }
             } catch (Exception $e) {
                 RespuestaJSON::enviarError(500, $e->getMessage());
             }
@@ -68,4 +73,3 @@ switch ($_SERVER['REQUEST_METHOD']) {
         RespuestaJSON::enviarError(405, "Método HTTP no permitido");
         break;
 }
-?>

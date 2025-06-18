@@ -1,61 +1,66 @@
 <?php
 require_once __DIR__ . '/../misc/Conexion.php';
-require_once __DIR__ . '/../model/Soporte.php';
 
 class SoporteDAO {
+    
     public function obtenerTodos() {
-        $conexion = Conexion::conectar();
-        $sql = "SELECT * FROM g6_soporte";
-        $stmt = $conexion->prepare($sql);
-        $stmt->execute();
-        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $pdo = Conexion::conectar();
+        $sql = "SELECT * FROM G6_soporte";
+        $stmt = $pdo->query($sql);
 
         $soportes = [];
-        foreach ($resultados as $fila) {
-            $soportes[] = new Soporte(
-                $fila['idSoporte'], $fila['idUsuario'], $fila['asunto'],
-                $fila['descripcion'], $fila['estado'], $fila['fechaReporte']
-            );
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $soportes[] = [
+                'idSoporte' => $row['idSoporte'],
+                'idUsuario' => $row['idUsuario'],
+                'asunto' => $row['asunto'],
+                'descripcion' => $row['descripcion'],
+                'estado' => $row['estado'],
+                'fechaReporte' => $row['fechaReporte']
+            ];
         }
         return $soportes;
     }
 
     public function obtenerPorUsuario($idUsuario) {
-        $conexion = Conexion::conectar();
-        $sql = "SELECT * FROM g6_soporte WHERE idUsuario = ?";
-        $stmt = $conexion->prepare($sql);
+        $pdo = Conexion::conectar();
+        $sql = "SELECT * FROM G6_soporte WHERE idUsuario = ?";
+        $stmt = $pdo->prepare($sql);
         $stmt->execute([$idUsuario]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $soportes = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $soportes[] = [
+                'idSoporte' => $row['idSoporte'],
+                'idUsuario' => $row['idUsuario'],
+                'asunto' => $row['asunto'],
+                'descripcion' => $row['descripcion'],
+                'estado' => $row['estado'],
+                'fechaReporte' => $row['fechaReporte']
+            ];
+        }
+        return $soportes;
     }
 
-    public function insertar(Soporte $soporte) {
-        $conexion = Conexion::conectar();
-        $sql = "INSERT INTO g6_soporte (idUsuario, asunto, descripcion, estado) VALUES (?, ?, ?, ?)";
-        $stmt = $conexion->prepare($sql);
-        return $stmt->execute([
-            $soporte->getIdUsuario(),
-            $soporte->getAsunto(),
-            $soporte->getDescripcion(),
-            $soporte->getEstado()
-        ]);
+    public function insertar($idUsuario, $asunto, $descripcion, $estado = 'Abierto') {
+        $pdo = Conexion::conectar();
+        $sql = "INSERT INTO G6_soporte (idUsuario, asunto, descripcion, estado) VALUES (?, ?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([$idUsuario, $asunto, $descripcion, $estado]);
     }
 
-    public function actualizar(Soporte $soporte) {
-        $conexion = Conexion::conectar();
-        $sql = "UPDATE g6_soporte SET estado = ?, descripcion = ? WHERE idSoporte = ?";
-        $stmt = $conexion->prepare($sql);
-        return $stmt->execute([
-            $soporte->getEstado(),
-            $soporte->getDescripcion(),
-            $soporte->getIdSoporte()
-        ]);
+    public function actualizar($idSoporte, $estado, $descripcion) {
+        $pdo = Conexion::conectar();
+        $sql = "UPDATE G6_soporte SET estado = ?, descripcion = ? WHERE idSoporte = ?";
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([$estado, $descripcion, $idSoporte]);
     }
 
-    public function eliminar($id) {
-        $conexion = Conexion::conectar();
-        $sql = "DELETE FROM g6_soporte WHERE idSoporte = ?";
-        $stmt = $conexion->prepare($sql);
-        return $stmt->execute([$id]);
+    public function eliminar($idSoporte) {
+        $pdo = Conexion::conectar();
+        $sql = "DELETE FROM G6_soporte WHERE idSoporte = ?";
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([$idSoporte]);
     }
 }
 ?>
