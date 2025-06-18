@@ -75,7 +75,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $datos['idPromocion'] ?? null
             );
 
-            $ok = $dao->actualizar($compraJuego);
+            $ok = $dao->actualizar($datos['idCompra'], $datos['idJuego'], $compraJuego);
             if ($ok) {
                 RespuestaJSON::enviarRespuesta(200, "CompraJuego actualizado");
             } else {
