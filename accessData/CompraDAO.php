@@ -6,7 +6,7 @@ class CompraDAO {
     public function obtenerTodos() {
         try {
             $pdo = Conexion::conectar();
-            $stmt = $pdo->query("SELECT * FROM g6_compra");
+            $stmt = $pdo->query("SELECT * FROM G6_compra");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
@@ -16,7 +16,7 @@ class CompraDAO {
     public function obtenerPorId($id) {
         try {
             $pdo = Conexion::conectar();
-            $stmt = $pdo->prepare("SELECT * FROM g6_compra WHERE idCompra = ?");
+            $stmt = $pdo->prepare("SELECT * FROM G6_compra WHERE idCompra = ?");
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -27,7 +27,7 @@ class CompraDAO {
     public function insertar($compra) {
         try {
             $pdo = Conexion::conectar();
-            $sql = "INSERT INTO g6_compra (idUsuario, total) VALUES (?, ?)";
+            $sql = "INSERT INTO G6_compra (idUsuario, total) VALUES (?, ?)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
                 $compra->getIdUsuario(),
@@ -42,7 +42,7 @@ class CompraDAO {
     public function actualizar($id, $compra) {
         try {
             $pdo = Conexion::conectar();
-            $sql = "UPDATE g6_compra SET idUsuario = ?, total = ? WHERE idCompra = ?";
+            $sql = "UPDATE G6_compra SET idUsuario = ?, total = ? WHERE idCompra = ?";
             $stmt = $pdo->prepare($sql);
             return $stmt->execute([
                 $compra->getIdUsuario(),
@@ -57,7 +57,7 @@ class CompraDAO {
     public function eliminar($id) {
         try {
             $pdo = Conexion::conectar();
-            $stmt = $pdo->prepare("DELETE FROM g6_compra WHERE idCompra = ?");
+            $stmt = $pdo->prepare("DELETE FROM G6_compra WHERE idCompra = ?");
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];

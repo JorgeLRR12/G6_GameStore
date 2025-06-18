@@ -6,7 +6,7 @@ class CompraJuegoDAO {
     public function obtenerTodos() {
         try {
             $pdo = Conexion::conectar();
-            $stmt = $pdo->query("SELECT * FROM g6_compra_juego");
+            $stmt = $pdo->query("SELECT * FROM G6_compra_juego");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
@@ -16,7 +16,7 @@ class CompraJuegoDAO {
     public function obtenerPorId($idCompra, $idJuego) {
         try {
             $pdo = Conexion::conectar();
-            $stmt = $pdo->prepare("SELECT * FROM g6_compra_juego WHERE idCompra = ? AND idJuego = ?");
+            $stmt = $pdo->prepare("SELECT * FROM G6_compra_juego WHERE idCompra = ? AND idJuego = ?");
             $stmt->execute([$idCompra, $idJuego]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -27,7 +27,7 @@ class CompraJuegoDAO {
     public function insertar($compraJuego) {
         try {
             $pdo = Conexion::conectar();
-            $sql = "INSERT INTO g6_compra_juego 
+            $sql = "INSERT INTO G6_compra_juego 
                     (idCompra, idJuego, precioUnitario, porcentajeDescuento, cantidad, subtotal, idPromocion)
                     VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
@@ -48,7 +48,7 @@ class CompraJuegoDAO {
     public function actualizar($compraJuego) {
         try {
             $pdo = Conexion::conectar();
-            $sql = "UPDATE g6_compra_juego SET 
+            $sql = "UPDATE G6_compra_juego SET 
                         precioUnitario = ?, 
                         porcentajeDescuento = ?, 
                         cantidad = ?, 
@@ -73,7 +73,7 @@ class CompraJuegoDAO {
     public function eliminar($idCompra, $idJuego) {
         try {
             $pdo = Conexion::conectar();
-            $stmt = $pdo->prepare("DELETE FROM g6_compra_juego WHERE idCompra = ? AND idJuego = ?");
+            $stmt = $pdo->prepare("DELETE FROM G6_compra_juego WHERE idCompra = ? AND idJuego = ?");
             return $stmt->execute([$idCompra, $idJuego]);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
