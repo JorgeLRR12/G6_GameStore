@@ -46,26 +46,26 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    case 'DELETE':
-        if (isset($_GET['id'])) {
-            try {
-                $eliminado = $dao->eliminar($_GET['id']);
-                if ($eliminado) {
-                    RespuestaJSON::enviarRespuesta(200, "Juego eliminado exitosamente");
-                } else {
-                    RespuestaJSON::enviarError(404, "Juego no encontrado para eliminar");
-                }
-            } catch (Exception $e) {
-                RespuestaJSON::enviarError(500, $e->getMessage());
+          case 'DELETE':
+    $datos = json_decode(file_get_contents("php://input"), true);
+    if (isset($datos['idJuego'])) {
+        try {
+            $eliminado = $dao->eliminar($datos['idJuego']);
+            if ($eliminado) {
+                RespuestaJSON::enviarRespuesta(200, "Juego eliminado exitosamente");
+            } else {
+                RespuestaJSON::enviarError(404, "Juego no encontrado para eliminar");
             }
-        } else {
-            RespuestaJSON::enviarError(400, "ID de juego no proporcionado para eliminar");
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
         }
-        break;
+    } else {
+        RespuestaJSON::enviarError(400, "ID de juego no proporcionado para eliminar");
+    }
+    break;
 
-    default:
-        RespuestaJSON::enviarError(405, "Método HTTP no permitido");
-        break;
+
+ 
 
      case 'PUT':
     $datos = json_decode(file_get_contents("php://input"), true);
@@ -95,6 +95,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 
 
+    default:
+        RespuestaJSON::enviarError(405, "Método HTTP no permitido");
+        break;
 
 
 }

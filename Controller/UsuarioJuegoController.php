@@ -30,22 +30,24 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    case 'DELETE':
-        if (isset($_GET['idUsuario'], $_GET['idJuego'])) {
-            try {
-                $eliminado = $dao->eliminar($_GET['idUsuario'], $_GET['idJuego']);
-                if ($eliminado) {
-                    RespuestaJSON::enviarRespuesta(200, "Registro eliminado exitosamente");
-                } else {
-                    RespuestaJSON::enviarError(404, "Registro no encontrado para eliminar");
-                }
-            } catch (Exception $e) {
-                RespuestaJSON::enviarError(500, $e->getMessage());
+       case 'DELETE':
+    $datos = json_decode(file_get_contents("php://input"), true);
+    if (isset($datos['idUsuario'], $datos['idJuego'])) {
+        try {
+            $eliminado = $dao->eliminar($datos['idUsuario'], $datos['idJuego']);
+            if ($eliminado) {
+                RespuestaJSON::enviarRespuesta(200, "Registro eliminado exitosamente");
+            } else {
+                RespuestaJSON::enviarError(404, "Registro no encontrado para eliminar");
             }
-        } else {
-            RespuestaJSON::enviarError(400, "Faltan parámetros idUsuario o idJuego");
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(500, $e->getMessage());
         }
-        break;
+    } else {
+        RespuestaJSON::enviarError(400, "Faltan parámetros idUsuario o idJuego");
+    }
+    break;
+
 
        case 'PUT':
     $datos = json_decode(file_get_contents("php://input"), true);
