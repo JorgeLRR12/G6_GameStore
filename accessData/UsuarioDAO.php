@@ -45,14 +45,14 @@ class UsuarioDAO {
     public function insertar(Usuario $usuario) {
     $pdo = Conexion::conectar();
 
-    // 🔐 Generamos un hash seguro de la contraseña utilizando password_hash
+    // Generamos un hash seguro de la contraseña utilizando password_hash
     $claveHasheada = password_hash($usuario->getClave(), PASSWORD_DEFAULT);
 
-    // 💾 Preparamos la consulta SQL con la clave ya hasheada
+    // Preparamos la consulta SQL con la clave ya hasheada
     $sql = "INSERT INTO G6_usuarios (nombre, correo, clave, fechaNacimiento, rol) VALUES (?, ?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
 
-        // 🚀 Ejecutamos con los datos del objeto Usuario, usando la clave encriptada
+        // Ejecutamos con los datos del objeto Usuario, usando la clave encriptada
         return $stmt->execute([
             $usuario->getNombre(),
             $usuario->getCorreo(),
@@ -66,7 +66,7 @@ class UsuarioDAO {
     public function actualizar(Usuario $usuario) {
     $pdo = Conexion::conectar();
 
-    // 🔐 Re-hash de la nueva contraseña (aunque sea igual, no afecta seguridad)
+    // Re-hash de la nueva contraseña (aunque sea igual, no afecta seguridad)
     $claveHasheada = password_hash($usuario->getClave(), PASSWORD_DEFAULT);
 
     $sql = "UPDATE G6_usuarios SET nombre = ?, correo = ?, clave = ?, fechaNacimiento = ?, rol = ? WHERE idUsuario = ?";

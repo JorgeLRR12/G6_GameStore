@@ -7,7 +7,7 @@ $dao = new CategoriaDAO();
 
 switch ($_SERVER['REQUEST_METHOD']) {
 
-    // 🔍 Obtener todas las categorías o una por ID
+    // Obtener todas las categorías o una por ID
     case 'GET':
         if (isset($_GET['id'])) {
             try {
@@ -30,7 +30,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    // 📝 Crear una nueva categoría
+    // Crear una nueva categoría
     case 'POST':
         $datos = json_decode(file_get_contents("php://input"), true);
 
@@ -60,7 +60,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    // ✏️ Actualizar una categoría existente
+    // Actualizar una categoría existente
     case 'PUT':
         $datos = json_decode(file_get_contents("php://input"), true);
 
@@ -89,7 +89,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    // 🗑 Eliminar una categoría por ID
+    // Eliminar una categoría por ID
     case 'DELETE':
         $datos = json_decode(file_get_contents("php://input"), true);
 
@@ -110,7 +110,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    // 🚫 Método no permitido
+    // Método no permitido
     default:
         RespuestaJSON::enviarError(405, "Método HTTP no permitido");
         break;

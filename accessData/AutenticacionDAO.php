@@ -12,7 +12,7 @@ class AutenticacionDAO {
 
         // Verificamos si el usuario existe
         if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // 🔐 Comparamos la clave ingresada con el hash almacenado
+            //  Comparamos la clave ingresada con el hash almacenado
             if (password_verify($clave, $row['clave'])) {
                 // ✅ Si coinciden, devolvemos los datos del usuario
                 return [
