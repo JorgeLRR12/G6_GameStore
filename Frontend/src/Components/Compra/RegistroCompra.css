@@ -1,0 +1,36 @@
+/* Estilos básicos para la vista de registro de compra */
+
+.registro-compra-container {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.registro-compra-card {
+  background: rgba(30, 34, 40, 0.98);
+  border-radius: 12px;
+  box-shadow: 0 0 18px 0 rgba(0, 191, 255, 0.10);
+  padding: 2.5rem 2rem;
+  color: #e0e0e0;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.registro-compra-card h2 {
+  color: #00bfff;
+  font-family: 'Orbitron', sans-serif;
+}
+
+@media (max-width: 600px) {
+  .registro-compra-card {
+    padding: 1.2rem 0.5rem;
+    font-size: 0.98rem;
+    max-width: 98vw;
+  }
+  .registro-compra-card h2 {
+    font-size: 1.2rem;
+  }
+}

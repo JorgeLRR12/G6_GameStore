@@ -9,3 +9,13 @@
   background-color: rgba(0, 0, 0, 0.4); /* Más transparente */
   background-blend-mode: darken; /* Mantiene la fusión para oscurecer */
 }
+
+@media (max-width: 600px) {
+  .contenedor-promociones {
+    padding: 1.2rem 0.2rem;
+  }
+  .row > [class^="col-"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

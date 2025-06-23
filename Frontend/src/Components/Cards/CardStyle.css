@@ -11,3 +11,13 @@
   backdrop-filter: blur(2px); /* opcional, efecto vidrio */
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
 }
+
+@media (max-width: 600px) {
+  .card {
+    padding: 1rem 0.5rem;
+    font-size: 0.97rem;
+  }
+  .card-img-top {
+    height: 140px !important;
+  }
+}
