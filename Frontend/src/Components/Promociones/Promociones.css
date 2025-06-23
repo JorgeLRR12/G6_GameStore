@@ -1,0 +1,11 @@
+.contenedor-promociones {
+  background-image: url('/img/fondojuegos.jpg'); /* Ruta relativa si está en /public/img */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding: 3rem 0;
+
+  background-color: rgba(0, 0, 0, 0.4); /* Más transparente */
+  background-blend-mode: darken; /* Mantiene la fusión para oscurecer */
+}

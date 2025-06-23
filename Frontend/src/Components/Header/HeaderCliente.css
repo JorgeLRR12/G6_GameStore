@@ -1,0 +1,35 @@
+
+.navbar {
+  background-color: rgba(0, 0, 0, 0.85);
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Marca y enlaces más pequeños */
+.navbar .navbar-brand {
+  font-size: 1.1rem;
+  color: #ffffff !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar .nav-link {
+  font-size: 0.95rem;
+  color: #ffffff !important;
+  font-weight: 500;
+  margin-left: 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .navbar-brand:hover {
+  color: #66c0f4 !important;
+}
+
+.navbar-toggler {
+  border: none;
+}
