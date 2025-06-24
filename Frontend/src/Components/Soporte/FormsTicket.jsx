@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { crearTicket } from '../../Services/SoporteService';
+import './FormsTicket.css';
 
 const FormularioSoporte = () => {
   const [formulario, setFormulario] = useState({
@@ -34,7 +35,7 @@ const FormularioSoporte = () => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="formulario-soporte">
       <h3>Crear nuevo ticket de soporte</h3>
       <form onSubmit={handleSubmit} className="mt-3">
 
@@ -74,7 +75,7 @@ const FormularioSoporte = () => {
           ></textarea>
         </div>
 
-        <button type="submit" className="btn btn-primary">Enviar Ticket</button>
+        <button type="submit" className="btn btn-primary">   Enviar   </button>
       </form>
 
       {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}

@@ -1,5 +1,5 @@
 import React from 'react';
-import ClienteNavbar from '../Header/HeaderCliente.jsx'; // ajusta ruta si es necesario
+import ClienteNavbar from '../Header/HeaderCliente.jsx'; 
 import FormularioSoporte from './FormsTicket.jsx';
 
 const SoporteCliente = () => {
