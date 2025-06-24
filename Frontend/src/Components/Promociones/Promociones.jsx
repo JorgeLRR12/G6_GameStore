@@ -1,42 +1,92 @@
 import React from 'react';
 import JuegoCard from '../Cards/JuegoCard.jsx';
-import './Promociones.css'; // Nuevo CSS para aplicar el fondo con sombra
+import './Promociones.css';
+
 
 const juegos = [
   {
-    titulo: 'Dying Light: Standard Edition',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/239140/header.jpg',
-    precioOriginal: '8643 CRC',
-    precioDescuento: '1728,60 CRC',
-    descuento: 80
+    titulo: 'EA Sports FC 24',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/header.jpg',
+    precioOriginal: '49.990 CRC',
+    precioDescuento: '39.990 CRC',
+    descuento: 20
   },
   {
-    titulo: 'Never Synth',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2642200/header.jpg',
-    precioOriginal: '3780 CRC',
-    precioDescuento: '264,60 CRC',
-    descuento: 93
+    titulo: "Tom Clancy's Ghost Recon Wildlands",
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/460930/header.jpg',
+    precioOriginal: '25.000 CRC',
+    precioDescuento: '19.900 CRC',
+    descuento: 20
   },
   {
-    titulo: 'Dead by Daylight',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/381210/header.jpg',
-    precioOriginal: '9500 CRC',
-    precioDescuento: '3800 CRC',
-    descuento: 60
-  },
-  {
-    titulo: 'Firelight Fantasy: Vengeance',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1738650/header.jpg',
-    precioOriginal: '4540 CRC',
-    precioDescuento: '317,80 CRC',
-    descuento: 93
-  },
-  {
-    titulo: 'Dying Light 2 Stay Human',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/534380/header.jpg',
+    titulo: 'Mario Kart 8 Deluxe',
+    imagenUrl: 'https://assets.nintendo.com/image/upload/f_auto/q_auto/dpr_2.0/c_scale,w_400/ncom/en_US/games/switch/m/mario-kart-8-deluxe-switch/hero',
     precioOriginal: '34.990 CRC',
-    precioDescuento: '11.546,70 CRC',
-    descuento: 67
+    precioDescuento: '27.990 CRC',
+    descuento: 20
+  },
+  {
+    titulo: 'Far Cry 6',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2369390/header.jpg',
+    precioOriginal: '59.990 CRC',
+    precioDescuento: '44.990 CRC',
+    descuento: 25
+  },
+  {
+    titulo: 'Multiversus',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1818750/header.jpg',
+    precioOriginal: '49.990 CRC',
+    precioDescuento: '39.990 CRC',
+    descuento: 20
+  },
+  {
+    titulo: 'Hogwarts Legacy',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg',
+    precioOriginal: '59.990 CRC',
+    precioDescuento: '41.990 CRC',
+    descuento: 30
+  },
+  {
+    titulo: 'Call of Duty: Modern Warfare III',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1938090/header.jpg',
+    precioOriginal: '69.990 CRC',
+    precioDescuento: '55.990 CRC',
+    descuento: 20
+  },
+  {
+    titulo: 'The Legend of Zelda: Tears of the Kingdom',
+    imagenUrl: 'https://assets.nintendo.com/image/upload/f_auto/q_auto/dpr_2.0/c_scale,w_400/ncom/en_US/games/switch/t/the-legend-of-zelda-tears-of-the-kingdom-switch/hero',
+    precioOriginal: '59.990 CRC',
+    precioDescuento: '49.990 CRC',
+    descuento: 17
+  },
+  {
+    titulo: 'Elden Ring',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg',
+    precioOriginal: '59.990 CRC',
+    precioDescuento: '47.990 CRC',
+    descuento: 20
+  },
+  {
+    titulo: 'The Witcher 3: Wild Hunt',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg',
+    precioOriginal: '49.990 CRC',
+    precioDescuento: '39.990 CRC',
+    descuento: 20
+  },
+  {
+    titulo: 'Cyberpunk 2077',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg',
+    precioOriginal: '34.990 CRC',
+    precioDescuento: '27.990 CRC',
+    descuento: 20
+  },
+  {
+    titulo: 'Overcooked! 2',
+    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/728880/header.jpg',
+    precioOriginal: '10.000 CRC',
+    precioDescuento: '6.000 CRC',
+    descuento: 20
   }
 ];
 

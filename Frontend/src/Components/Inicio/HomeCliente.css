@@ -1,3 +1,83 @@
+/* Fondo y sombra para el menú superior */
+.header-home-wrapper {
+  background: linear-gradient(90deg, #181c24 80%, #00bfff22 100%);
+  box-shadow: 0 2px 18px 0 rgba(0,191,255,0.10), 0 1.5px 8px 0 #000a;
+  padding-bottom: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Hero mejorado */
+.home-hero-destacado {
+  background: linear-gradient(120deg, #232a34 70%, #00bfff22 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 rgba(0,191,255,0.10);
+  margin: 2.2rem auto 2.5rem;
+  padding: 2.5rem 2rem 2.2rem;
+  max-width: 900px;
+  width: 98%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  text-align: center;
+  width: 100%;
+}
+
+.titulo-hero {
+  font-size: 2.5rem;
+  font-family: 'Orbitron', sans-serif;
+  color: #00bfff;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 1.1rem;
+  text-shadow: 0 2px 12px #000a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.icono-hero {
+  font-size: 2.2rem;
+  vertical-align: middle;
+}
+
+.lead-hero {
+  font-size: 1.25rem;
+  color: #e0e0e0;
+  margin-bottom: 0.7rem;
+  text-shadow: 0 1px 6px #000a;
+}
+
+.sublead-hero {
+  font-size: 1.05rem;
+  color: #b0c4de;
+  margin-bottom: 0;
+  text-shadow: 0 1px 4px #0008;
+}
+
+/* Responsive para móviles */
+@media (max-width: 600px) {
+  .home-hero-destacado {
+    padding: 1.2rem 0.5rem 1.2rem;
+    max-width: 99vw;
+  }
+  .titulo-hero {
+    font-size: 1.3rem;
+    gap: 0.3rem;
+  }
+  .lead-hero {
+    font-size: 1rem;
+  }
+  .sublead-hero {
+    font-size: 0.95rem;
+  }
+}
+
 .home-hero {
   padding: 6rem 1rem 4rem;
   text-align: center;
@@ -18,6 +98,111 @@
   color: #e0e0e0;
 }
 
+.destacados-section {
+  margin: 2.5rem 0 2rem;
+  padding: 0 0.5rem;
+}
+
+.titulo-destacados {
+  color: #ffb300;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+  text-align: left;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 12px #000a;
+}
+
+.carrusel-destacados {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #00bfff #232a34;
+  /* Para que el carrusel no muestre scroll en móviles */
+  -ms-overflow-style: none;
+}
+.carrusel-destacados::-webkit-scrollbar {
+  height: 8px;
+  background: #232a34;
+}
+.carrusel-destacados::-webkit-scrollbar-thumb {
+  background: #00bfff;
+  border-radius: 4px;
+}
+
+.card-destacado {
+  min-width: 340px;
+  max-width: 360px;
+  background: linear-gradient(135deg, #232a34 80%, #00bfff22 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px 0 rgba(0,191,255,0.13), 0 1.5px 8px 0 #000a;
+  overflow: hidden;
+  transition: transform 0.18s, box-shadow 0.18s;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border: 1.5px solid #222;
+  position: relative;
+}
+
+.card-destacado:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 8px 32px 0 rgba(0,191,255,0.18), 0 2px 12px 0 #000c;
+  border-color: #00bfff;
+  z-index: 2;
+}
+
+.img-destacado-wrapper {
+  width: 100%;
+  height: 190px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1.5px solid #222;
+}
+
+.img-destacado {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom: 1px solid #222;
+  transition: filter 0.2s;
+}
+.card-destacado:hover .img-destacado {
+  filter: brightness(1.08) saturate(1.2);
+}
+
+.info-destacado {
+  padding: 1.1rem 1.2rem 0.8rem;
+  color: #e0e0e0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.info-destacado h5 {
+  color: #66c0f4;
+  font-size: 1.18rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 1px 6px #000a;
+}
+
+.info-destacado p {
+  font-size: 1.01rem;
+  color: #b0c4de;
+  margin-bottom: 0;
+  text-shadow: 0 1px 4px #0008;
+}
+
+/* Responsive para móviles */
 @media (max-width: 600px) {
   .home-hero {
     padding: 2.5rem 0.5rem 2rem;
@@ -25,5 +210,19 @@
   }
   .home-hero h1 {
     font-size: 1.5rem;
+  }
+  .carrusel-destacados {
+    gap: 0.7rem;
+  }
+  .card-destacado {
+    min-width: 85vw;
+    max-width: 90vw;
+  }
+  .img-destacado-wrapper {
+    height: 120px;
+  }
+  .titulo-destacados {
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
   }
 }
