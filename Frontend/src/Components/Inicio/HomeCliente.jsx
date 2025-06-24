@@ -3,32 +3,37 @@ import NavbarCliente from '../Header/HeaderCliente.jsx';
 import PromocionesCliente from '../Promociones/Promociones.jsx';
 import './HomeCliente.css';
 
-// Mantengo los juegos top originales en el carrusel visual
+// Ahora uso imágenes locales desde /img para cada juego del carrusel
 const juegosTop = [
   {
     titulo: 'Resident Evil 4 Remake',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg',
+    imagenUrl: '../public/img/ResidentEvil4.jpg',
     descripcion: 'El clásico de terror y acción regresa con gráficos y jugabilidad renovados.',
   },
   {
     titulo: 'Days Gone Remake',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1259420/header.jpg',
+    imagenUrl: '../public/img/daysgone.jpg',
     descripcion: 'Sobrevive en un mundo abierto infestado de engendros y peligros constantes.',
   },
   {
     titulo: 'Red Dead Redemption 2',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg',
+    imagenUrl: '../public/img/RedDeadRedemption2.jpg',
     descripcion: 'Vive el salvaje oeste con una historia épica y un mundo abierto impresionante.',
   },
   {
     titulo: 'GTA VI (Próximamente)',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg',
+    imagenUrl: '../public/img/GTA6.jpg',
     descripcion: 'La próxima entrega de la saga más famosa de crimen y mundo abierto.',
   },
   {
     titulo: 'The Last of Us Part I',
-    imagenUrl: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1888930/header.jpg',
+    imagenUrl: '../public/img/Thelastofus1.jpg',
     descripcion: 'Una aventura emocional y de supervivencia en un mundo postapocalíptico.',
+  },
+  {
+    titulo: 'The Last of Us Part II',
+    imagenUrl: '../public/img/Thelastofus2.jpg',
+    descripcion: 'Una aventura emocional y de supervivencia en un mundo postapocalíptico segunda parte..',
   }
 ];
 

@@ -3,7 +3,7 @@ import './CardStyle.css';
 
 // Descripciones detalladas para cada juego
 const descripciones = {
-  "EA Sports FC 24": "Vive la emoción del fútbol con licencias oficiales, modos competitivos y gráficos de última generación. Juega en línea o local, crea tu equipo y compite en las mejores ligas del mundo.",
+  "EA Sports FC 25": "Vive la emoción del fútbol con licencias oficiales, modos competitivos y gráficos de última generación. Juega en línea o local, crea tu equipo y compite en las mejores ligas del mundo.",
   "Tom Clancy's Ghost Recon Wildlands": "Sumérgete en un mundo abierto de acción táctica. Lidera un escuadrón de élite para derrocar a un cartel en Bolivia. Juega solo o en cooperativo, con libertad total de exploración y estrategia.",
   "Mario Kart 8 Deluxe": "Disfruta de las carreras más divertidas y frenéticas con Mario y sus amigos. Compite en circuitos llenos de sorpresas, usa objetos locos y reta a tus amigos en multijugador local u online.",
   "Far Cry 6": "Únete a la revolución en Yara, una isla caribeña bajo el yugo de un dictador. Explora, combate y libera el país en un mundo abierto lleno de acción, vehículos y armas únicas.",
