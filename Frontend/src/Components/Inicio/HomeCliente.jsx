@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import NavbarCliente from '../Header/HeaderCliente.jsx';
 import PromocionesCliente from '../Promociones/Promociones.jsx';
+import { useAuth } from '../../Context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 import './HomeCliente.css';
 
 // Ahora uso imágenes locales desde /img para cada juego del carrusel
@@ -63,8 +66,10 @@ const HomeCliente = () => {
     <>
       {/* Mejoro la presentación del menú con un fondo y sombra */}
       <div className="header-home-wrapper">
-        <NavbarCliente />
+       <NavbarCliente />
       </div>
+
+      
 
       {/* Le doy más presencia y estilo al título y bienvenida */}
       <div className="home-hero home-hero-destacado">
@@ -101,6 +106,9 @@ const HomeCliente = () => {
 
       {/* Aquí muestro la sección de promociones, que ahora tendrá los juegos de la lista que me diste */}
       <PromocionesCliente />
+
+      
+
     </>
   );
 };
