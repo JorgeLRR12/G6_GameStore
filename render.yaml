@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: G6_GameStore_Backend
+    env: docker
+    plan: free
+    repo: https://github.com/tu-usuario/G6_GameStore
+    dockerfilePath: Backend/Dockerfile
+    autoDeploy: true
