@@ -8,6 +8,7 @@ import CarritoPage from "./Components/Carrito/CarritoPage.jsx";
 import RegistroCompra from "./Components/Compra/RegistroCompra.jsx";
 import Unauthorized from "./Components/Inicio/Unauthorized.jsx";
 import PrivateRoute from "./Routes/PrivateRoute.jsx";
+import ControlUsuarios from './Components/Usuarios/ControlUsuarios.jsx';
 
 import "./App.css";
 
@@ -62,6 +63,16 @@ function App() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/admin/usuarios"
+        element={
+          <PrivateRoute rolPermitido="Administrador">
+            <ControlUsuarios />
+          </PrivateRoute>
+        }
+      />
+
+
     </Routes>
   );
 }

@@ -21,19 +21,19 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (correo, clave) => {
     try {
-      // const response = await axios.post("http://localhost/G6_GameStore/Backend/API/autenticacion.php", {
-      //   correo,
-      //   clave,
-      // });
+       const response = await axios.post("http://localhost/G6_GameStore/Backend/API/autenticacion.php", {
+         correo,
+         clave,
+      });
 
       // Uso mi ruta para pruebas locales Luis
-      const response = await axios.post(
+      /*const response = await axios.post(
         "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/autenticacion.php",
         {
           correo,
           clave,
         }
-      );
+      );*/
 
       if (response.data.codigo === 200) {
         const userData = response.data.datos;
