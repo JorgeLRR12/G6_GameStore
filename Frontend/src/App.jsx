@@ -4,6 +4,7 @@ import RegistroUsuario from "./Components/Inicio/RegistroUsuario.jsx";
 import HomeCliente from "./Components/Inicio/HomeCliente.jsx";
 import HomeAdmin from "./Components/Inicio/HomeAdmin.jsx";
 import SoporteCliente from "./Components/Soporte/SoporteClientePage.jsx";
+import SoporteAdmin from "./Components/Soporte/SoporteAdminPage.jsx";
 import CarritoPage from "./Components/Carrito/CarritoPage.jsx";
 import RegistroCompra from "./Components/Compra/RegistroCompra.jsx";
 import Unauthorized from "./Components/Inicio/Unauthorized.jsx";
@@ -68,6 +69,15 @@ function App() {
         element={
           <PrivateRoute rolPermitido="Administrador">
             <ControlUsuarios />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/admin/soporte"
+        element={
+          <PrivateRoute rolPermitido="Administrador">
+            <SoporteAdmin />
           </PrivateRoute>
         }
       />

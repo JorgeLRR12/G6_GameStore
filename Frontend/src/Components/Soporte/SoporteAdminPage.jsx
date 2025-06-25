@@ -3,7 +3,7 @@ import {
   obtenerTickets,
   actualizarTicket,
 } from "../../Services/SoporteService.js";
-import ClienteNavbar from "../Header/HeaderCliente.jsx";
+import AdminNavbar from "../Header/HeaderAdmin.jsx";
 import "./SoporteAdminPage.css";
 
 const SoporteAdminPage = () => {
@@ -23,7 +23,7 @@ const SoporteAdminPage = () => {
     const ticketActualizado = {
       idSoporte: ticketOriginal.idSoporte,
       estado: nuevoEstado,
-      descripcion: ticketOriginal.descripcion, // 👈 requerido por el backend
+      descripcion: ticketOriginal.descripcion, 
     };
 
     actualizarTicket(ticketActualizado)
@@ -63,7 +63,7 @@ const SoporteAdminPage = () => {
 
   return (
     <>
-      <ClienteNavbar />
+      <AdminNavbar />
       <div className="contenedor-tabla">
         <h2 className="titulo-tabla">Listado de Tickets</h2>
         <div className="table-responsive">

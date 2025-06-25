@@ -35,6 +35,15 @@ export const AuthProvider = ({ children }) => {
         }
       );*/
 
+
+      /*{Prueba de Fernando
+       const response = await axios.post("http://localhost/G6_GameStore/Backend/API/autenticacion.php", {
+         correo,
+         clave,
+      });*/
+
+      
+
       if (response.data.codigo === 200) {
         const userData = response.data.datos;
         setUsuario(userData);

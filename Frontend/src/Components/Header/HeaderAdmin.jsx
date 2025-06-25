@@ -50,13 +50,19 @@ const AdminNavbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/admin/juegos">
+            <Link className="nav-link" to="../Soporte/SoportaAdminPage.jsx">
               Juegos
             </Link>
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="/admin/compras">
               Compras
+            </Link>
+          </li>
+
+          <li className="nav-item">
+            <Link className="nav-link" to="/admin/soporte">
+              Soporte
             </Link>
           </li>
         </ul>
