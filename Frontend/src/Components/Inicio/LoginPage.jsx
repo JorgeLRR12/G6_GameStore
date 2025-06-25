@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../Context/AuthContext';
-import './LoginPage.css'; // Asegúrate de tener estilos acorde
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
+import "./LoginPage.css"; // Asegúrate de tener estilos acorde
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const [correo, setCorreo] = useState('');
-  const [clave, setClave] = useState('');
-  const [error, setError] = useState('');
+  const [correo, setCorreo] = useState("");
+  const [clave, setClave] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     const exito = await login(correo, clave);
     if (!exito) {
-      setError('Credenciales inválidas');
+      setError("Credenciales inválidas");
       return;
     }
 
-    const rol = JSON.parse(localStorage.getItem('usuario')).rol;
-    if (rol === 'Administrador') {
-      navigate('/admin/dashboard');
+    const rol = JSON.parse(localStorage.getItem("usuario")).rol;
+    if (rol === "Administrador") {
+      navigate("/admin/dashboard");
     } else {
-      navigate('/');
+      navigate("/");
     }
   };
 
@@ -56,10 +56,15 @@ const LoginPage = () => {
           required
         />
 
-        <button type="submit" className="login-button">SIGN IN</button>
+        <button type="submit" className="login-button">
+          SIGN IN
+        </button>
 
         <div className="login-footer">
-          <p>¿No tienes una cuenta? <Link to="/register">Regístrate para empezar a jugar</Link></p>
+          <p>
+            ¿No tienes una cuenta?{" "}
+            <Link to="/register">Regístrate para empezar a jugar</Link>
+          </p>
         </div>
       </form>
     </div>

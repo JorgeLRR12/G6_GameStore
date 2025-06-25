@@ -1,35 +1,41 @@
-import React, { useEffect, useRef, useState } from 'react';
-import NavbarCliente from '../Header/HeaderCliente.jsx';
-import PromocionesCliente from '../Promociones/Promociones.jsx';
-import { useAuth } from '../../Context/AuthContext';
-import axios from 'axios';
-import './HomeCliente.css';
+import React, { useEffect, useRef, useState } from "react";
+import NavbarCliente from "../Header/HeaderCliente.jsx";
+import PromocionesCliente from "../Promociones/Promociones.jsx";
+import { useAuth } from "../../Context/AuthContext";
+import axios from "axios";
+import "./HomeCliente.css";
 
 const HomeCliente = () => {
   const [juegosTop, setJuegosTop] = useState([]);
-  const [toast, setToast] = useState({ show: false, mensaje: '', tipo: 'success' });
+  const [toast, setToast] = useState({
+    show: false,
+    mensaje: "",
+    tipo: "success",
+  });
   const carruselRef = useRef(null);
   const { usuario } = useAuth();
 
   useEffect(() => {
     const fetchJuegos = async () => {
       try {
-        const res = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php');
+        const res = await axios.get(
+          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php"
+        );
         // Los nombres aquí deben coincidir exactamente con los de la base de datos
         const nombresTop = [
-          'Resident Evil 4 Remake',
-          'Days Gone Remake',
-          'Red Dead Redemption 2',
-          'GTA VI (Próximamente)',
-          'God of War: Ragnarok',
-          'The Last of Us Part II'
+          "Resident Evil 4 Remake",
+          "Days Gone Remake",
+          "Red Dead Redemption 2",
+          "GTA VI (Próximamente)",
+          "God of War: Ragnarok",
+          "The Last of Us Part II",
         ];
-        const juegosFiltrados = (res.data.datos || []).filter(j =>
-          nombresTop.includes(j.nombre)
-        ).map(j => ({
-          ...j,
-          imagenUrl: `/img/${j.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`
-        }));
+        const juegosFiltrados = (res.data.datos || [])
+          .filter((j) => nombresTop.includes(j.nombre))
+          .map((j) => ({
+            ...j,
+            imagenUrl: `/img/${j.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
+          }));
         setJuegosTop(juegosFiltrados);
       } catch (error) {
         setJuegosTop([]);
@@ -44,10 +50,12 @@ const HomeCliente = () => {
     const interval = setInterval(() => {
       if (!carrusel || juegosTop.length === 0) return;
       index = (index + 1) % juegosTop.length;
-      const cardWidth = carrusel.firstChild ? carrusel.firstChild.offsetWidth + 24 : 340;
+      const cardWidth = carrusel.firstChild
+        ? carrusel.firstChild.offsetWidth + 24
+        : 340;
       carrusel.scrollTo({
         left: index * cardWidth,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }, 3000);
     return () => clearInterval(interval);
@@ -72,11 +80,22 @@ const HomeCliente = () => {
         "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php",
         { idCarrito: carrito.idCarrito, idJuego }
       );
-      setToast({ show: true, mensaje: '¡Juego agregado al carrito!', tipo: 'success' });
+      setToast({
+        show: true,
+        mensaje: "¡Juego agregado al carrito!",
+        tipo: "success",
+      });
     } catch (error) {
-      setToast({ show: true, mensaje: 'Este juego ya está en tu carrito.', tipo: 'info' });
+      setToast({
+        show: true,
+        mensaje: "Este juego ya está en tu carrito.",
+        tipo: "info",
+      });
     }
-    setTimeout(() => setToast({ show: false, mensaje: '', tipo: 'success' }), 2000);
+    setTimeout(
+      () => setToast({ show: false, mensaje: "", tipo: "success" }),
+      2000
+    );
   };
 
   return (
@@ -90,10 +109,12 @@ const HomeCliente = () => {
             <span className="icono-hero">🎮</span> Bienvenido a GameStore
           </h1>
           <p className="lead lead-hero">
-            Tu portal para descubrir, comprar y disfrutar los mejores videojuegos del momento.
+            Tu portal para descubrir, comprar y disfrutar los mejores
+            videojuegos del momento.
           </p>
           <p className="sublead-hero">
-            Explora títulos de todas las plataformas, aprovecha promociones y gestiona tu biblioteca fácilmente.
+            Explora títulos de todas las plataformas, aprovecha promociones y
+            gestiona tu biblioteca fácilmente.
           </p>
         </div>
       </div>
@@ -101,7 +122,12 @@ const HomeCliente = () => {
       {toast.show && (
         <div
           className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
-          style={{ zIndex: 9999, minWidth: 260, fontSize: '1.1rem', letterSpacing: '0.5px' }}
+          style={{
+            zIndex: 9999,
+            minWidth: 260,
+            fontSize: "1.1rem",
+            letterSpacing: "0.5px",
+          }}
         >
           {toast.mensaje}
         </div>
@@ -112,7 +138,11 @@ const HomeCliente = () => {
           {juegosTop.map((juego) => (
             <div className="card-destacado" key={juego.idJuego}>
               <div className="img-destacado-wrapper">
-                <img src={juego.imagenUrl} alt={juego.nombre} className="img-destacado" />
+                <img
+                  src={juego.imagenUrl}
+                  alt={juego.nombre}
+                  className="img-destacado"
+                />
               </div>
               <div className="info-destacado">
                 <h5>{juego.nombre}</h5>

@@ -1,6 +1,6 @@
-import React from 'react';
-import ClienteNavbar from '../Header/HeaderCliente.jsx'; 
-import FormularioSoporte from './FormsTicket.jsx';
+import React from "react";
+import ClienteNavbar from "../Header/HeaderCliente.jsx";
+import FormularioSoporte from "./FormsTicket.jsx";
 
 const SoporteCliente = () => {
   return (

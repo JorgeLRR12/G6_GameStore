@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './LoginPage.css'; // Reutiliza los estilos del login
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./LoginPage.css"; // Reutiliza los estilos del login
 
 const RegistroUsuario = () => {
   const navigate = useNavigate();
 
-  const [nombre, setNombre] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [clave, setClave] = useState('');
-  const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [mensaje, setMensaje] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [clave, setClave] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState("");
+  const [mensaje, setMensaje] = useState("");
 
   const handleRegistro = async (e) => {
     e.preventDefault();
@@ -20,27 +20,26 @@ const RegistroUsuario = () => {
         correo,
         clave, // ← texto plano, se encripta en backend
         fechaNacimiento,
-        rol: 'Cliente'
+        rol: "Cliente",
       };
 
       const respuesta = await axios.post(
-        'http://localhost/G6_GameStore/Backend/API/usuario.php',
+        "http://localhost/G6_GameStore/Backend/API/usuario.php",
         JSON.stringify(nuevoUsuario),
         {
-          headers: { 'Content-Type': 'application/json' }
+          headers: { "Content-Type": "application/json" },
         }
       );
 
       if (respuesta.data.codigo === 200 || respuesta.data.codigo === 201) {
-
-        setMensaje('✅ Registro exitoso. Redirigiendo al login...');
-        setTimeout(() => navigate('/login'), 2000);
+        setMensaje("✅ Registro exitoso. Redirigiendo al login...");
+        setTimeout(() => navigate("/login"), 2000);
       } else {
-        setMensaje('❌ Error: ' + respuesta.data.mensaje);
+        setMensaje("❌ Error: " + respuesta.data.mensaje);
       }
     } catch (error) {
       console.error(error);
-      setMensaje('❌ Hubo un problema con el registro.');
+      setMensaje("❌ Hubo un problema con el registro.");
     }
   };
 

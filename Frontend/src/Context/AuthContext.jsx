@@ -18,7 +18,6 @@ export const AuthProvider = ({ children }) => {
 
   return mockUsuario;
 });  */
-  
 
   const login = async (correo, clave) => {
     try {
@@ -27,11 +26,14 @@ export const AuthProvider = ({ children }) => {
       //   clave,
       // });
 
-      // Uso mi ruta para pruebas locales
-      const response = await axios.post("http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/autenticacion.php", {
-        correo,
-        clave,
-      });
+      // Uso mi ruta para pruebas locales Luis
+      const response = await axios.post(
+        "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/autenticacion.php",
+        {
+          correo,
+          clave,
+        }
+      );
 
       if (response.data.codigo === 200) {
         const userData = response.data.datos;

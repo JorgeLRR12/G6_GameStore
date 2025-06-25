@@ -11,7 +11,7 @@
 .registro-compra-card {
   background: rgba(30, 34, 40, 0.98);
   border-radius: 12px;
-  box-shadow: 0 0 18px 0 rgba(0, 191, 255, 0.10);
+  box-shadow: 0 0 18px 0 rgba(0, 191, 255, 0.1);
   padding: 2.5rem 2rem;
   color: #e0e0e0;
   max-width: 420px;
@@ -21,7 +21,7 @@
 
 .registro-compra-card h2 {
   color: #00bfff;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
 }
 
 @media (max-width: 600px) {

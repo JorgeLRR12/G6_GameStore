@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './HeaderCliente.css'; // Usamos el mismo estilo visual
+import React from "react";
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./HeaderCliente.css"; // Usamos el mismo estilo visual
 
 const AdminNavbar = () => {
   return (
@@ -25,25 +25,39 @@ const AdminNavbar = () => {
       <div className="collapse navbar-collapse" id="navbarAdmin">
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
-            <Link className="nav-link" to="/admin/home">Dashboard</Link>
+            <Link className="nav-link" to="/admin/home">
+              Dashboard
+            </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/admin/usuarios">Usuarios</Link>
+            <Link className="nav-link" to="/admin/usuarios">
+              Usuarios
+            </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/admin/categorias">Categorías</Link>
+            <Link className="nav-link" to="/admin/categorias">
+              Categorías
+            </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/admin/desarrolladores">Desarrolladores</Link>
+            <Link className="nav-link" to="/admin/desarrolladores">
+              Desarrolladores
+            </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/admin/promociones">Promociones</Link>
+            <Link className="nav-link" to="/admin/promociones">
+              Promociones
+            </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/admin/juegos">Juegos</Link>
+            <Link className="nav-link" to="/admin/juegos">
+              Juegos
+            </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/admin/compras">Compras</Link>
+            <Link className="nav-link" to="/admin/compras">
+              Compras
+            </Link>
           </li>
         </ul>
       </div>

@@ -1,15 +1,15 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: url('../public/Img/fondoGame.jpg') no-repeat center center fixed;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: url("../public/Img/fondoGame.jpg") no-repeat center center fixed;
   background-size: cover;
   color: #e0e0e0;
   position: relative;
 }
 
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;

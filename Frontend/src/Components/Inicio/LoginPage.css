@@ -96,7 +96,15 @@ body {
   cursor: pointer;
 }
 
-.provider.xbox { background-color: #107C10; }
-.provider.playstation { background-color: #003087; }
-.provider.nintendo { background-color: #E60012; }
-.provider.steam { background-color: #000; }
+.provider.xbox {
+  background-color: #107c10;
+}
+.provider.playstation {
+  background-color: #003087;
+}
+.provider.nintendo {
+  background-color: #e60012;
+}
+.provider.steam {
+  background-color: #000;
+}

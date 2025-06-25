@@ -138,7 +138,7 @@ const CarritoPage = () => {
   const getPrecioConDescuento = (juego) => {
     const promo = promos.find((p) => p.idJuego === juego.idJuego);
     if (promo) {
-      return (juego.precio * (1 - promo.porcentajeDescuento / 100));
+      return juego.precio * (1 - promo.porcentajeDescuento / 100);
     }
     return juego.precio;
   };

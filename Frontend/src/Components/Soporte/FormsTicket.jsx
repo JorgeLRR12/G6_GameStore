@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { crearTicket } from '../../Services/SoporteService';
-import './FormsTicket.css';
+import React, { useState } from "react";
+import { crearTicket } from "../../Services/SoporteService";
+import "./FormsTicket.css";
 
 const FormularioSoporte = () => {
   const [formulario, setFormulario] = useState({
-    idUsuario: '',
-    asunto: '',
-    descripcion: ''
+    idUsuario: "",
+    asunto: "",
+    descripcion: "",
   });
 
-  const [mensaje, setMensaje] = useState('');
+  const [mensaje, setMensaje] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,17 +20,17 @@ const FormularioSoporte = () => {
     e.preventDefault();
 
     crearTicket(formulario)
-      .then(res => {
+      .then((res) => {
         if (res.data.codigo === 201) {
-          setMensaje('✅ Ticket creado correctamente.');
-          setFormulario({ idUsuario: '', asunto: '', descripcion: '' });
+          setMensaje("✅ Ticket creado correctamente.");
+          setFormulario({ idUsuario: "", asunto: "", descripcion: "" });
         } else {
-          setMensaje('❌ Error: ' + res.data.mensaje);
+          setMensaje("❌ Error: " + res.data.mensaje);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
-        setMensaje('❌ Error al conectar con la API.');
+        setMensaje("❌ Error al conectar con la API.");
       });
   };
 
@@ -38,7 +38,6 @@ const FormularioSoporte = () => {
     <div className="formulario-soporte">
       <h3>Crear nuevo ticket de soporte</h3>
       <form onSubmit={handleSubmit} className="mt-3">
-
         <div className="mb-3">
           <label className="form-label">ID Usuario</label>
           <input
@@ -75,7 +74,10 @@ const FormularioSoporte = () => {
           ></textarea>
         </div>
 
-        <button type="submit" className="btn btn-primary">   Enviar   </button>
+        <button type="submit" className="btn btn-primary">
+          {" "}
+          Enviar{" "}
+        </button>
       </form>
 
       {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}

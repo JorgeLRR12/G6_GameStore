@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { obtenerTickets, actualizarTicket } from '../../Services/SoporteService.js';
-import ClienteNavbar from '../Header/HeaderCliente.jsx';
-import './SoporteAdminPage.css';
+import React, { useEffect, useState } from "react";
+import {
+  obtenerTickets,
+  actualizarTicket,
+} from "../../Services/SoporteService.js";
+import ClienteNavbar from "../Header/HeaderCliente.jsx";
+import "./SoporteAdminPage.css";
 
 const SoporteAdminPage = () => {
   const [tickets, setTickets] = useState([]);
@@ -12,7 +15,7 @@ const SoporteAdminPage = () => {
         setTickets(respuesta.data.datos);
       })
       .catch((error) => {
-        console.log('Error al obtener tickets', error);
+        console.log("Error al obtener tickets", error);
       });
   }, []);
 
@@ -20,7 +23,7 @@ const SoporteAdminPage = () => {
     const ticketActualizado = {
       idSoporte: ticketOriginal.idSoporte,
       estado: nuevoEstado,
-      descripcion: ticketOriginal.descripcion // 👈 requerido por el backend
+      descripcion: ticketOriginal.descripcion, // 👈 requerido por el backend
     };
 
     actualizarTicket(ticketActualizado)
@@ -34,28 +37,29 @@ const SoporteAdminPage = () => {
         );
       })
       .catch((error) =>
-        console.error('Error al actualizar estado:', error.response?.data || error)
+        console.error(
+          "Error al actualizar estado:",
+          error.response?.data || error
+        )
       );
   };
 
-
   const formatearFecha = (fechaHora) => {
-    if (!fechaHora) return 'Fecha no disponible';
+    if (!fechaHora) return "Fecha no disponible";
 
     const fechaValida = new Date(fechaHora);
 
-    if (isNaN(fechaValida)) return 'Fecha inválida';
+    if (isNaN(fechaValida)) return "Fecha inválida";
 
-    return fechaValida.toLocaleString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return fechaValida.toLocaleString("es-ES", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
       hour12: false,
     });
   };
-
 
   return (
     <>
@@ -82,7 +86,7 @@ const SoporteAdminPage = () => {
                   <td>{formatearFecha(ticket.fechaReporte)}</td>
                   <td>
                     <select
-                      className={`form-select form-select-sm estado-select ${ticket.estado.toLowerCase().replace(/\s/g, '-')}`}
+                      className={`form-select form-select-sm estado-select ${ticket.estado.toLowerCase().replace(/\s/g, "-")}`}
                       value={ticket.estado}
                       onChange={(e) =>
                         handleEstadoChange(ticket, e.target.value)

@@ -1,7 +1,9 @@
 /* Fondo y sombra para el menú superior */
 .header-home-wrapper {
   background: linear-gradient(90deg, #181c24 80%, #00bfff22 100%);
-  box-shadow: 0 2px 18px 0 rgba(0,191,255,0.10), 0 1.5px 8px 0 #000a;
+  box-shadow:
+    0 2px 18px 0 rgba(0, 191, 255, 0.1),
+    0 1.5px 8px 0 #000a;
   padding-bottom: 0.5rem;
   position: sticky;
   top: 0;
@@ -12,7 +14,7 @@
 .home-hero-destacado {
   background: linear-gradient(120deg, #232a34 70%, #00bfff22 100%);
   border-radius: 18px;
-  box-shadow: 0 4px 24px 0 rgba(0,191,255,0.10);
+  box-shadow: 0 4px 24px 0 rgba(0, 191, 255, 0.1);
   margin: 2.2rem auto 2.5rem;
   padding: 2.5rem 2rem 2.2rem;
   max-width: 900px;
@@ -29,7 +31,7 @@
 
 .titulo-hero {
   font-size: 2.5rem;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   color: #00bfff;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -81,7 +83,7 @@
 .home-hero {
   padding: 6rem 1rem 4rem;
   text-align: center;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   color: #ffffff;
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.8); /* sombra para que se vea sobre cualquier fondo */
 }
@@ -105,7 +107,7 @@
 
 .titulo-destacados {
   color: #ffb300;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   font-size: 2rem;
   margin-bottom: 1.2rem;
   text-align: left;
@@ -138,9 +140,13 @@
   max-width: 360px;
   background: linear-gradient(135deg, #232a34 80%, #00bfff22 100%);
   border-radius: 18px;
-  box-shadow: 0 4px 24px 0 rgba(0,191,255,0.13), 0 1.5px 8px 0 #000a;
+  box-shadow:
+    0 4px 24px 0 rgba(0, 191, 255, 0.13),
+    0 1.5px 8px 0 #000a;
   overflow: hidden;
-  transition: transform 0.18s, box-shadow 0.18s;
+  transition:
+    transform 0.18s,
+    box-shadow 0.18s;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -150,7 +156,9 @@
 
 .card-destacado:hover {
   transform: translateY(-8px) scale(1.04);
-  box-shadow: 0 8px 32px 0 rgba(0,191,255,0.18), 0 2px 12px 0 #000c;
+  box-shadow:
+    0 8px 32px 0 rgba(0, 191, 255, 0.18),
+    0 2px 12px 0 #000c;
   border-color: #00bfff;
   z-index: 2;
 }
@@ -191,7 +199,7 @@
   font-size: 1.18rem;
   font-weight: 600;
   margin-bottom: 0.4rem;
-  font-family: 'Orbitron', sans-serif;
+  font-family: "Orbitron", sans-serif;
   text-shadow: 0 1px 6px #000a;
 }
 

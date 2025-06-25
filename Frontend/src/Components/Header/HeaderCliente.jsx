@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../Context/AuthContext'; // ← Importa el contexto
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './HeaderCliente.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext"; // ← Importa el contexto
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./HeaderCliente.css";
 
 const ClienteNavbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -13,7 +13,7 @@ const ClienteNavbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -29,17 +29,52 @@ const ClienteNavbar = () => {
         <span className="navbar-toggler-icon"></span>
       </button>
 
-      <div className={`collapse navbar-collapse${showMenu ? ' show' : ''}`} id="navbarCliente">
+      <div
+        className={`collapse navbar-collapse${showMenu ? " show" : ""}`}
+        id="navbarCliente"
+      >
         <ul className="navbar-nav ms-auto">
-          <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/Juegos">Juegos</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/Carrito">Carrito</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/Compras">Compras</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/Promociones">Promociones</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/Valoracion">Valoración</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/Biblioteca">Biblioteca</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/Soporte">Soporte</Link></li>
-          
+          <li className="nav-item">
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/Juegos">
+              Juegos
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/Carrito">
+              Carrito
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/Compras">
+              Compras
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/Promociones">
+              Promociones
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/Valoracion">
+              Valoración
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/Biblioteca">
+              Biblioteca
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/Soporte">
+              Soporte
+            </Link>
+          </li>
+
           {/* Botón de cerrar sesión */}
           <li className="nav-item">
             <button

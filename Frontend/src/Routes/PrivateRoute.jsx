@@ -5,7 +5,8 @@ const PrivateRoute = ({ children, rolRequerido }) => {
   const { isAuthenticated, usuario } = useAuth();
 
   if (!isAuthenticated()) return <Navigate to="/login" replace />;
-  if (rolRequerido && usuario?.rol !== rolRequerido) return <Navigate to="/unauthorized" replace />;
+  if (rolRequerido && usuario?.rol !== rolRequerido)
+    return <Navigate to="/unauthorized" replace />;
 
   return children;
 };
