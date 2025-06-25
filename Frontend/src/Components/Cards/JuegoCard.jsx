@@ -11,7 +11,7 @@ const descripciones = {
     "Disfruta de las carreras más divertidas y frenéticas con Mario y sus amigos. Compite en circuitos llenos de sorpresas, usa objetos locos y reta a tus amigos en multijugador local u online.",
   "Far Cry 6":
     "Únete a la revolución en Yara, una isla caribeña bajo el yugo de un dictador. Explora, combate y libera el país en un mundo abierto lleno de acción, vehículos y armas únicas.",
-  Bloodborne:
+  "Bloodborne":
     "Adéntrate en un oscuro mundo gótico y lucha contra criaturas aterradoras en este desafiante RPG de acción. Explora la ciudad de Yharnam y descubre sus secretos mientras mejoras tus habilidades y equipo.",
   "Hogwarts Legacy":
     "Vive tu propia aventura en el mundo mágico de Harry Potter. Explora Hogwarts, aprende hechizos, crea pociones y descubre secretos en una historia original ambientada en el siglo XIX.",

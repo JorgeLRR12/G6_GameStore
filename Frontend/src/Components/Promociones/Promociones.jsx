@@ -3,6 +3,18 @@ import JuegoCard from "../Cards/JuegoCard.jsx";
 import "./Promociones.css";
 import axios from "axios";
 
+// Diccionario para forzar la ruta correcta de las imágenes que no se muestran (solo para descuentos)
+const imagenesJuegosFix = {
+  "Tom Clancy's Ghost Recon Wildlands":
+    "/img/tom_clancys_ghost_recon_wildlands.jpg",
+  "Call of Duty: Modern Warfare III":
+    "/img/call_of_duty_modern_warfare_iii.jpg",
+  "The Legend of Zelda: Tears of the Kingdom":
+    "/img/the_legend_of_zelda_tears_of_the_kingdom.jpg",
+  "The Witcher 3: Wild Hunt": "/img/the_witcher_3_wild_hunt.jpg",
+  "Overcooked! 2": "/img/overcooked_2.jpg",
+};
+
 const PromocionesCliente = ({ usuario }) => {
   const [juegos, setJuegos] = useState([]);
   const [toast, setToast] = useState({
@@ -26,9 +38,13 @@ const PromocionesCliente = ({ usuario }) => {
           .map((promo) => {
             const juego = juegosAll.find((j) => j.idJuego === promo.idJuego);
             if (!juego) return null;
+            // Si el nombre está en el diccionario de fixes, uso esa ruta, si no, uso la lógica normal
+            const imagenUrl =
+              imagenesJuegosFix[juego.nombre] ||
+              `/img/${juego.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`;
             return {
               ...juego,
-              imagenUrl: `/img/${juego.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
+              imagenUrl,
               precioOriginal: parseFloat(juego.precio),
               precioDescuento: (
                 parseFloat(juego.precio) *

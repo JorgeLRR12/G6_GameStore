@@ -81,7 +81,7 @@ const CarritoPage = () => {
               nombre: juego.nombre,
               imagen: `/img/${juego.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
               precio: parseFloat(juego.precio),
-              cantidad: 1, // Si el modelo soporta cantidad, aquí la pondría
+              cantidad: 1,
             };
           })
         );

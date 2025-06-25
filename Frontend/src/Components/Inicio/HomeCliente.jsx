@@ -18,24 +18,29 @@ const HomeCliente = () => {
   useEffect(() => {
     const fetchJuegos = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php"
-        );
+        const res = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php');
         // Los nombres aquí deben coincidir exactamente con los de la base de datos
         const nombresTop = [
-          "Resident Evil 4 Remake",
-          "Days Gone Remake",
-          "Red Dead Redemption 2",
-          "GTA VI (Próximamente)",
-          "God of War: Ragnarok",
-          "The Last of Us Part II",
+          'Resident Evil 4 Remake',
+          'Days Gone Remake',
+          'Red Dead Redemption 2',
+          'GTA VI (Próximamente)',
+          'God of War: Ragnarok',
+          'The Last of Us Part I',
+          'The Last of Us Part II'
         ];
-        const juegosFiltrados = (res.data.datos || [])
-          .filter((j) => nombresTop.includes(j.nombre))
-          .map((j) => ({
-            ...j,
-            imagenUrl: `/img/${j.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
-          }));
+        // Diccionario para forzar la ruta correcta de las imágenes del carrusel
+        const imagenesCarruselFix = {
+          "God of War: Ragnarok": "/img/god_of_war_ragnarok.jpg",
+          "GTA VI (Próximamente)": "/img/gta_vi_proximamente.jpg"
+        };
+        const juegosFiltrados = (res.data.datos || []).filter(j =>
+          nombresTop.some(n => n.trim().toLowerCase() === j.nombre.trim().toLowerCase())
+        ).map(j => ({
+          ...j,
+          imagenUrl: imagenesCarruselFix[j.nombre] ||
+            `/img/${j.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`
+        }));
         setJuegosTop(juegosFiltrados);
       } catch (error) {
         setJuegosTop([]);
@@ -138,11 +143,7 @@ const HomeCliente = () => {
           {juegosTop.map((juego) => (
             <div className="card-destacado" key={juego.idJuego}>
               <div className="img-destacado-wrapper">
-                <img
-                  src={juego.imagenUrl}
-                  alt={juego.nombre}
-                  className="img-destacado"
-                />
+                <img src={juego.imagenUrl} alt={juego.nombre} className="img-destacado" />
               </div>
               <div className="info-destacado">
                 <h5>{juego.nombre}</h5>
