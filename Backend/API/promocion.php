@@ -10,4 +10,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Aquí incluís la lógica completa del CRUD
-require_once __DIR__ . '/../controller/PromocionController.php';
+require_once __DIR__ . '/../Controller/PromocionController.php';

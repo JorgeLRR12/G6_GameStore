@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../model/Categoria.php';
+require_once __DIR__ . '/../Model/Categoria.php';
 require_once __DIR__ . '/../accessData/CategoriaDAO.php';
 require_once __DIR__ . '/../misc/RespuestaJSON.php';
 

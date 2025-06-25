@@ -11,5 +11,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Incluir el controlador que maneja la lógica del carrito
-require_once __DIR__ . '/../controller/CarritoController.php';
+require_once __DIR__ . '/../Controller/CarritoController.php';
 ?>

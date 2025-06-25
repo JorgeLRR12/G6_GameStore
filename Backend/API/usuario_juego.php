@@ -8,4 +8,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../controller/UsuarioJuegoController.php';
+require_once __DIR__ . '/../Controller/UsuarioJuegoController.php';

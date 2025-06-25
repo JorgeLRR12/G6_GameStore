@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../misc/Conexion.php';
-require_once __DIR__ . '/../model/CarritoJuego.php';
+require_once __DIR__ . '/../Model/CarritoJuego.php';
 
 // DAO para manejar operaciones de juegos en carritos
 class CarritoJuegoDAO {

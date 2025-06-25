@@ -10,4 +10,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Incluir el controlador que contiene toda la lógica con switch
-require_once __DIR__ . '/../controller/CompraJuegoController.php';
+require_once __DIR__ . '/../Controller/CompraJuegoController.php';

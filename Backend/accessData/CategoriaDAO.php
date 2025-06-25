@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../misc/Conexion.php';
-require_once __DIR__ . '/../model/Categoria.php';
+require_once __DIR__ . '/../Model/Categoria.php';
 
 class CategoriaDAO {
 

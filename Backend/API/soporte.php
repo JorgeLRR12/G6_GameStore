@@ -11,5 +11,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Incluir el controlador que maneja la lógica de soporte
-require_once __DIR__ . '/../controller/SoporteController.php';
+require_once __DIR__ . '/../Controller/SoporteController.php';
 ?>

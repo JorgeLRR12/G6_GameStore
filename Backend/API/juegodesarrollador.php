@@ -11,5 +11,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Incluir el controlador que maneja la lógica de la relación juego-desarrollador
-require_once __DIR__ . '/../controller/JuegoDesarrolladorController.php';
+require_once __DIR__ . '/../Controller/JuegoDesarrolladorController.php';
 ?>

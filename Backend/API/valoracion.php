@@ -11,5 +11,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Incluir el controlador que maneja la lógica de valoraciones
-require_once __DIR__ . '/../controller/ValoracionController.php';
+require_once __DIR__ . '/../Controller/ValoracionController.php';
 ?>

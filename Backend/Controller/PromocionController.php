@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../model/Promocion.php';
+require_once __DIR__ . '/../Model/Promocion.php';
 require_once __DIR__ . '/../accessData/PromocionDAO.php';
 require_once __DIR__ . '/../misc/RespuestaJSON.php';
 

@@ -10,4 +10,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Incluir el controlador que contiene el CRUD con switch
-require_once __DIR__ . '/../controller/CompraController.php';
+require_once __DIR__ . '/../Controller/CompraController.php';

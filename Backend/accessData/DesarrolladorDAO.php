@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../misc/Conexion.php';
-require_once __DIR__ . '/../model/Desarrollador.php';
+require_once __DIR__ . '/../Model/Desarrollador.php';
 
 class DesarrolladorDAO {
     public static function obtenerTodos() {

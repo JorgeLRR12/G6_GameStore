@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../misc/Conexion.php';
-require_once __DIR__ . '/../model/Juego.php';
+require_once __DIR__ . '/../Model/Juego.php';
 
 class JuegoDAO {
     public static function obtenerTodos() {

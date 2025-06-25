@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../model/CompraJuego.php';
+require_once __DIR__ . '/../Model/CompraJuego.php';
 require_once __DIR__ . '/../accessData/CompraJuegoDAO.php';
 require_once __DIR__ . '/../misc/RespuestaJSON.php';
 

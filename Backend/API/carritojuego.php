@@ -11,5 +11,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Incluir el controlador que maneja la lógica de juegos en carritos
-require_once __DIR__ . '/../controller/CarritoJuegoController.php';
+require_once __DIR__ . '/../Controller/CarritoJuegoController.php';
 ?>
