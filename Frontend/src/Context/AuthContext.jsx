@@ -21,10 +21,17 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (correo, clave) => {
     try {
-       const response = await axios.post("http://localhost/2025/Proyecto2/G6_GameStore/Backend/API/autenticacion.php", {
-         correo,
-         clave,
-      });
+      // const response = await axios.post("http://localhost/2025/Proyecto2/G6_GameStore/Backend/API/autenticacion.php", {
+      //   correo,
+      //   clave,
+      // });
+      const response = await axios.post(
+        "https://gamestorecr.onrender.com/API/autenticacion.php",
+        {
+          correo,
+          clave,
+        }
+      );
 
       // Uso mi ruta para pruebas locales Luis
       /*const response = await axios.post(

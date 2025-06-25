@@ -18,7 +18,8 @@ const HomeCliente = () => {
   useEffect(() => {
     const fetchJuegos = async () => {
       try {
-        const res = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php');
+        // const res = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php');
+        const res = await axios.get('https://gamestorecr.onrender.com/API/juego.php');
         // Los nombres aquí deben coincidir exactamente con los de la base de datos
         const nombresTop = [
           'Resident Evil 4 Remake',
@@ -71,18 +72,20 @@ const HomeCliente = () => {
     if (!usuario || usuario.rol !== "Cliente") return;
     try {
       const resCarrito = await axios.get(
-        `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
+       // `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
+        `https://gamestorecr.onrender.com/API/carrito.php?idUsuario=${usuario.idUsuario}`
       );
       let carrito = resCarrito.data.datos && resCarrito.data.datos[0];
       if (!carrito) {
         const nuevo = await axios.post(
-          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php",
+          "https://gamestorecr.onrender.com/API/carrito.php",
           { idUsuario: usuario.idUsuario }
         );
         carrito = nuevo.data.datos;
       }
       await axios.post(
-        "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php",
+        //"http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php",
+        "https://gamestorecr.onrender.com/API/carritojuego.php",
         { idCarrito: carrito.idCarrito, idJuego }
       );
       setToast({

@@ -26,13 +26,11 @@ const PromocionesCliente = ({ usuario }) => {
   useEffect(() => {
     const fetchPromos = async () => {
       try {
-        const resPromo = await axios.get(
-          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/promocion.php"
-        );
+        // const resPromo = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/promocion.php');
+        const resPromo = await axios.get('https://gamestorecr.onrender.com/API/promocion.php');
+        // const resJuegos = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php');
+        const resJuegos = await axios.get('https://gamestorecr.onrender.com/API/juego.php');
         const promos = resPromo.data.datos || [];
-        const resJuegos = await axios.get(
-          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php"
-        );
         const juegosAll = resJuegos.data.datos || [];
         const juegosPromo = promos
           .map((promo) => {
@@ -68,19 +66,20 @@ const PromocionesCliente = ({ usuario }) => {
     if (!usuario || usuario.rol !== "Cliente") return;
     try {
       const resCarrito = await axios.get(
-        `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
+        //`http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
+        `https://gamestorecr.onrender.com/API/carrito.php?idUsuario=${usuario.idUsuario}`
       );
       let carrito = resCarrito.data.datos && resCarrito.data.datos[0];
       if (!carrito) {
         const nuevo = await axios.post(
-          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php",
+          "https://gamestorecr.onrender.com/API/carrito.php",
           { idUsuario: usuario.idUsuario }
         );
         carrito = nuevo.data.datos;
       }
       // Intento agregar el juego al carrito
       const resAdd = await axios.post(
-        "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php",
+        "https://gamestorecr.onrender.com/API/carritojuego.php",
         { idCarrito: carrito.idCarrito, idJuego }
       );
       // Si el backend responde con éxito
