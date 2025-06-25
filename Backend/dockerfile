@@ -4,7 +4,7 @@ FROM php:8.2-apache
 # Instalar extensiones necesarias
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Copiar todo el contenido del backend al servidor apache
+# Copiar todos los archivos del backend al servidor Apache
 COPY . /var/www/html/
 
 # Dar permisos
@@ -15,3 +15,4 @@ RUN a2enmod rewrite
 
 # Exponer el puerto
 EXPOSE 80
+
