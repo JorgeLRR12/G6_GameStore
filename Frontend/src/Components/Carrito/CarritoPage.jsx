@@ -4,26 +4,58 @@ import ResumenCarrito from "./ResumenCarrito.jsx";
 import "./Carrito.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
 
 // Página principal del carrito de compras
 const CarritoPage = () => {
-  // Aquí guardo los juegos que están en el carrito
+  // Estado para los juegos en el carrito
   const [juegos, setJuegos] = useState([]);
-  // Este estado me ayuda a mostrar un mensaje de carga
+  // Estado para el idCarrito real del usuario autenticado
+  const [idCarrito, setIdCarrito] = useState(null);
+  // Estado de carga
   const [cargando, setCargando] = useState(true);
   // Para navegar a otra página
   const navigate = useNavigate();
+  // Obtengo el usuario autenticado desde el contexto
+  const { usuario } = useAuth();
 
-  // Aquí debería obtener el idCarrito real del usuario autenticado
-  const idCarrito = 1; // Por ahora lo dejo fijo para pruebas
-
-  // Cuando el componente se monta, traigo los juegos del carrito desde la API
+  // Cuando el componente se monta, busco el carrito del usuario y luego los juegos
   useEffect(() => {
-    const fetchCarritoJuegos = async () => {
+    // Si no hay usuario, no hago nada
+    if (!usuario) return;
+
+    // Solo los clientes pueden tener carrito, si es admin lo saco de aquí
+    if (usuario.rol !== "Cliente") {
+      setCargando(false);
+      setJuegos([]);
+      setIdCarrito(null);
+      return;
+    }
+
+    // Busco el carrito del usuario, si no existe lo creo
+    const fetchOrCreateCarrito = async () => {
       try {
-        // Pido los juegos que están en el carrito
+        // Consulto si ya existe un carrito para este usuario
+        const res = await axios.get(
+          `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
+        );
+        let carrito = res.data.datos && res.data.datos[0];
+
+        // Si no existe, lo creo
+        if (!carrito) {
+          const nuevo = await axios.post(
+            "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php",
+            {
+              idUsuario: usuario.idUsuario,
+            }
+          );
+          carrito = nuevo.data.datos;
+        }
+        setIdCarrito(carrito.idCarrito);
+
+        // Ahora traigo los juegos de este carrito
         const resCarrito = await axios.get(
-          `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php?idCarrito=${idCarrito}`
+          `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php?idCarrito=${carrito.idCarrito}`
         );
         const juegosCarrito = resCarrito.data.datos || [];
 
@@ -37,42 +69,43 @@ const CarritoPage = () => {
         // Por cada juego en el carrito, pido la info completa del juego
         const juegosConInfo = await Promise.all(
           juegosCarrito.map(async (item) => {
-            // Aquí pido los datos del juego por su id
+            // Traigo los datos del juego por su id
             const resJuego = await axios.get(
               `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php?id=${item.idJuego}`
             );
             const juego = resJuego.data.datos;
+            // Aquí puedo agregar la imagen si la manejo en frontend
             // Si el backend no tiene imagen, uso una por defecto
             return {
               idJuego: juego.idJuego,
               nombre: juego.nombre,
-              imagen:
-                juego.imagen || "https://via.placeholder.com/60x40?text=Juego",
-              precio: juego.precio,
+              imagen: `/img/${juego.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
+              precio: parseFloat(juego.precio),
               cantidad: 1, // Si el modelo soporta cantidad, aquí la pondría
             };
           })
         );
         setJuegos(juegosConInfo);
       } catch (error) {
-        // Si algo falla, dejo el carrito vacío
         setJuegos([]);
       }
       setCargando(false);
     };
 
-    fetchCarritoJuegos();
-  }, [idCarrito]);
+    fetchOrCreateCarrito();
+  }, [usuario]);
 
-  // Cuando quiero eliminar un juego del carrito, lo saco del estado y llamo a la API
+  // Elimino un juego del carrito y lo saco del estado
   const eliminarJuego = (idJuego) => {
     setJuegos(juegos.filter((j) => j.idJuego !== idJuego));
-    axios.delete(
-      `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php`,
-      {
-        data: { idCarrito, idJuego },
-      }
-    );
+    if (idCarrito) {
+      axios.delete(
+        `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php`,
+        {
+          data: { idCarrito, idJuego },
+        }
+      );
+    }
   };
 
   // Si cambio la cantidad de un juego, actualizo el estado (y aquí podría llamar a la API si el backend lo soporta)
@@ -84,13 +117,52 @@ const CarritoPage = () => {
     );
   };
 
-  // Calculo el total sumando el precio por cantidad de cada juego
-  const total = juegos.reduce((acc, j) => acc + j.precio * j.cantidad, 0);
+  // Calculo el total sumando el precio por cantidad de cada juego, aplicando descuento si hay promoción
+  const [promos, setPromos] = useState([]);
+  useEffect(() => {
+    // Traigo todas las promociones para aplicar descuentos en el carrito
+    const fetchPromos = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/promocion.php"
+        );
+        setPromos(res.data.datos || []);
+      } catch (error) {
+        setPromos([]);
+      }
+    };
+    fetchPromos();
+  }, []);
+
+  // Función para obtener el precio con descuento si hay promoción
+  const getPrecioConDescuento = (juego) => {
+    const promo = promos.find((p) => p.idJuego === juego.idJuego);
+    if (promo) {
+      return (juego.precio * (1 - promo.porcentajeDescuento / 100));
+    }
+    return juego.precio;
+  };
+
+  const total = juegos.reduce(
+    (acc, j) => acc + getPrecioConDescuento(j) * j.cantidad,
+    0
+  );
 
   // Si quiero regresar a la tienda, uso navigate
   const handleRegresar = () => {
     navigate("/");
   };
+
+  // Si el usuario no es cliente, muestro solo un mensaje
+  if (usuario && usuario.rol !== "Cliente") {
+    return (
+      <div className="carrito-container container mt-5 mb-5">
+        <div className="alert alert-warning text-center">
+          El carrito solo está disponible para clientes.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="carrito-container container mt-5 mb-5">

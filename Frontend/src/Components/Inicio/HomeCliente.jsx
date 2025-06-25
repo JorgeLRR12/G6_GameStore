@@ -1,77 +1,89 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import NavbarCliente from '../Header/HeaderCliente.jsx';
 import PromocionesCliente from '../Promociones/Promociones.jsx';
 import { useAuth } from '../../Context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 import './HomeCliente.css';
 
-// Ahora uso imágenes locales desde /img para cada juego del carrusel
-const juegosTop = [
-  {
-    titulo: 'Resident Evil 4 Remake',
-    imagenUrl: '../public/img/ResidentEvil4.jpg',
-    descripcion: 'El clásico de terror y acción regresa con gráficos y jugabilidad renovados.',
-  },
-  {
-    titulo: 'Days Gone Remake',
-    imagenUrl: '../public/img/daysgone.jpg',
-    descripcion: 'Sobrevive en un mundo abierto infestado de engendros y peligros constantes.',
-  },
-  {
-    titulo: 'Red Dead Redemption 2',
-    imagenUrl: '../public/img/RedDeadRedemption2.jpg',
-    descripcion: 'Vive el salvaje oeste con una historia épica y un mundo abierto impresionante.',
-  },
-  {
-    titulo: 'GTA VI (Próximamente)',
-    imagenUrl: '../public/img/GTA6.jpg',
-    descripcion: 'La próxima entrega de la saga más famosa de crimen y mundo abierto.',
-  },
-  {
-    titulo: 'The Last of Us Part I',
-    imagenUrl: '../public/img/Thelastofus1.jpg',
-    descripcion: 'Una aventura emocional y de supervivencia en un mundo postapocalíptico.',
-  },
-  {
-    titulo: 'The Last of Us Part II',
-    imagenUrl: '../public/img/Thelastofus2.jpg',
-    descripcion: 'Una aventura emocional y de supervivencia en un mundo postapocalíptico segunda parte..',
-  }
-];
-
 const HomeCliente = () => {
-  // Uso un ref para controlar el scroll automático del carrusel
+  const [juegosTop, setJuegosTop] = useState([]);
+  const [toast, setToast] = useState({ show: false, mensaje: '', tipo: 'success' });
   const carruselRef = useRef(null);
+  const { usuario } = useAuth();
 
-  // Hago que el carrusel se desplace solo cada 3 segundos
+  useEffect(() => {
+    const fetchJuegos = async () => {
+      try {
+        const res = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php');
+        // Los nombres aquí deben coincidir exactamente con los de la base de datos
+        const nombresTop = [
+          'Resident Evil 4 Remake',
+          'Days Gone Remake',
+          'Red Dead Redemption 2',
+          'GTA VI (Próximamente)',
+          'God of War: Ragnarok',
+          'The Last of Us Part II'
+        ];
+        const juegosFiltrados = (res.data.datos || []).filter(j =>
+          nombresTop.includes(j.nombre)
+        ).map(j => ({
+          ...j,
+          imagenUrl: `/img/${j.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`
+        }));
+        setJuegosTop(juegosFiltrados);
+      } catch (error) {
+        setJuegosTop([]);
+      }
+    };
+    fetchJuegos();
+  }, []);
+
   useEffect(() => {
     const carrusel = carruselRef.current;
     let index = 0;
     const interval = setInterval(() => {
-      if (!carrusel) return;
+      if (!carrusel || juegosTop.length === 0) return;
       index = (index + 1) % juegosTop.length;
-      // Calculo el desplazamiento horizontal
       const cardWidth = carrusel.firstChild ? carrusel.firstChild.offsetWidth + 24 : 340;
       carrusel.scrollTo({
         left: index * cardWidth,
         behavior: 'smooth'
       });
     }, 3000);
-    // Limpio el intervalo cuando salgo de la página
     return () => clearInterval(interval);
-  }, []);
+  }, [juegosTop]);
+
+  // Aviso visual al agregar al carrito
+  const handleAgregarCarrito = async (idJuego) => {
+    if (!usuario || usuario.rol !== "Cliente") return;
+    try {
+      const resCarrito = await axios.get(
+        `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
+      );
+      let carrito = resCarrito.data.datos && resCarrito.data.datos[0];
+      if (!carrito) {
+        const nuevo = await axios.post(
+          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php",
+          { idUsuario: usuario.idUsuario }
+        );
+        carrito = nuevo.data.datos;
+      }
+      await axios.post(
+        "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php",
+        { idCarrito: carrito.idCarrito, idJuego }
+      );
+      setToast({ show: true, mensaje: '¡Juego agregado al carrito!', tipo: 'success' });
+    } catch (error) {
+      setToast({ show: true, mensaje: 'Este juego ya está en tu carrito.', tipo: 'info' });
+    }
+    setTimeout(() => setToast({ show: false, mensaje: '', tipo: 'success' }), 2000);
+  };
 
   return (
     <>
-      {/* Mejoro la presentación del menú con un fondo y sombra */}
       <div className="header-home-wrapper">
-       <NavbarCliente />
+        <NavbarCliente />
       </div>
-
-      
-
-      {/* Le doy más presencia y estilo al título y bienvenida */}
       <div className="home-hero home-hero-destacado">
         <div className="hero-content">
           <h1 className="titulo-hero">
@@ -85,30 +97,40 @@ const HomeCliente = () => {
           </p>
         </div>
       </div>
-
-      {/* Carrusel visual de juegos top */}
+      {/* Toast para mensajes de éxito o info */}
+      {toast.show && (
+        <div
+          className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
+          style={{ zIndex: 9999, minWidth: 260, fontSize: '1.1rem', letterSpacing: '0.5px' }}
+        >
+          {toast.mensaje}
+        </div>
+      )}
       <section className="destacados-section">
         <h2 className="titulo-destacados">🔥 Juegos top del momento</h2>
         <div className="carrusel-destacados auto-scroll" ref={carruselRef}>
-          {juegosTop.map((juego, idx) => (
-            <div className="card-destacado" key={idx}>
+          {juegosTop.map((juego) => (
+            <div className="card-destacado" key={juego.idJuego}>
               <div className="img-destacado-wrapper">
-                <img src={juego.imagenUrl} alt={juego.titulo} className="img-destacado" />
+                <img src={juego.imagenUrl} alt={juego.nombre} className="img-destacado" />
               </div>
               <div className="info-destacado">
-                <h5>{juego.titulo}</h5>
+                <h5>{juego.nombre}</h5>
                 <p>{juego.descripcion}</p>
+                {usuario && usuario.rol === "Cliente" && (
+                  <button
+                    className="btn btn-outline-info mt-2"
+                    onClick={() => handleAgregarCarrito(juego.idJuego)}
+                  >
+                    Agregar al carrito
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
       </section>
-
-      {/* Aquí muestro la sección de promociones, que ahora tendrá los juegos de la lista que me diste */}
-      <PromocionesCliente />
-
-      
-
+      <PromocionesCliente usuario={usuario} />
     </>
   );
 };

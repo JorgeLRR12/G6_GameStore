@@ -1,104 +1,94 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import JuegoCard from '../Cards/JuegoCard.jsx';
 import './Promociones.css';
+import axios from 'axios';
 
+const PromocionesCliente = ({ usuario }) => {
+  const [juegos, setJuegos] = useState([]);
+  const [toast, setToast] = useState({ show: false, mensaje: '', tipo: 'success' });
 
-const juegos = [
-  {
-    titulo: 'EA Sports FC 25',
-    imagenUrl: '../public/img/FC25.jpg',
-    precioOriginal: '49.990 CRC',
-    precioDescuento: '39.990 CRC',
-    descuento: 20
-  },
-  {
-    titulo: "Tom Clancy's Ghost Recon Wildlands",
-    imagenUrl: '../public/img/GhostReacon.jpg',
-    precioOriginal: '25.000 CRC',
-    precioDescuento: '19.900 CRC',
-    descuento: 20
-  },
-  {
-    titulo: 'Mario Kart 8 Deluxe',
-    imagenUrl: '../public/img/MarioKart8Deluxe.jpg',
-    precioOriginal: '34.990 CRC',
-    precioDescuento: '27.990 CRC',
-    descuento: 20
-  },
-  {
-    titulo: 'Far Cry 6',
-    imagenUrl: '../public/img/FarCry6.jpg',
-    precioOriginal: '59.990 CRC',
-    precioDescuento: '44.990 CRC',
-    descuento: 25
-  },
-  {
-    titulo: 'Multiversus',
-    imagenUrl: '../public/img/Multiversus.jpg',
-    precioOriginal: '49.990 CRC',
-    precioDescuento: '39.990 CRC',
-    descuento: 20
-  },
-  {
-    titulo: 'Hogwarts Legacy',
-    imagenUrl: '../public/img/HogwartsLegacy.jpg',
-    precioOriginal: '59.990 CRC',
-    precioDescuento: '41.990 CRC',
-    descuento: 30
-  },
-  {
-    titulo: 'Call of Duty: Modern Warfare III',
-    imagenUrl: '../public/img/CallofDutyModernWarfareIII.jpg',
-    precioOriginal: '69.990 CRC',
-    precioDescuento: '55.990 CRC',
-    descuento: 20
-  },
-  {
-    titulo: 'The Legend of Zelda: Tears of the Kingdom',
-    imagenUrl: '../public/img/TheLegendofZelda.jpg',
-    precioOriginal: '59.990 CRC',
-    precioDescuento: '49.990 CRC',
-    descuento: 17
-  },
-  {
-    titulo: 'Elden Ring',
-    imagenUrl: '../public/img/EldenRing.jpg',
-    precioOriginal: '59.990 CRC',
-    precioDescuento: '47.990 CRC',
-    descuento: 20
-  },
-  {
-    titulo: 'The Witcher 3: Wild Hunt',
-    imagenUrl: '../public/img/theWitcher3.jpg',
-    precioOriginal: '49.990 CRC',
-    precioDescuento: '39.990 CRC',
-    descuento: 20
-  },
-  {
-    titulo: 'Cyberpunk 2077',
-    imagenUrl: '../public/img/cyberpunk.jpg',
-    precioOriginal: '34.990 CRC',
-    precioDescuento: '27.990 CRC',
-    descuento: 20
-  },
-  {
-    titulo: 'Overcooked! 2',
-    imagenUrl: '../public/img/overcook2.jpg',
-    precioOriginal: '10.000 CRC',
-    precioDescuento: '6.000 CRC',
-    descuento: 20
-  }
-];
+  useEffect(() => {
+    const fetchPromos = async () => {
+      try {
+        const resPromo = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/promocion.php');
+        const promos = resPromo.data.datos || [];
+        const resJuegos = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php');
+        const juegosAll = resJuegos.data.datos || [];
+        const juegosPromo = promos.map(promo => {
+          const juego = juegosAll.find(j => j.idJuego === promo.idJuego);
+          if (!juego) return null;
+          return {
+            ...juego,
+            imagenUrl: `/img/${juego.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
+            precioOriginal: parseFloat(juego.precio),
+            precioDescuento: (parseFloat(juego.precio) * (1 - promo.porcentajeDescuento / 100)).toFixed(2),
+            descuento: promo.porcentajeDescuento,
+            descripcion: juego.descripcion
+          };
+        }).filter(Boolean);
+        setJuegos(juegosPromo);
+      } catch (error) {
+        setJuegos([]);
+      }
+    };
+    fetchPromos();
+  }, []);
 
-const PromocionesCliente = () => {
+  // Aviso visual elegante al agregar al carrito
+  const handleAgregarCarrito = async (idJuego) => {
+    if (!usuario || usuario.rol !== "Cliente") return;
+    try {
+      const resCarrito = await axios.get(
+        `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
+      );
+      let carrito = resCarrito.data.datos && resCarrito.data.datos[0];
+      if (!carrito) {
+        const nuevo = await axios.post(
+          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php",
+          { idUsuario: usuario.idUsuario }
+        );
+        carrito = nuevo.data.datos;
+      }
+      // Intento agregar el juego al carrito
+      const resAdd = await axios.post(
+        "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php",
+        { idCarrito: carrito.idCarrito, idJuego }
+      );
+      // Si el backend responde con éxito
+      setToast({ show: true, mensaje: '¡Juego agregado al carrito!', tipo: 'success' });
+    } catch (error) {
+      // Si el juego ya está en el carrito, muestro un aviso elegante
+      setToast({ show: true, mensaje: 'Este juego ya está en tu carrito.', tipo: 'info' });
+    }
+    setTimeout(() => setToast({ show: false, mensaje: '', tipo: 'success' }), 2000);
+  };
+
   return (
     <div className="contenedor-promociones">
       <div className="container">
         <h2 className="mb-4 fw-bold text-white text-center">🎯 Selección de descuentos</h2>
+        {/* Toast elegante para avisos */}
+        {toast.show && (
+          <div
+            className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
+            style={{ zIndex: 9999, minWidth: 260, fontSize: '1.1rem', letterSpacing: '0.5px' }}
+          >
+            {toast.mensaje}
+          </div>
+        )}
         <div className="row">
-          {juegos.map((juego, index) => (
-            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={index}>
-              <JuegoCard {...juego} />
+          {juegos.map((juego) => (
+            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={juego.idJuego}>
+              <JuegoCard
+                {...juego}
+                imagenUrl={juego.imagenUrl}
+                onAgregarCarrito={usuario && usuario.rol === "Cliente"
+                  ? () => handleAgregarCarrito(juego.idJuego)
+                  : undefined
+                }
+                mostrarBotonAgregar={usuario && usuario.rol === "Cliente"}
+                descripcion={juego.descripcion}
+              />
             </div>
           ))}
         </div>

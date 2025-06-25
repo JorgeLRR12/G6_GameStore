@@ -7,7 +7,7 @@ const descripciones = {
   "Tom Clancy's Ghost Recon Wildlands": "Sumérgete en un mundo abierto de acción táctica. Lidera un escuadrón de élite para derrocar a un cartel en Bolivia. Juega solo o en cooperativo, con libertad total de exploración y estrategia.",
   "Mario Kart 8 Deluxe": "Disfruta de las carreras más divertidas y frenéticas con Mario y sus amigos. Compite en circuitos llenos de sorpresas, usa objetos locos y reta a tus amigos en multijugador local u online.",
   "Far Cry 6": "Únete a la revolución en Yara, una isla caribeña bajo el yugo de un dictador. Explora, combate y libera el país en un mundo abierto lleno de acción, vehículos y armas únicas.",
-  "Multiversus": "Lucha en batallas épicas con personajes icónicos de Warner Bros. como Batman, Shaggy, Arya Stark y más. Disfruta de combates multijugador llenos de acción y diversión.",
+  "Bloodborne": "Adéntrate en un oscuro mundo gótico y lucha contra criaturas aterradoras en este desafiante RPG de acción. Explora la ciudad de Yharnam y descubre sus secretos mientras mejoras tus habilidades y equipo.",
   "Hogwarts Legacy": "Vive tu propia aventura en el mundo mágico de Harry Potter. Explora Hogwarts, aprende hechizos, crea pociones y descubre secretos en una historia original ambientada en el siglo XIX.",
   "Call of Duty: Modern Warfare III": "Acción bélica moderna con intensos modos multijugador, campaña cinematográfica y cooperativo. Experimenta el combate táctico y las armas más avanzadas.",
   "The Legend of Zelda: Tears of the Kingdom": "Acompaña a Link en una nueva aventura épica por Hyrule. Explora, resuelve acertijos y enfréntate a enemigos en un mundo abierto lleno de misterios y magia.",
@@ -18,7 +18,18 @@ const descripciones = {
 };
 
 // Al hacer clic en la tarjeta, muestro un modal con los detalles completos del juego
-const JuegoCard = ({ imagenUrl, titulo, precioOriginal, precioDescuento, descuento }) => {
+const JuegoCard = ({
+  imagenUrl,
+  imagen,
+  titulo,
+  nombre,
+  precioOriginal,
+  precioDescuento,
+  descuento,
+  onAgregarCarrito,
+  mostrarBotonAgregar,
+  descripcion // Recibo la descripción específica si viene por props
+}) => {
   const [showModal, setShowModal] = useState(false);
 
   // Abro el modal
@@ -31,29 +42,48 @@ const JuegoCard = ({ imagenUrl, titulo, precioOriginal, precioDescuento, descuen
     }
   };
 
-  // Tomo la descripción real del juego, si no hay, muestro un texto genérico
-  const descripcion = descripciones[titulo] || "Juego destacado en nuestra tienda. Consulta más detalles en la web oficial.";
+  // Si viene la descripción por props, la uso; si no, busco en el diccionario; si no, muestro la genérica
+  const descripcionFinal =
+    descripcion ||
+    descripciones[titulo] ||
+    "Juego destacado en nuestra tienda. Consulta más detalles en la web oficial.";
+
+  // Imagen local: minúsculas y guiones bajos
+  const displayName = nombre || titulo;
+  let imgSrc = imagenUrl || imagen;
+  if (!imgSrc) {
+    imgSrc = `/img/${displayName.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`;
+  }
 
   return (
     <>
       <div className="card h-100 bg-black text-white border-0 shadow-sm rounded juego-card-hover" onClick={handleOpen} style={{ cursor: 'pointer' }}>
         <div className="card-img-container">
           <img
-            src={imagenUrl}
+            src={imgSrc}
             className="card-img-top"
-            alt={titulo}
+            alt={displayName}
           />
         </div>
         <div className="card-body">
           <small className="text-muted d-block mb-1">Juego base</small>
-          <h5 className="card-title fw-semibold">{titulo}</h5>
+          <h5 className="card-title fw-semibold">{displayName}</h5>
           <div className="d-flex justify-content-between align-items-center mt-3">
-            <span className="badge bg-info text-dark">-{descuento}%</span>
+            {descuento && <span className="badge bg-info text-dark">-{descuento}%</span>}
             <div className="text-end">
-              <del className="text-muted small d-block">{precioOriginal}</del>
-              <span className="fw-bold">{precioDescuento}</span>
+              {precioOriginal && <del className="text-muted small d-block">{precioOriginal} CRC</del>}
+              {precioDescuento && <span className="fw-bold">{precioDescuento} CRC</span>}
             </div>
           </div>
+          {/* Solo muestro el botón si corresponde */}
+          {mostrarBotonAgregar && (
+            <button
+              className="btn btn-outline-info mt-2 w-100"
+              onClick={e => { e.stopPropagation(); onAgregarCarrito && onAgregarCarrito(); }}
+            >
+              Agregar al carrito
+            </button>
+          )}
         </div>
       </div>
 
@@ -65,17 +95,17 @@ const JuegoCard = ({ imagenUrl, titulo, precioOriginal, precioDescuento, descuen
               &times;
             </button>
             <div className="modal-juego-img-wrapper">
-              <img src={imagenUrl} alt={titulo} className="modal-juego-img" />
+              <img src={imgSrc} alt={displayName} className="modal-juego-img" />
             </div>
             <div className="modal-juego-info">
               <h3 className="modal-juego-titulo">{titulo}</h3>
               <div className="modal-juego-precios">
-                <span className="badge bg-info text-dark me-2">-{descuento}%</span>
-                <del className="text-muted me-2">{precioOriginal}</del>
-                <span className="fw-bold fs-5">{precioDescuento}</span>
+                {descuento && <span className="badge bg-info text-dark me-2">-{descuento}%</span>}
+                {precioOriginal && <del className="text-muted me-2">{precioOriginal} CRC</del>}
+                {precioDescuento && <span className="fw-bold fs-5">{precioDescuento} CRC</span>}
               </div>
               <p className="modal-juego-descripcion mt-3">
-                {descripcion}
+                {descripcionFinal}
               </p>
             </div>
           </div>

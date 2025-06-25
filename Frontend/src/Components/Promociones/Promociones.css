@@ -19,3 +19,20 @@
     max-width: 100%;
   }
 }
+
+.toast-gamer {
+  background: linear-gradient(90deg, #00bfff 60%, #232a34 100%);
+  color: #fff;
+  border: 2px solid #00bfff;
+  box-shadow: 0 4px 18px 0 rgba(0,191,255,0.18), 0 2px 8px 0 #000c;
+  font-family: 'Orbitron', sans-serif;
+  animation: toastFadeIn 0.2s;
+}
+.toast-gamer.info {
+  background: linear-gradient(90deg, #ffaa00 60%, #232a34 100%);
+  border-color: #ffaa00;
+}
+@keyframes toastFadeIn {
+  from { opacity: 0; transform: translateY(-30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
