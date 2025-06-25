@@ -1,17 +1,17 @@
-# Imagen oficial de PHP con Apache
+# Imagen base
 FROM php:8.2-apache
 
 # Instalar extensiones necesarias
-RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Copia tu código al contenedor
+# Copiar todo el contenido del backend al servidor apache
 COPY . /var/www/html/
 
-# Permisos adecuados
+# Dar permisos
 RUN chown -R www-data:www-data /var/www/html
 
-# Habilitar mod_rewrite si es necesario (para frameworks)
+# Activar mod_rewrite (si es necesario para rutas amigables)
 RUN a2enmod rewrite
 
-# Exponer el puerto que Apache utiliza
+# Exponer el puerto
 EXPOSE 80
