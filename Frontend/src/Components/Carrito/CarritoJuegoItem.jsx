@@ -11,14 +11,13 @@ const CarritoJuegoItem = ({ juego, onEliminar, onCantidad }) => {
   return (
     <tr>
       <td>
-        <div className="d-flex align-items-center">
-          <img
-            src={juego.imagen}
-            alt={juego.nombre}
-            className="img-juego-carrito me-2"
-          />
-          <span>{juego.nombre}</span>
-        </div>
+        <img
+          src={juego.imagen}
+          alt={juego.nombre}
+          className="img-juego-carrito"
+          style={{ width: 72, height: 48, objectFit: "cover", borderRadius: 12 }}
+        />
+        <span className="ms-2">{juego.nombre}</span>
       </td>
       <td>₡{juego.precio.toLocaleString()}</td>
       <td>

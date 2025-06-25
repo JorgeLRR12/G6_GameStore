@@ -1,102 +1,192 @@
-/* Contenedor principal del carrito */
+/* --- Carrito --- */
 .carrito-container {
-  background: rgba(20, 24, 28, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 0 24px 0 rgba(0, 191, 255, 0.08);
-  padding: 2rem 1.5rem;
-  max-width: 900px;
-  width: 100%;
+  max-width: 1150px;
+  width: 97vw;
+  margin: 48px auto 48px auto;
+  padding: 48px 36px 40px 36px;
+  background: linear-gradient(120deg, #232a34 80%, #00bfff22 100%);
+  border-radius: 22px;
+  box-shadow: 0 10px 40px 0 rgba(0, 191, 255, 0.13), 0 2px 12px 0 #000a;
+  position: relative;
+  border: 2.5px solid #232a34;
 }
 
-/* Título del carrito */
+/* Título destacado */
 .titulo-carrito {
-  color: #00bfff;
-  text-shadow: 0 0 8px rgba(0, 191, 255, 0.3);
+  color: #00e6ff;
+  text-shadow: 0 2px 16px #00bfff44, 0 0px 8px #00e6ff33;
   font-family: "Orbitron", sans-serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
 }
 
-/* Imagen de cada juego en el carrito */
-.img-juego-carrito {
-  width: 60px;
-  height: 40px;
+/* Tabla moderna con filas alternas y efecto glass */
+.tabla-carrito {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 14px;
+  background: transparent;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  margin-bottom: 0;
+}
+.tabla-carrito th, .tabla-carrito td {
+  padding: 20px 16px;
+  text-align: left;
+  border: none;
+}
+.tabla-carrito th {
+  font-size: 1.13rem;
+  color: #8fdfff;
+  border-bottom: 2.5px solid #00bfff33;
+  background: transparent;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.tabla-carrito tr {
+  background: rgba(44, 48, 56, 0.93);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px 0 rgba(0,191,255,0.06);
+  transition: background 0.18s, box-shadow 0.18s;
+}
+.tabla-carrito tr:nth-child(even) {
+  background: rgba(38, 42, 50, 0.96);
+}
+.tabla-carrito tr:hover {
+  background: rgba(0, 191, 255, 0.08);
+  box-shadow: 0 4px 18px 0 #00bfff22;
+}
+.tabla-carrito img {
+  width: 72px;
+  height: 48px;
   object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid #222;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+  border: 1.5px solid #00bfff33;
   background: #111;
 }
 
 /* Input de cantidad */
 .cantidad-input {
-  background: #222;
+  background: #232a34;
   color: #fff;
-  border: 1px solid #444;
+  border: 1.5px solid #00bfff55;
+  border-radius: 7px;
+  padding: 6px 12px;
+  font-size: 1.08rem;
+  width: 60px;
+  text-align: center;
+  transition: border 0.2s;
+}
+.cantidad-input:focus {
+  border-color: #00e6ff;
+  outline: none;
 }
 
-/* Resumen del carrito */
+/* Botón para volver a la tienda */
+.btn-volver-tienda {
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  border-radius: 10px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.08rem;
+  background: linear-gradient(90deg, #00bfff 60%, #232a34 100%);
+  color: #fff;
+  border: 2px solid #00bfff;
+  box-shadow: 0 2px 8px 0 #00bfff22;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  margin-left: 1rem;
+}
+.btn-volver-tienda:hover {
+  background: #232a34;
+  color: #00e6ff;
+  border-color: #00e6ff;
+}
+
+/* Botón eliminar moderno */
+.btn-eliminar-juego {
+  background: #ff4c4c;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: background 0.18s, transform 0.18s;
+  box-shadow: 0 2px 8px #ff4c4c22;
+  cursor: pointer;
+}
+.btn-eliminar-juego:hover {
+  background: #d7263d;
+  transform: scale(1.08) rotate(-8deg);
+}
+
+/* Resumen y total elegante */
 .resumen-carrito {
-  background: rgba(30, 34, 40, 0.98);
-  border: 1px solid #222;
-  box-shadow: 0 0 10px 0 rgba(0, 191, 255, 0.07);
+  margin-top: 36px;
+  padding: 28px 38px;
+  background: rgba(24, 26, 32, 0.98);
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 18px 0 #00bfff22;
+  border: 2px solid #232a34;
+}
+.cart-total-label {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.cart-total-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #00e6ff;
+  text-shadow: 0 2px 12px #00bfff44;
 }
 
 /* Enlace para ir a la tienda */
 .enlace-tienda {
   color: #00bfff;
   text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.18s;
 }
-
 .enlace-tienda:hover {
   color: #66c0f4;
 }
 
-/* Botón para volver a la tienda */
-.btn-volver-tienda {
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  border-radius: 8px;
-  transition:
-    background 0.2s,
-    color 0.2s;
-  margin-left: 1rem;
+/* Micro-interacciones y animaciones */
+.tabla-carrito tr.removing {
+  opacity: 0.4;
+  transform: scale(0.98);
+  transition: opacity 0.2s, transform 0.2s;
 }
-
-.btn-volver-tienda:hover {
-  background: #00bfff;
-  color: #fff;
-  border-color: #00bfff;
-}
-
-/* Tabla del carrito */
-.tabla-carrito {
-  background: rgba(30, 34, 40, 0.98);
-  border-radius: 10px;
-  box-shadow: 0 0 12px 0 rgba(0, 191, 255, 0.1);
-  overflow: hidden;
-  overflow-x: auto;
-}
-
-/* Ajustes responsivos */
 
 /* Responsive para pantallas pequeñas */
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .carrito-container {
-    padding: 1rem 0.2rem;
+    padding: 1.2rem 0.3rem;
+    max-width: 99vw;
   }
-  .tabla-carrito {
-    font-size: 0.95rem;
+  .tabla-carrito th, .tabla-carrito td {
+    padding: 10px 6px;
+    font-size: 0.97rem;
   }
-  .titulo-carrito {
-    font-size: 1.3rem;
-  }
-  .btn-volver-tienda {
-    font-size: 0.95rem;
-    padding: 0.4rem 0.8rem;
+  .tabla-carrito img {
+    width: 38px;
+    height: 28px;
   }
   .resumen-carrito {
+    flex-direction: column;
+    gap: 1rem;
     padding: 1rem 0.5rem;
   }
-  .img-juego-carrito {
-    width: 36px;
-    height: 24px;
+  .cart-total-value {
+    font-size: 1.3rem;
   }
 }
