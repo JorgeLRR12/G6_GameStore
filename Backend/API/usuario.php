@@ -9,5 +9,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../controller/UsuarioController.php';
+require_once __DIR__ . '/../Controller/UsuarioController.php';
 ?>

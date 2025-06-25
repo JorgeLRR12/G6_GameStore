@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost/2025/ProyectoApi/G6_GameStore/Backend/API/soporte.php';
+const API_URL = 'https://gamestorecr.onrender.com/API/soporte.php';
 
 
 export const obtenerTickets = () => axios.get(`${API_URL}`);

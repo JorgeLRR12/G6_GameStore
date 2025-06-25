@@ -37,14 +37,15 @@ const CarritoPage = () => {
       try {
         // Consulto si ya existe un carrito para este usuario
         const res = await axios.get(
-          `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
+          `https://gamestorecr.onrender.com/API/carrito.php
+?idUsuario=${usuario.idUsuario}`
         );
         let carrito = res.data.datos && res.data.datos[0];
 
         // Si no existe, lo creo
         if (!carrito) {
           const nuevo = await axios.post(
-            "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php",
+            "https://gamestorecr.onrender.com/API/carrito.php",
             {
               idUsuario: usuario.idUsuario,
             }
@@ -55,7 +56,7 @@ const CarritoPage = () => {
 
         // Ahora traigo los juegos de este carrito
         const resCarrito = await axios.get(
-          `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php?idCarrito=${carrito.idCarrito}`
+          `https://gamestorecr.onrender.com/API/carritojuego.php?idCarrito=${carrito.idCarrito}`
         );
         const juegosCarrito = resCarrito.data.datos || [];
 
@@ -71,7 +72,7 @@ const CarritoPage = () => {
           juegosCarrito.map(async (item) => {
             // Traigo los datos del juego por su id
             const resJuego = await axios.get(
-              `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php?id=${item.idJuego}`
+              `https://gamestorecr.onrender.com/API/juego.php?id=${item.idJuego}`
             );
             const juego = resJuego.data.datos;
             // Aquí puedo agregar la imagen si la manejo en frontend
@@ -100,7 +101,7 @@ const CarritoPage = () => {
     setJuegos(juegos.filter((j) => j.idJuego !== idJuego));
     if (idCarrito) {
       axios.delete(
-        `http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carritojuego.php`,
+        `https://gamestorecr.onrender.com/API/carritojuego.php`,
         {
           data: { idCarrito, idJuego },
         }
@@ -124,7 +125,7 @@ const CarritoPage = () => {
     const fetchPromos = async () => {
       try {
         const res = await axios.get(
-          "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/promocion.php"
+          "https://gamestorecr.onrender.com/API/promocion.php"
         );
         setPromos(res.data.datos || []);
       } catch (error) {

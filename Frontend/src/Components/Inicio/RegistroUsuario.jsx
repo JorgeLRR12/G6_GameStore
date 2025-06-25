@@ -24,7 +24,7 @@ const RegistroUsuario = () => {
       };
 
       const respuesta = await axios.post(
-        'http://localhost/G6_GameStore/Backend/API/usuario.php',
+        'https://gamestorecr.onrender.com/API/usuario.php',
         JSON.stringify(nuevoUsuario),
         {
           headers: { 'Content-Type': 'application/json' }

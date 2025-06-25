@@ -10,5 +10,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/../controller/AutenticacionController.php';
+require_once __DIR__ . '/../Controller/AutenticacionController.php';
 ?>
