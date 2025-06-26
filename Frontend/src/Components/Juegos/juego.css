@@ -168,3 +168,13 @@
     font-size: 0.9rem;
   }
 }
+
+.tabla-juegos img {
+  transition: transform 0.2s ease-in-out;
+}
+
+.tabla-juegos img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(0, 191, 255, 0.3);
+}
+

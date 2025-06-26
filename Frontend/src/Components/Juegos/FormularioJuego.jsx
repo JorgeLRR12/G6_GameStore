@@ -16,7 +16,7 @@ const FormularioJuego = () => {
     fechaLanzamiento: "",
     clasificacionEdad: "",
     idCategoria: "",
-    imagen: "", // 👈 Nuevo campo imagen
+    imagen: "",
   });
 
   const [preview, setPreview] = useState(null);
@@ -25,7 +25,6 @@ const FormularioJuego = () => {
     setJuego({ ...juego, [e.target.name]: e.target.value });
   };
 
-  // 🔥 Manejador de imágenes
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -33,9 +32,7 @@ const FormularioJuego = () => {
       setJuego({ ...juego, imagen: imageUrl });
       setPreview(URL.createObjectURL(file));
 
-      // ✅ Copia manual: Debes copiar la imagen a la carpeta public/img
-      // React no permite mover archivos directamente a public.
-      alert(`Recuerda mover la imagen a la carpeta public/img manualmente o por FTP en producción`);
+      alert(`Recuerda mover la imagen a la carpeta public/img`);
     }
   };
 
@@ -62,18 +59,36 @@ const FormularioJuego = () => {
     }
   };
 
-  useEffect(() => {
-    if (id) {
-      const cargarJuego = async () => {
+ 
+useEffect(() => {
+  if (id) {
+    const cargarJuego = async () => {
+      try {
         const datos = await obtenerJuegoPorId(id);
-        if (datos && datos.length > 0) {
-          setJuego(datos[0]);
-          setPreview(datos[0].imagen);
-        }
-      };
-      cargarJuego();
-    }
-  }, [id]);
+      if (datos) {
+  const juegoData = datos;
+  setJuego({
+    nombre: juegoData.nombre,
+    descripcion: juegoData.descripcion,
+    precio: juegoData.precio,
+    fechaLanzamiento: juegoData.fechaLanzamiento,
+    clasificacionEdad: juegoData.clasificacionEdad,
+    idCategoria: juegoData.idCategoria,
+    imagen: juegoData.imagen,
+  });
+  setPreview(juegoData.imagen);
+} else {
+  console.warn("No se encontró el juego con id:", id);
+}
+
+      } catch (error) {
+        console.error("Error al cargar el juego:", error);
+      }
+    };
+    cargarJuego();
+  }
+}, [id]);
+
 
   return (
     <div className="container mt-5">
@@ -110,7 +125,7 @@ const FormularioJuego = () => {
           <input type="number" name="idCategoria" value={juego.idCategoria} onChange={handleChange} className="form-control" />
         </div>
 
-        {/* 🔥 Imagen */}
+        {/* Imagen */}
         <div className="mb-3">
           <label>Imagen del Juego</label>
           <input type="file" accept="image/*" onChange={handleImage} className="form-control" />

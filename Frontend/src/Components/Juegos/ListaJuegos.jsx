@@ -62,6 +62,7 @@ const ListaJuegos = () => {
                 <th>Clasificación</th>
                 <th>ID Categoría</th>
                 <th>ID Usuario</th>
+                <th>Imagen</th> 
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -76,6 +77,27 @@ const ListaJuegos = () => {
                   <td>{j.clasificacionEdad}</td>
                   <td>{j.idCategoria}</td>
                   <td>{j.idUsuario}</td>
+
+                  {/* 🔥 Imagen después de ID Usuario */}
+                  <td>
+                    {j.imagen ? (
+                      <img
+                        src={j.imagen}
+                        alt={j.nombre}
+                        style={{
+                          width: "80px",
+                          height: "60px",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                          border: "1px solid #00bfff44",
+                          background: "#111"
+                        }}
+                      />
+                    ) : (
+                      <span className="text-muted">Sin imagen</span>
+                    )}
+                  </td>
+
                   <td>
                     <Link
                       to={`/juegos/editar/${j.idJuego}`}
