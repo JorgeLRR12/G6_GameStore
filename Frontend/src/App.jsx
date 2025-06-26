@@ -13,6 +13,8 @@ import ControlUsuarios from './Components/Usuarios/ControlUsuarios.jsx';
 import JuegosPage from "./Components/Juegos/JuegosPage.jsx";
 import ListaJuegos from "./Components/Juegos/ListaJuegos.jsx";
 import FormularioJuego from "./Components/Juegos/FormularioJuego.jsx";
+import CrudCategorias from "./Components/Categoria/CrudCategorias.jsx";
+
 
 
 import "./App.css";
@@ -121,6 +123,14 @@ function App() {
         element={
           <PrivateRoute rolPermitido="Administrador">
             <FormularioJuego />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin/categorias"
+        element={
+          <PrivateRoute rolPermitido="Administrador">
+            <CrudCategorias />
           </PrivateRoute>
         }
       />

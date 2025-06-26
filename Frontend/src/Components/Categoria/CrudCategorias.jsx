@@ -1,0 +1,191 @@
+// src/Components/Categoria/CrudCategorias.jsx
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useAuth } from '../../Context/AuthContext';
+import { useNavigate } from 'react-router-dom'; // ← Importar useNavigate
+import './CrudCategorias.css';
+
+const API_URL = 'https://gamestorecr.onrender.com/API/categoria.php';
+const API_USUARIOS = 'https://gamestorecr.onrender.com/API/usuario.php';
+
+const CrudCategorias = () => {
+  const { usuario, isAuthenticated } = useAuth();
+  const [categorias, setCategorias] = useState([]);
+  const [usuariosAdmin, setUsuariosAdmin] = useState([]);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [nuevaCategoria, setNuevaCategoria] = useState('');
+  const [nuevoIdUsuario, setNuevoIdUsuario] = useState('');
+  const [editando, setEditando] = useState(null);
+  const navigate = useNavigate(); // ← Hook para redirigir
+
+  useEffect(() => {
+    if (!usuario && isAuthenticated()) return;
+    if (usuario) {
+      obtenerCategorias();
+      obtenerUsuariosAdmin();
+    }
+  }, [usuario]);
+
+  const obtenerCategorias = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      if (response.data.codigo === 200) {
+        setCategorias(response.data.datos);
+      }
+    } catch (error) {
+      console.error('Error al obtener categorías', error);
+    }
+  };
+
+  const obtenerUsuariosAdmin = async () => {
+    try {
+      const response = await axios.get(API_USUARIOS);
+      if (response.data.codigo === 200) {
+        const admins = response.data.datos.filter(u => u.rol === 'Administrador');
+        setUsuariosAdmin(admins);
+      }
+    } catch (error) {
+      console.error('Error al obtener usuarios', error);
+    }
+  };
+
+  const agregarCategoria = async () => {
+    if (!nuevaCategoria.trim() || !nuevoIdUsuario) return;
+    try {
+      await axios.post(API_URL, {
+        nombre: nuevaCategoria,
+        idUsuario: parseInt(nuevoIdUsuario)
+      });
+      setNuevaCategoria('');
+      setNuevoIdUsuario('');
+      setMostrarFormulario(false);
+      obtenerCategorias();
+    } catch (error) {
+      console.error('Error al agregar categoría', error);
+    }
+  };
+
+  const eliminarCategoria = async (idCategoria) => {
+    if (!window.confirm('¿Desea eliminar esta categoría?')) return;
+    try {
+      await axios.delete(API_URL, {
+        data: { idCategoria },
+      });
+      obtenerCategorias();
+    } catch (error) {
+      console.error('Error al eliminar categoría', error);
+    }
+  };
+
+  const iniciarEdicion = (categoria) => {
+    setEditando({ ...categoria });
+  };
+
+  const guardarEdicion = async () => {
+    try {
+      await axios.put(API_URL, {
+        idCategoria: editando.idCategoria,
+        nombre: editando.nombre,
+        idUsuario: editando.idUsuario,
+      });
+      setEditando(null);
+      obtenerCategorias();
+    } catch (error) {
+      console.error('Error al actualizar categoría', error);
+    }
+  };
+
+  return (
+    <>
+      <div className={`categorias-wrapper ${mostrarFormulario || editando ? 'blur' : ''}`}>
+        
+        {/* Botón de regreso */}
+        <button className="btn-volver" onClick={() => navigate('/admin/dashboard')}>
+           ⬅ Regresar al inicio
+        </button>
+
+        <h2 className="titulo-categorias">Categorías Disponibles</h2>
+        <button className="btn-agregar" onClick={() => setMostrarFormulario(true)}>
+          + Agregar Categoría
+        </button>
+
+        <table className="tabla-categorias">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>ID Usuario</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categorias.map((cat) => (
+              <tr key={cat.idCategoria}>
+                <td>{cat.idCategoria}</td>
+                <td>{cat.nombre}</td>
+                <td>{cat.idUsuario}</td>
+                <td>
+                  <button onClick={() => iniciarEdicion(cat)}>Editar</button>
+                  <button onClick={() => eliminarCategoria(cat.idCategoria)}>Eliminar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Modal Agregar Categoría */}
+      {mostrarFormulario && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Agregar Categoría</h3>
+            <input
+              type="text"
+              placeholder="Nombre de la categoría"
+              value={nuevaCategoria}
+              onChange={(e) => setNuevaCategoria(e.target.value)}
+            />
+            <select
+              value={nuevoIdUsuario}
+              onChange={(e) => setNuevoIdUsuario(e.target.value)}
+            >
+              <option value="">Seleccione un administrador</option>
+              {usuariosAdmin.map((u) => (
+                <option key={u.idUsuario} value={u.idUsuario}>
+                  {u.nombre} (ID {u.idUsuario})
+                </option>
+              ))}
+            </select>
+            <div className="modal-buttons">
+              <button onClick={agregarCategoria}>Guardar</button>
+              <button onClick={() => setMostrarFormulario(false)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Editar Categoría */}
+      {editando && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Editar Categoría</h3>
+            <input
+              type="text"
+              placeholder="Nuevo nombre de la categoría"
+              value={editando.nombre}
+              onChange={(e) =>
+                setEditando({ ...editando, nombre: e.target.value })
+              }
+            />
+            <div className="modal-buttons">
+              <button onClick={guardarEdicion}>Guardar</button>
+              <button onClick={() => setEditando(null)}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default CrudCategorias;
