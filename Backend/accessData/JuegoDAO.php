@@ -101,9 +101,9 @@ class JuegoDAO {
     } catch (PDOException $e) {
         throw new Exception("Error en la actualización: " . $e->getMessage());
     }
+ }
+
 }
-
-
 
  
 
