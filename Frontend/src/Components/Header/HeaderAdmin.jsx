@@ -7,7 +7,7 @@ import "./HeaderCliente.css"; // Usamos el mismo estilo visual
 const AdminNavbar = () => {
   return (
     <nav className="navbar navbar-expand-lg px-4">
-      <Link className="navbar-brand" to="/admin/home">
+      <Link className="navbar-brand" to="/admin/dashboard">
         🛠 Panel Admin
       </Link>
 
@@ -25,11 +25,7 @@ const AdminNavbar = () => {
 
       <div className="collapse navbar-collapse" id="navbarAdmin">
         <ul className="navbar-nav ms-auto">
-          <li className="nav-item">
-            <Link className="nav-link" to="/admin/dashboard">
-              Dashboard
-            </Link>
-          </li>
+          
           <li className="nav-item">
             <Link className="nav-link" to="/admin/usuarios">
               Usuarios

@@ -28,7 +28,10 @@
   font-weight: 600;
   padding: 10px 20px;
   transition: background 0.2s, color 0.2s, border 0.2s;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: flex-end;
+  
 }
 
 .btn-agregar:hover {
@@ -143,7 +146,7 @@
 
 .modal-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: right;
   gap: 12px;
 }
 
@@ -202,4 +205,10 @@
 .btn-volver:hover {
   background-color: #00bfff;
   color: white;
+}
+
+.contenedor-btn-agregar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
 }

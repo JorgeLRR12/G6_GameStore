@@ -33,16 +33,17 @@ const descripciones = {
 
 // Al hacer clic en la tarjeta, muestro un modal con los detalles completos del juego
 const JuegoCard = ({
-  imagenUrl,
-  imagen,
-  titulo,
+  idJuego,
   nombre,
+  descripcion,
   precioOriginal,
   precioDescuento,
   descuento,
+  imagenUrl,
+  imagen, // ahora puede venir de la base de datos
   onAgregarCarrito,
   mostrarBotonAgregar,
-  descripcion, // Recibo la descripción específica si viene por props
+  ...props
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -62,15 +63,11 @@ const JuegoCard = ({
   // Si viene la descripción por props, la uso; si no, busco en el diccionario; si no, muestro la genérica
   const descripcionFinal =
     descripcion ||
-    descripciones[titulo] ||
+    descripciones[nombre] ||
     "Juego destacado en nuestra tienda. Consulta más detalles en la web oficial.";
 
-  // Imagen local: minúsculas y guiones bajos
-  const displayName = nombre || titulo;
-  let imgSrc = imagenUrl || imagen;
-  if (!imgSrc) {
-    imgSrc = `/img/${displayName.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`;
-  }
+  // Usar la imagen de la base de datos (imagen o imagenUrl), si no hay, mostrar una por defecto
+  const imgSrc = imagen || imagenUrl || "/img/default.jpg";
 
   return (
     <>
@@ -80,11 +77,20 @@ const JuegoCard = ({
         style={{ cursor: "pointer" }}
       >
         <div className="card-img-container">
-          <img src={imgSrc} className="card-img-top" alt={displayName} />
+          <img
+            src={imgSrc}
+            className="card-img-top"
+            alt={nombre}
+            style={{ objectFit: "cover", height: 200 }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/img/default.jpg";
+            }}
+          />
         </div>
         <div className="card-body">
           <small className="text-muted d-block mb-1">Juego base</small>
-          <h5 className="card-title fw-semibold">{displayName}</h5>
+          <h5 className="card-title fw-semibold">{nombre}</h5>
           <div className="d-flex justify-content-between align-items-center mt-3">
             {descuento && (
               <span className="badge bg-info text-dark">-{descuento}%</span>
@@ -127,10 +133,10 @@ const JuegoCard = ({
               &times;
             </button>
             <div className="modal-juego-img-wrapper">
-              <img src={imgSrc} alt={displayName} className="modal-juego-img" />
+              <img src={imgSrc} alt={nombre} className="modal-juego-img" />
             </div>
             <div className="modal-juego-info">
-              <h3 className="modal-juego-titulo">{titulo}</h3>
+              <h3 className="modal-juego-titulo">{nombre}</h3>
               <div className="modal-juego-precios">
                 {descuento && (
                   <span className="badge bg-info text-dark me-2">

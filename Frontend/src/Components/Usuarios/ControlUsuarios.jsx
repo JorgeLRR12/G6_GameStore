@@ -2,15 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../Context/AuthContext';
+import HeaderAdmin from "../Header/HeaderAdmin";
 import './ControlUsuarios.css';
-import { useNavigate } from 'react-router-dom';
+
 
 const ControlUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [mensaje, setMensaje] = useState('');
   const [usuarioEditando, setUsuarioEditando] = useState(null);
   const { usuario } = useAuth();
-  const navigate = useNavigate();
+  
 
   const API_URL = 'https://gamestorecr.onrender.com/API/usuario.php';
 
@@ -65,10 +66,12 @@ const ControlUsuarios = () => {
 
   const cerrarModal = () => setUsuarioEditando(null);
 
-  const volverInicio = () => navigate('/admin/dashboard');
+  
 
   return (
     <>
+       <HeaderAdmin />
+
       <div className={`categorias-wrapper ${usuarioEditando ? 'blur' : ''}`}>
         <h2 className="titulo-categorias">Control de Usuarios</h2>
         {mensaje && <div className="alert alert-info">{mensaje}</div>}
@@ -93,15 +96,16 @@ const ControlUsuarios = () => {
                 <td>{u.rol}</td>
                 <td>{u.fechaNacimiento}</td>
                 <td>
-                  <button className="btn-editar" onClick={() => abrirModalEdicion(u)}>Editar</button>
-                  <button className="btn-eliminar" onClick={() => eliminarUsuario(u.idUsuario)}>Eliminar</button>
+                  <div className="botones-accion">
+                    <button className="btn-editar" onClick={() => abrirModalEdicion(u)}>Editar</button>
+                    <button className="btn-eliminar" onClick={() => eliminarUsuario(u.idUsuario)}>Eliminar</button>
+                  </div>
                 </td>
               </tr>
+              
             ))}
           </tbody>
         </table>
-
-        <button className="btn-volver" onClick={volverInicio}>⬅ Regresar al inicio</button>
       </div>
 
       {usuarioEditando && (
