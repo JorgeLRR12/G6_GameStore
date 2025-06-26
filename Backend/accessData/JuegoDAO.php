@@ -50,7 +50,7 @@ class JuegoDAO {
         try {
             $conexion = Conexion::conectar();
             $sql = "INSERT INTO G6_juego (nombre, descripcion, precio, fechaLanzamiento, clasificacionEdad, idCategoria, idUsuario, imagen)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conexion->prepare($sql);
             return $stmt->execute([
                 $juego->getNombre(),
@@ -77,7 +77,9 @@ class JuegoDAO {
             throw new Exception("Error al eliminar juego: " . $e->getMessage());
         }
     }
-      public static function actualizar(Juego $juego) {
+    
+
+    public static function actualizar(Juego $juego) {
     try {
         $conexion = Conexion::conectar();
         $sql = "UPDATE G6_juego 
@@ -93,13 +95,14 @@ class JuegoDAO {
             $juego->getClasificacionEdad(),
             $juego->getIdCategoria(),
             $juego->getIdUsuario(),
-            $juego->getIdJuego(),
-            $juego->getImagen()
+            $juego->getImagen(),  // ✔️ Imagen va aquí
+            $juego->getIdJuego()  // ✔️ idJuego siempre debe ir al final del WHERE
         ]);
     } catch (PDOException $e) {
         throw new Exception("Error al actualizar juego: " . $e->getMessage());
     }
 }
+
 
 
 
