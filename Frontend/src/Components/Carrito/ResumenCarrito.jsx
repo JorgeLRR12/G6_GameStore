@@ -25,9 +25,6 @@ const ResumenCarrito = ({ total, juegos, setJuegos }) => {
         <span className="fs-4 text-info">₡{total.toLocaleString()}</span>
       </div>
       <div className="d-flex gap-2">
-        <button className="btn btn-outline-danger" onClick={vaciarCarrito}>
-          Vaciar carrito
-        </button>
         <button
           className="btn btn-success"
           onClick={finalizarCompra}

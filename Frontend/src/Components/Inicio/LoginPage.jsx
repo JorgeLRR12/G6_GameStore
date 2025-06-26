@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
-import "./LoginPage.css"; // Asegúrate de tener estilos acorde
+import "./LoginPage.css";
 import { Link } from "react-router-dom";
 
 const LoginPage = () => {
@@ -30,43 +30,62 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleLogin}>
-        <img src="/Img/logoGameStore.png" alt="Logo" className="login-logo" />
-
-        <h2 className="login-title">Sign In</h2>
-
-        {error && <p className="text-danger">{error}</p>}
-
-        <input
-          type="email"
-          placeholder="Email Address"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          className="login-input"
-          required
-        />
-
-        <input
-          type="password"
-          placeholder="Password"
-          value={clave}
-          onChange={(e) => setClave(e.target.value)}
-          className="login-input"
-          required
-        />
-
-        <button type="submit" className="login-button">
-          SIGN IN
-        </button>
-
-        <div className="login-footer">
-          <p>
-            ¿No tienes una cuenta?{" "}
-            <Link to="/registro">Regístrate para empezar a jugar</Link>
+    <div className="login-bg-gamer">
+      <div className="login-container-gamer">
+        <div className="login-card-gamer shadow-lg">
+          <div className="login-logo-wrapper">
+            <img
+              src="/img/logoStoreCR.png"
+              alt="Logo GameStore"
+              className="login-logo-gamer"
+            />
+          </div>
+          <h2 className="login-title-gamer">Bienvenido a GameStore</h2>
+          <p className="login-subtitle-gamer">
+            Inicia sesión para acceder a tu cuenta
           </p>
+          <form className="login-form-gamer" onSubmit={handleLogin}>
+            {error && (
+              <div className="alert alert-danger py-2 mb-3">{error}</div>
+            )}
+            <div className="mb-3">
+              <input
+                type="email"
+                placeholder="Correo electrónico"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
+                className="form-control login-input-gamer"
+                required
+                autoFocus
+              />
+            </div>
+            <div className="mb-4">
+              <input
+                type="password"
+                placeholder="Contraseña"
+                value={clave}
+                onChange={(e) => setClave(e.target.value)}
+                className="form-control login-input-gamer"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn btn-info w-100 login-btn-gamer"
+            >
+              Iniciar sesión
+            </button>
+          </form>
+          <div className="login-footer-gamer mt-4">
+            <span>
+              ¿No tienes una cuenta?{" "}
+              <Link to="/registro" className="login-link-gamer">
+                Regístrate para empezar a jugar
+              </Link>
+            </span>
+          </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
