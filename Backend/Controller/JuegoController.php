@@ -31,11 +31,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         $datos = json_decode(file_get_contents("php://input"), true);
         if (isset($datos['nombre'], $datos['descripcion'], $datos['precio'], $datos['fechaLanzamiento'],
-                  $datos['clasificacionEdad'], $datos['idCategoria'], $datos['idUsuario'])) {
+                  $datos['clasificacionEdad'], $datos['idCategoria'], $datos['idUsuario'], $datos['imagen'])) {
             try {
                 $juego = new Juego(null, $datos['nombre'], $datos['descripcion'], $datos['precio'],
                                 $datos['fechaLanzamiento'], $datos['clasificacionEdad'],
-                                $datos['idCategoria'], $datos['idUsuario']);
+                                $datos['idCategoria'], $datos['idUsuario'], $datos['imagen']);
                 $insertado = $dao->insertar($juego);
                 RespuestaJSON::enviarRespuesta(201, "Juego creado exitosamente", $insertado);
             } catch (Exception $e) {
@@ -70,7 +70,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
      case 'PUT':
     $datos = json_decode(file_get_contents("php://input"), true);
     if (isset($datos['idJuego'], $datos['nombre'], $datos['descripcion'], $datos['precio'],
-              $datos['fechaLanzamiento'], $datos['clasificacionEdad'], $datos['idCategoria'], $datos['idUsuario'])) {
+              $datos['fechaLanzamiento'], $datos['clasificacionEdad'], $datos['idCategoria'], $datos['idUsuario'], $datos['imagen'])) {
         try {
             $juego = new Juego(
                 $datos['idJuego'],
@@ -80,7 +80,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $datos['fechaLanzamiento'],
                 $datos['clasificacionEdad'],
                 $datos['idCategoria'],
-                $datos['idUsuario']
+                $datos['idUsuario'],
+                $datos['imagen']
             );
 
             $actualizado = $dao->actualizar($juego);

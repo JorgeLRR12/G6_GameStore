@@ -8,8 +8,9 @@ class Juego {
     public $clasificacionEdad;
     public $idCategoria;
     public $idUsuario;
+    public $imagen;
 
-    public function __construct($idJuego, $nombre, $descripcion, $precio, $fechaLanzamiento, $clasificacionEdad, $idCategoria, $idUsuario) {
+    public function __construct($idJuego, $nombre, $descripcion, $precio, $fechaLanzamiento, $clasificacionEdad, $idCategoria, $idUsuario, $imagen) {
         $this->idJuego = $idJuego;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
@@ -18,6 +19,7 @@ class Juego {
         $this->clasificacionEdad = $clasificacionEdad;
         $this->idCategoria = $idCategoria;
         $this->idUsuario = $idUsuario;
+        $this->imagen = $imagen;
     }
 
     // Getters
@@ -29,4 +31,5 @@ class Juego {
     public function getClasificacionEdad() { return $this->clasificacionEdad; }
     public function getIdCategoria() { return $this->idCategoria; }
     public function getIdUsuario() { return $this->idUsuario; }
+    public function getImagen() { return $this->imagen; }
 }
