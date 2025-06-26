@@ -1,3 +1,4 @@
+// Compra: RegistroCompra.jsx
 import React from "react";
 import "./RegistroCompra.css";
 

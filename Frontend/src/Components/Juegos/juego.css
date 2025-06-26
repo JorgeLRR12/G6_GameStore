@@ -1,0 +1,170 @@
+/* Contenedor principal */
+.juegos-container {
+  max-width: 1150px;
+  width: 97vw;
+  margin: 48px auto;
+  padding: 48px 36px;
+  background: linear-gradient(120deg, #232a34 80%, #00bfff22 100%);
+  border-radius: 22px;
+  box-shadow: 0 10px 40px rgba(0, 191, 255, 0.13), 0 2px 12px #000a;
+  border: 2.5px solid #232a34;
+  color: white;
+}
+
+/* Título */
+.titulo-juegos {
+  color: #00e6ff;
+  text-shadow: 0 2px 16px #00bfff44, 0 0 8px #00e6ff33;
+  font-family: "Orbitron", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+/* Botón agregar */
+.btn-agregar-juego {
+  background: #00bfff;
+  color: white;
+  border: 2px solid #00bfff;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+.btn-agregar-juego:hover {
+  background: #232a34;
+  color: #00e6ff;
+  border-color: #00e6ff;
+}
+
+/* Tabla */
+.tabla-juegos {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 14px;
+}
+
+.tabla-juegos th,
+.tabla-juegos td {
+  padding: 16px;
+  text-align: left;
+  border: none;
+}
+
+.tabla-juegos th {
+  color: #8fdfff;
+  border-bottom: 2.5px solid #00bfff33;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.tabla-juegos tr {
+  background: rgba(44, 48, 56, 0.93);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 191, 255, 0.06);
+  transition: background 0.18s, box-shadow 0.18s;
+}
+
+.tabla-juegos tr:nth-child(even) {
+  background: rgba(38, 42, 50, 0.96);
+}
+
+.tabla-juegos tr:hover {
+  background: rgba(0, 191, 255, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 191, 255, 0.22);
+}
+
+/* Botones acciones */
+.btn-editar {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+
+.btn-editar:hover {
+  background-color: #0056b3;
+}
+
+.btn-eliminar {
+  background-color: #ff4c4c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+
+.btn-eliminar:hover {
+  background-color: #d7263d;
+}
+
+/* Formulario */
+.formulario-juego {
+  background: rgba(30, 34, 40, 0.98);
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: 0 4px 18px rgba(0, 191, 255, 0.1);
+}
+
+.formulario-juego label {
+  color: #8fdfff;
+  font-weight: 500;
+}
+
+.formulario-juego input,
+.formulario-juego textarea {
+  background: #232a34;
+  border: 1.5px solid #00bfff55;
+  color: white;
+}
+
+.formulario-juego input:focus,
+.formulario-juego textarea:focus {
+  border-color: #00e6ff;
+  outline: none;
+}
+
+.btn-guardar {
+  background: linear-gradient(90deg, #00bfff 60%, #232a34 100%);
+  color: white;
+  border: 2px solid #00bfff;
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 0.7rem 1.5rem;
+}
+
+.btn-guardar:hover {
+  background: #232a34;
+  color: #00e6ff;
+  border-color: #00e6ff;
+}
+
+.btn-cancelar {
+  background-color: transparent;
+  border: 2px solid #ff4c4c;
+  color: #ff4c4c;
+  border-radius: 10px;
+  padding: 0.7rem 1.5rem;
+}
+
+.btn-cancelar:hover {
+  background-color: #ff4c4c;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .juegos-container {
+    padding: 1.2rem 0.8rem;
+    max-width: 99vw;
+  }
+  .titulo-juegos {
+    font-size: 1.4rem;
+  }
+  .tabla-juegos th,
+  .tabla-juegos td {
+    padding: 8px 4px;
+    font-size: 0.9rem;
+  }
+}

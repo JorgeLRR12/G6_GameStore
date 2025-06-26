@@ -1,3 +1,5 @@
+// Carrrito CarritoPage.jsx 
+
 import React, { useEffect, useState } from "react";
 import CarritoJuegoItem from "./CarritoJuegoItem.jsx";
 import ResumenCarrito from "./ResumenCarrito.jsx";

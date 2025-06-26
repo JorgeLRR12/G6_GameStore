@@ -1,3 +1,5 @@
+// Carrito: CarritoJuegoItem.jsx
+
 import React from "react";
 
 // Componente para mostrar un juego dentro del carrito

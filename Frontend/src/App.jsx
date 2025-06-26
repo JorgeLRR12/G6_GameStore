@@ -10,6 +10,10 @@ import RegistroCompra from "./Components/Compra/RegistroCompra.jsx";
 import Unauthorized from "./Components/Inicio/Unauthorized.jsx";
 import PrivateRoute from "./Routes/PrivateRoute.jsx";
 import ControlUsuarios from './Components/Usuarios/ControlUsuarios.jsx';
+import JuegosPage from "./Components/Juegos/JuegosPage.jsx";
+import ListaJuegos from "./Components/Juegos/ListaJuegos.jsx";
+import FormularioJuego from "./Components/Juegos/FormularioJuego.jsx";
+
 
 import "./App.css";
 
@@ -54,6 +58,19 @@ function App() {
           </PrivateRoute>
         }
       />
+         <Route
+        path="/juegos"
+        element={
+          <PrivateRoute rolPermitido="Cliente">
+            <JuegosPage />
+          </PrivateRoute>
+        }
+      />
+
+
+
+
+
 
       {/* Admin */}
       <Route
@@ -81,6 +98,38 @@ function App() {
           </PrivateRoute>
         }
       />
+
+  
+       <Route
+        path="/juegos-admin"
+        element={
+          <PrivateRoute rolPermitido="Administrador">
+            <ListaJuegos />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/juegos/registrar"
+        element={
+          <PrivateRoute rolPermitido="Administrador">
+            <FormularioJuego />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/juegos/editar/:id"
+        element={
+          <PrivateRoute rolPermitido="Administrador">
+            <FormularioJuego />
+          </PrivateRoute>
+        }
+      />
+
+
+
+
+
+
 
 
     </Routes>

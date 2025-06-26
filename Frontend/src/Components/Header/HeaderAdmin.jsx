@@ -1,3 +1,4 @@
+// Header: HeaderAdmin.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -39,6 +40,17 @@ const AdminNavbar = () => {
               Categorías
             </Link>
           </li>
+          {/* <li className="nav-item">
+            <Link className="nav-link" to="/juegos">
+              Juegos
+            </Link>
+          </li> */}
+          <li className="nav-item">
+          <Link className="nav-link" to="/juegos-admin">
+            Juegos
+          </Link>
+        </li>
+
           <li className="nav-item">
             <Link className="nav-link" to="/admin/desarrolladores">
               Desarrolladores
@@ -49,11 +61,11 @@ const AdminNavbar = () => {
               Promociones
             </Link>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link className="nav-link" to="../Soporte/SoportaAdminPage.jsx">
               Juegos
             </Link>
-          </li>
+          </li> */}
           <li className="nav-item">
             <Link className="nav-link" to="/admin/compras">
               Compras
