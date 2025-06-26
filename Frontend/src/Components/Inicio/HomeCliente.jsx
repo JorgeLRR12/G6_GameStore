@@ -3,7 +3,42 @@ import NavbarCliente from "../Header/HeaderCliente.jsx";
 import PromocionesCliente from "../Promociones/Promociones.jsx";
 import { useAuth } from "../../Context/AuthContext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./HomeCliente.css";
+
+const TRAILERS = [
+  {
+    titulo: "The Last of Us Part II",
+    url: "https://www.youtube-nocookie.com/embed/JdE9U9WW_HM?si=jHQDGTJTZu2T9sr1",
+  },
+  {
+    titulo: "Days Gone",
+    url: "https://www.youtube-nocookie.com/embed/9kCjoIBVWaU?si=0qj7ZUEIePD5RuLh",
+  },
+  {
+    titulo: "God Of War: Ragnarok",
+    url: "https://www.youtube-nocookie.com/embed/dIQGI36BxDE?si=oGR69lUsdi8lAODy",
+  },
+  {
+    titulo: "Spider-Man Miles Morales",
+    url: "https://www.youtube-nocookie.com/embed/IG5fUY7mimQ?si=H2SS0J5WM6XIvcd_",
+  },
+  {
+    titulo: "Call of Duty: Modern Warfare III",
+    url: "https://www.youtube-nocookie.com/embed/DZNSOEVJtok?si=0nwDfIr7S9zt6bQ6",
+  },
+  {
+    titulo: "Dying Light 2",
+    url: "https://www.youtube-nocookie.com/embed/cOgpChpiNEk?si=rC0OsG0X6pAZIRMJ",
+  },
+];
+
+// Trailer destacado de The Witcher 3: Wild Hunt
+const WITCHER_TRAILER = {
+  titulo: "The Witcher 3: Wild Hunt",
+  // Agrega loop=1&playlist=... para que YouTube haga loop (truco oficial)
+  url: "https://www.youtube-nocookie.com/embed/X8Bh7esrGkM?si=Zz70sfLy3YggnHmx&autoplay=1&mute=1&loop=1&playlist=X8Bh7esrGkM",
+};
 
 const HomeCliente = () => {
   const [juegosTop, setJuegosTop] = useState([]);
@@ -14,6 +49,7 @@ const HomeCliente = () => {
   });
   const carruselRef = useRef(null);
   const { usuario } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJuegos = async () => {
@@ -164,7 +200,65 @@ const HomeCliente = () => {
           ))}
         </div>
       </section>
-      <PromocionesCliente usuario={usuario} />
+      {/* Trailer destacado grande */}
+      <section className="witcher-trailer-section mb-5">
+        <div className="witcher-trailer-bg">
+          <div className="witcher-trailer-content">
+            <div className="witcher-trailer-video-wrapper">
+              <iframe
+                src={WITCHER_TRAILER.url}
+                title={WITCHER_TRAILER.titulo}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                frameBorder="0"
+                className="witcher-trailer-iframe"
+              />
+              {/* El overlay ya no se muestra */}
+            </div>
+            <div className="witcher-trailer-info">
+              <h2 className="witcher-trailer-titulo">
+                <span role="img" aria-label="witcher">⚔️</span> {WITCHER_TRAILER.titulo}
+              </h2>
+              <button
+                className="btn btn-outline-warning witcher-trailer-btn"
+                onClick={() => navigate("/juegos")}
+              >
+                Ir al catálogo
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* Sección de trailers de juegos */}
+      <section className="trailers-section mt-5 mb-5">
+        <h2 className="trailers-titulo mb-4">🎬 Trailers destacados</h2>
+        <div className="trailers-grid">
+          {TRAILERS.map((trailer, idx) => (
+            <div className="trailer-card" key={idx}>
+              <div className="trailer-video-wrapper">
+                <iframe
+                  src={trailer.url}
+                  title={trailer.titulo}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  frameBorder="0"
+                  className="trailer-iframe"
+                />
+              </div>
+              <div className="trailer-info">
+                <h5 className="trailer-titulo">{trailer.titulo}</h5>
+                <button
+                  className="btn btn-outline-info btn-sm trailer-btn"
+                  onClick={() => navigate("/juegos")}
+                >
+                  Ir al catálogo
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* <PromocionesCliente usuario={usuario} /> */}
     </>
   );
 };
