@@ -79,7 +79,7 @@ class JuegoDAO {
     }
     
 
-    public static function actualizar(Juego $juego) {
+ public static function actualizar(Juego $juego) {
     try {
         $conexion = Conexion::conectar();
         $sql = "UPDATE G6_juego 
@@ -95,18 +95,19 @@ class JuegoDAO {
             $juego->getClasificacionEdad(),
             $juego->getIdCategoria(),
             $juego->getIdUsuario(),
-            $juego->getImagen(),  // ✔️ Imagen va aquí
-            $juego->getIdJuego()  // ✔️ idJuego siempre debe ir al final del WHERE
+            $juego->getImagen(),
+            $juego->getIdJuego() // ✔️ Aquí debe ir
         ]);
     } catch (PDOException $e) {
-        throw new Exception("Error al actualizar juego: " . $e->getMessage());
+        throw new Exception("Error en la actualización: " . $e->getMessage());
     }
 }
 
 
 
+ 
 
 
 
-}
+
 
