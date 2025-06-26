@@ -99,7 +99,7 @@ const JuegosPage = () => {
           {toast.mensaje}
         </div>
       )}
-      <h2 className="titulo-juegos mb-4">{/* ...existing code... */}</h2>
+      <h2 className="titulo-juegos mb-4">🎮 Catálogo de Juegos</h2>
       {cargando ? (
         <div className="text-center text-light">Cargando juegos...</div>
       ) : juegos.length === 0 ? (
@@ -124,7 +124,9 @@ const JuegosPage = () => {
                   }}
                 />
                 <div className="card-body d-flex flex-column">
-                  <h5 className="card-title juego-card-title">{juego.nombre}</h5>
+                  <h5 className="card-title juego-card-title">
+                    {juego.nombre}
+                  </h5>
                   <p className="card-text flex-grow-1 juego-card-desc">
                     {juego.descripcion}
                   </p>
@@ -162,10 +164,7 @@ const JuegosPage = () => {
 
       {/* Modal para detalles del juego */}
       {modalJuego && (
-        <div
-          className="modal-juego-bg"
-          onClick={handleCloseModal}
-        >
+        <div className="modal-juego-bg" onClick={handleCloseModal}>
           <div className="modal-juego-contenido">
             <button
               className="btn-cerrar-modal"
@@ -186,7 +185,9 @@ const JuegosPage = () => {
               />
             </div>
             <h3 className="modal-juego-titulo">{modalJuego.nombre}</h3>
-            <div className="modal-juego-descripcion">{modalJuego.descripcion}</div>
+            <div className="modal-juego-descripcion">
+              {modalJuego.descripcion}
+            </div>
             <div className="modal-juego-precio">
               ₡{parseFloat(modalJuego.precio).toLocaleString()}
             </div>
@@ -207,7 +208,5 @@ const JuegosPage = () => {
     </div>
   );
 };
-
-
 
 export default JuegosPage;
