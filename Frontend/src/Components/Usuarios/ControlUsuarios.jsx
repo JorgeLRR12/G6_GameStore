@@ -1,3 +1,4 @@
+// src/Components/Usuario/ControlUsuarios.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../Context/AuthContext';
@@ -11,7 +12,6 @@ const ControlUsuarios = () => {
   const { usuario } = useAuth();
   const navigate = useNavigate();
 
-  // const API_URL = 'http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/usuario.php';
   const API_URL = 'https://gamestorecr.onrender.com/API/usuario.php';
 
   useEffect(() => {
@@ -68,44 +68,46 @@ const ControlUsuarios = () => {
   const volverInicio = () => navigate('/admin/dashboard');
 
   return (
-    <div className="container">
-      <h2>Control de Usuarios</h2>
-      {mensaje && <div className="alert alert-info">{mensaje}</div>}
-      <table className="table table-bordered mt-3">
-        <thead className="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Rol</th>
-            <th>Fecha Nacimiento</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {usuarios.map((u) => (
-            <tr key={u.idUsuario}>
-              <td>{u.idUsuario}</td>
-              <td>{u.nombre}</td>
-              <td>{u.correo}</td>
-              <td>{u.rol}</td>
-              <td>{u.fechaNacimiento}</td>
-              <td>
-                <button className="btn btn-primary btn-sm me-2" onClick={() => abrirModalEdicion(u)}>Editar</button>
-                <button className="btn btn-danger btn-sm" onClick={() => eliminarUsuario(u.idUsuario)}>Eliminar</button>
-              </td>
+    <>
+      <div className={`categorias-wrapper ${usuarioEditando ? 'blur' : ''}`}>
+        <h2 className="titulo-categorias">Control de Usuarios</h2>
+        {mensaje && <div className="alert alert-info">{mensaje}</div>}
+
+        <table className="tabla-categorias">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Fecha Nacimiento</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {usuarios.map((u) => (
+              <tr key={u.idUsuario}>
+                <td>{u.idUsuario}</td>
+                <td>{u.nombre}</td>
+                <td>{u.correo}</td>
+                <td>{u.rol}</td>
+                <td>{u.fechaNacimiento}</td>
+                <td>
+                  <button className="btn-editar" onClick={() => abrirModalEdicion(u)}>Editar</button>
+                  <button className="btn-eliminar" onClick={() => eliminarUsuario(u.idUsuario)}>Eliminar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      <button className="btn btn-secondary mt-4" onClick={volverInicio}>← Regresar al Inicio</button>
+        <button className="btn-volver" onClick={volverInicio}>⬅ Regresar al inicio</button>
+      </div>
 
-      {/* Modal de edición */}
       {usuarioEditando && (
-        <div className="modal-overlay">
+        <div className="modal">
           <div className="modal-content">
-            <h4>Editar Usuario</h4>
+            <h3>Editar Usuario</h3>
             <input
               value={usuarioEditando.nombre}
               onChange={(e) => setUsuarioEditando({ ...usuarioEditando, nombre: e.target.value })}
@@ -123,15 +125,14 @@ const ControlUsuarios = () => {
               <option value="Administrador">Administrador</option>
               <option value="Cliente">Cliente</option>
             </select>
-
-            <div className="d-flex justify-content-end">
-              <button className="btn btn-primary me-2" onClick={guardarCambios}>Guardar</button>
-              <button className="btn btn-secondary" onClick={cerrarModal}>Cancelar</button>
+            <div className="modal-buttons">
+              <button onClick={guardarCambios}>Guardar</button>
+              <button onClick={cerrarModal}>Cancelar</button>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
