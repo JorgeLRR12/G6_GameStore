@@ -7,6 +7,8 @@ import "./Carrito.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
+import ClienteNavbar from "../Header/HeaderCliente";
+
 
 // Página principal del carrito de compras
 const CarritoPage = () => {
@@ -166,74 +168,78 @@ const CarritoPage = () => {
   }, [cargando, juegos.length]);
 
   return (
-    <div className="carrito-container container mt-5 mb-5">
-      {/* Toast para avisos */}
-      {toast.show && (
-        <div
-          className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
-          style={{
-            zIndex: 9999,
-            minWidth: 260,
-            fontSize: "1.1rem",
-            letterSpacing: "0.5px",
-          }}
-        >
-          {toast.mensaje}
-        </div>
-      )}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h2 className="titulo-carrito m-0">🛒 Mi carrito</h2>
-          {usuario && (
-            <div
-              className="text-info fw-semibold mt-1"
-              style={{ fontSize: "1.1rem" }}
-            >
-              {usuario.nombre}, estos son los juegos de tu carrito.
-            </div>
-          )}
-        </div>
-        <button
-          className="btn btn-outline-info btn-volver-tienda"
-          onClick={handleRegresar}
-        >
-          <i className="bi bi-arrow-left"></i> Volver a la tienda
-        </button>
-      </div>
-      {cargando ? (
-        <div className="text-center text-light">Cargando carrito...</div>
-      ) : juegos.length === 0 ? (
-        // El toast ya muestra el aviso, así que solo deja el espacio visual
-        <div style={{ minHeight: 120 }}></div>
-      ) : (
-        <>
-          <div className="tabla-carrito table-responsive rounded-3 shadow">
-            <table className="table table-dark table-hover align-middle mb-0">
-              <thead>
-                <tr>
-                  <th>Juego</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                  <th>Subtotal</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {juegos.map((juego) => (
-                  <CarritoJuegoItem
-                    key={juego.idJuego}
-                    juego={juego}
-                    onEliminar={eliminarJuego}
-                    onCantidad={cambiarCantidad}
-                  />
-                ))}
-              </tbody>
-            </table>
+    <>
+      <ClienteNavbar />
+      <div className="carrito-container container mt-5 mb-5">
+        {/* Toast para avisos */}
+        {toast.show && (
+          <div
+            className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
+            style={{
+              zIndex: 9999,
+              minWidth: 260,
+              fontSize: "1.1rem",
+              letterSpacing: "0.5px",
+            }}
+          >
+            {toast.mensaje}
           </div>
-          <ResumenCarrito total={total} juegos={juegos} setJuegos={setJuegos} />
-        </>
-      )}
-    </div>
+        )}
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h2 className="titulo-carrito m-0">🛒 Mi carrito</h2>
+            {usuario && (
+              <div
+                className="text-info fw-semibold mt-1"
+                style={{ fontSize: "1.1rem" }}
+              >
+                {usuario.nombre}, estos son los juegos de tu carrito.
+              </div>
+            )}
+          </div>
+          <button
+            className="btn btn-outline-info btn-volver-tienda"
+            onClick={handleRegresar}
+          >
+            <i className="bi bi-arrow-left"></i> Volver a la tienda
+          </button>
+        </div>
+        {cargando ? (
+          <div className="text-center text-light">Cargando carrito...</div>
+        ) : juegos.length === 0 ? (
+          // El toast ya muestra el aviso, así que solo deja el espacio visual
+          <div style={{ minHeight: 120 }}></div>
+        ) : (
+          <>
+            <div className="tabla-carrito table-responsive rounded-3 shadow">
+              <table className="table table-dark table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Juego</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {juegos.map((juego) => (
+                    <CarritoJuegoItem
+                      key={juego.idJuego}
+                      juego={juego}
+                      onEliminar={eliminarJuego}
+                      onCantidad={cambiarCantidad}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <ResumenCarrito total={total} juegos={juegos} setJuegos={setJuegos} />
+          </>
+        )}
+      </div>
+    </>
+
   );
 };
 

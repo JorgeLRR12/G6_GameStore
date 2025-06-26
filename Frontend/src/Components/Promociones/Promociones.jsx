@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import JuegoCard from "../Cards/JuegoCard.jsx";
 import "./Promociones.css";
 import axios from "axios";
+import ClienteNavbar from "../Header/HeaderCliente";
 
 const PromocionesCliente = ({ usuario }) => {
   const [juegos, setJuegos] = useState([]);
@@ -88,47 +89,50 @@ const PromocionesCliente = ({ usuario }) => {
   };
 
   return (
-    <div className="contenedor-promociones">
-      <div className="container">
-        <h2 className="mb-4 fw-bold text-white text-center">
-          🎯 Selección de descuentos
-        </h2>
-        {/* Toast elegante para avisos */}
-        {toast.show && (
-          <div
-            className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
-            style={{
-              zIndex: 9999,
-              minWidth: 260,
-              fontSize: "1.1rem",
-              letterSpacing: "0.5px",
-            }}
-          >
-            {toast.mensaje}
-          </div>
-        )}
-        <div className="row">
-          {juegos.map((juego) => (
+    <>
+      <ClienteNavbar />
+      <div className="contenedor-promociones">
+        <div className="container">
+          <h2 className="mb-4 fw-bold text-white text-center">
+            🎯 Selección de descuentos
+          </h2>
+          {/* Toast elegante para avisos */}
+          {toast.show && (
             <div
-              className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
-              key={juego.idJuego}
+              className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
+              style={{
+                zIndex: 9999,
+                minWidth: 260,
+                fontSize: "1.1rem",
+                letterSpacing: "0.5px",
+              }}
             >
-              <JuegoCard
-                {...juego}
-                imagen={juego.imagen}
-                onAgregarCarrito={
-                  usuario && usuario.rol === "Cliente"
-                    ? () => handleAgregarCarrito(juego.idJuego)
-                    : undefined
-                }
-                mostrarBotonAgregar={usuario && usuario.rol === "Cliente"}
-                descripcion={juego.descripcion}
-              />
+              {toast.mensaje}
             </div>
-          ))}
+          )}
+          <div className="row">
+            {juegos.map((juego) => (
+              <div
+                className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+                key={juego.idJuego}
+              >
+                <JuegoCard
+                  {...juego}
+                  imagen={juego.imagen}
+                  onAgregarCarrito={
+                    usuario && usuario.rol === "Cliente"
+                      ? () => handleAgregarCarrito(juego.idJuego)
+                      : undefined
+                  }
+                  mostrarBotonAgregar={usuario && usuario.rol === "Cliente"}
+                  descripcion={juego.descripcion}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
