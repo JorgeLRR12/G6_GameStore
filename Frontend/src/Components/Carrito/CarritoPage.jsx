@@ -1,4 +1,4 @@
-// Carrrito CarritoPage.jsx 
+// Carrrito CarritoPage.jsx
 
 import React, { useEffect, useState } from "react";
 import CarritoJuegoItem from "./CarritoJuegoItem.jsx";
@@ -20,27 +20,24 @@ const CarritoPage = () => {
   const navigate = useNavigate();
   // Obtengo el usuario autenticado desde el contexto
   const { usuario } = useAuth();
+  const [toast, setToast] = useState({
+    show: false,
+    mensaje: "",
+    tipo: "info",
+  });
 
   // Cuando el componente se monta, busco el carrito del usuario y luego los juegos
   useEffect(() => {
     // Si no hay usuario, no hago nada
     if (!usuario) return;
 
-    // Solo los clientes pueden tener carrito, si es admin lo saco de aquí
-    if (usuario.rol !== "Cliente") {
-      setCargando(false);
-      setJuegos([]);
-      setIdCarrito(null);
-      return;
-    }
-
+    // Ya no se restringe solo a clientes
     // Busco el carrito del usuario, si no existe lo creo
     const fetchOrCreateCarrito = async () => {
       try {
         // Consulto si ya existe un carrito para este usuario
         const res = await axios.get(
-          `https://gamestorecr.onrender.com/API/carrito.php
-?idUsuario=${usuario.idUsuario}`
+          `https://gamestorecr.onrender.com/API/carrito.php?idUsuario=${usuario.idUsuario}`
         );
         let carrito = res.data.datos && res.data.datos[0];
 
@@ -77,12 +74,11 @@ const CarritoPage = () => {
               `https://gamestorecr.onrender.com/API/juego.php?id=${item.idJuego}`
             );
             const juego = resJuego.data.datos;
-            // Aquí puedo agregar la imagen si la manejo en frontend
-            // Si el backend no tiene imagen, uso una por defecto
+            // Ahora la imagen viene desde la base de datos (campo imagen)
             return {
               idJuego: juego.idJuego,
               nombre: juego.nombre,
-              imagen: `/img/${juego.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
+              imagen: juego.imagen, // Uso la url de imagen de la base de datos directamente
               precio: parseFloat(juego.precio),
               cantidad: 1,
             };
@@ -102,12 +98,9 @@ const CarritoPage = () => {
   const eliminarJuego = (idJuego) => {
     setJuegos(juegos.filter((j) => j.idJuego !== idJuego));
     if (idCarrito) {
-      axios.delete(
-        `https://gamestorecr.onrender.com/API/carritojuego.php`,
-        {
-          data: { idCarrito, idJuego },
-        }
-      );
+      axios.delete(`https://gamestorecr.onrender.com/API/carritojuego.php`, {
+        data: { idCarrito, idJuego },
+      });
     }
   };
 
@@ -156,21 +149,50 @@ const CarritoPage = () => {
     navigate("/");
   };
 
-  // Si el usuario no es cliente, muestro solo un mensaje
-  if (usuario && usuario.rol !== "Cliente") {
-    return (
-      <div className="carrito-container container mt-5 mb-5">
-        <div className="alert alert-warning text-center">
-          El carrito solo está disponible para clientes.
-        </div>
-      </div>
-    );
-  }
+  // Mostrar toast si el carrito está vacío
+  useEffect(() => {
+    if (!cargando && juegos.length === 0) {
+      setToast({
+        show: true,
+        mensaje: "Tu carrito está vacío. ¡Agrega juegos para comenzar!",
+        tipo: "info",
+      });
+      const timer = setTimeout(
+        () => setToast({ show: false, mensaje: "", tipo: "info" }),
+        2500
+      );
+      return () => clearTimeout(timer);
+    }
+  }, [cargando, juegos.length]);
 
   return (
     <div className="carrito-container container mt-5 mb-5">
+      {/* Toast para avisos */}
+      {toast.show && (
+        <div
+          className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
+          style={{
+            zIndex: 9999,
+            minWidth: 260,
+            fontSize: "1.1rem",
+            letterSpacing: "0.5px",
+          }}
+        >
+          {toast.mensaje}
+        </div>
+      )}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="titulo-carrito m-0">🛒 Mi carrito</h2>
+        <div>
+          <h2 className="titulo-carrito m-0">🛒 Mi carrito</h2>
+          {usuario && (
+            <div
+              className="text-info fw-semibold mt-1"
+              style={{ fontSize: "1.1rem" }}
+            >
+              {usuario.nombre}, estos son los juegos de tu carrito.
+            </div>
+          )}
+        </div>
         <button
           className="btn btn-outline-info btn-volver-tienda"
           onClick={handleRegresar}
@@ -181,12 +203,8 @@ const CarritoPage = () => {
       {cargando ? (
         <div className="text-center text-light">Cargando carrito...</div>
       ) : juegos.length === 0 ? (
-        <div className="alert alert-info text-center">
-          El carrito está vacío.{" "}
-          <a href="/" className="enlace-tienda">
-            Ir a la tienda
-          </a>
-        </div>
+        // El toast ya muestra el aviso, así que solo deja el espacio visual
+        <div style={{ minHeight: 120 }}></div>
       ) : (
         <>
           <div className="tabla-carrito table-responsive rounded-3 shadow">

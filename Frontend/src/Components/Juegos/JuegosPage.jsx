@@ -10,9 +10,10 @@ const JuegosPage = () => {
     const cargarJuegos = async () => {
       try {
         const datos = await obtenerJuegos();
+        // Ahora la imagen viene directamente desde la base de datos (campo imagen)
         const juegosConImagen = (datos || []).map((juego) => ({
           ...juego,
-          imagen: `/img/${juego.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
+          imagen: juego.imagen, // No generes la ruta, usa la que viene de la BD
         }));
         setJuegos(juegosConImagen);
       } catch (error) {
@@ -39,10 +40,14 @@ const JuegosPage = () => {
             <div className="col-md-4 mb-4" key={juego.idJuego}>
               <div className="card h-100 bg-dark text-white border-0 shadow">
                 <img
-                  src={juego.imagen}
+                  src={juego.imagen || "/img/default.jpg"}
                   className="card-img-top"
                   alt={juego.nombre}
                   style={{ height: "200px", objectFit: "cover" }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/img/default.jpg";
+                  }}
                 />
                 <div className="card-body d-flex flex-column">
                   <h5 className="card-title">{juego.nombre}</h5>
@@ -55,7 +60,9 @@ const JuegosPage = () => {
                     <strong>₡{parseFloat(juego.precio).toLocaleString()}</strong>
                     <button
                       className="btn btn-outline-info btn-sm"
-                      onClick={() => alert("Aquí se puede abrir un modal de detalle")}
+                      onClick={() =>
+                        alert("Aquí se puede abrir un modal de detalle")
+                      }
                     >
                       Ver más
                     </button>
