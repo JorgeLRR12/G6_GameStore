@@ -16,7 +16,7 @@ class JuegoDAO {
                 $juegos[] = new Juego(
                     $fila['idJuego'], $fila['nombre'], $fila['descripcion'], $fila['precio'],
                     $fila['fechaLanzamiento'], $fila['clasificacionEdad'],
-                    $fila['idCategoria'], $fila['idUsuario']
+                    $fila['idCategoria'], $fila['idUsuario'], $fila['imagen']
                 );
             }
             return $juegos;
@@ -37,7 +37,7 @@ class JuegoDAO {
                 return new Juego(
                     $fila['idJuego'], $fila['nombre'], $fila['descripcion'], $fila['precio'],
                     $fila['fechaLanzamiento'], $fila['clasificacionEdad'],
-                    $fila['idCategoria'], $fila['idUsuario']
+                    $fila['idCategoria'], $fila['idUsuario'], $fila['imagen']
                 );
             }
             return null;
@@ -49,7 +49,7 @@ class JuegoDAO {
     public static function insertar(Juego $juego) {
         try {
             $conexion = Conexion::conectar();
-            $sql = "INSERT INTO G6_juego (nombre, descripcion, precio, fechaLanzamiento, clasificacionEdad, idCategoria, idUsuario)
+            $sql = "INSERT INTO G6_juego (nombre, descripcion, precio, fechaLanzamiento, clasificacionEdad, idCategoria, idUsuario, imagen)
                     VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conexion->prepare($sql);
             return $stmt->execute([
@@ -59,7 +59,8 @@ class JuegoDAO {
                 $juego->getFechaLanzamiento(),
                 $juego->getClasificacionEdad(),
                 $juego->getIdCategoria(),
-                $juego->getIdUsuario()
+                $juego->getIdUsuario(),
+                $juego->getImagen()
             ]);
         } catch (PDOException $e) {
             throw new Exception("Error al insertar juego: " . $e->getMessage());
@@ -81,7 +82,7 @@ class JuegoDAO {
         $conexion = Conexion::conectar();
         $sql = "UPDATE G6_juego 
                 SET nombre = ?, descripcion = ?, precio = ?, fechaLanzamiento = ?, 
-                    clasificacionEdad = ?, idCategoria = ?, idUsuario = ?
+                    clasificacionEdad = ?, idCategoria = ?, idUsuario = ?, imagen = ?
                 WHERE idJuego = ?";
         $stmt = $conexion->prepare($sql);
         return $stmt->execute([
@@ -92,7 +93,8 @@ class JuegoDAO {
             $juego->getClasificacionEdad(),
             $juego->getIdCategoria(),
             $juego->getIdUsuario(),
-            $juego->getIdJuego()
+            $juego->getIdJuego(),
+            $juego->getImagen()
         ]);
     } catch (PDOException $e) {
         throw new Exception("Error al actualizar juego: " . $e->getMessage());

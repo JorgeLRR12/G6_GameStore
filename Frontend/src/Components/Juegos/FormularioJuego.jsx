@@ -16,10 +16,27 @@ const FormularioJuego = () => {
     fechaLanzamiento: "",
     clasificacionEdad: "",
     idCategoria: "",
+    imagen: "", // 👈 Nuevo campo imagen
   });
+
+  const [preview, setPreview] = useState(null);
 
   const handleChange = (e) => {
     setJuego({ ...juego, [e.target.name]: e.target.value });
+  };
+
+  // 🔥 Manejador de imágenes
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = `/img/${file.name}`;
+      setJuego({ ...juego, imagen: imageUrl });
+      setPreview(URL.createObjectURL(file));
+
+      // ✅ Copia manual: Debes copiar la imagen a la carpeta public/img
+      // React no permite mover archivos directamente a public.
+      alert(`Recuerda mover la imagen a la carpeta public/img manualmente o por FTP en producción`);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -51,6 +68,7 @@ const FormularioJuego = () => {
         const datos = await obtenerJuegoPorId(id);
         if (datos && datos.length > 0) {
           setJuego(datos[0]);
+          setPreview(datos[0].imagen);
         }
       };
       cargarJuego();
@@ -61,30 +79,48 @@ const FormularioJuego = () => {
     <div className="container mt-5">
       <h2>{id ? "Editar Juego" : "Registrar Juego"}</h2>
       <form onSubmit={handleSubmit} className="formulario-juego">
+
         <div className="mb-3">
           <label>Nombre</label>
           <input type="text" name="nombre" value={juego.nombre} onChange={handleChange} className="form-control" />
         </div>
+
         <div className="mb-3">
           <label>Descripción</label>
           <textarea name="descripcion" value={juego.descripcion} onChange={handleChange} className="form-control" />
         </div>
+
         <div className="mb-3">
           <label>Precio</label>
           <input type="number" name="precio" value={juego.precio} onChange={handleChange} className="form-control" />
         </div>
+
         <div className="mb-3">
           <label>Fecha Lanzamiento</label>
           <input type="date" name="fechaLanzamiento" value={juego.fechaLanzamiento} onChange={handleChange} className="form-control" />
         </div>
+
         <div className="mb-3">
           <label>Clasificación Edad</label>
           <input type="text" name="clasificacionEdad" value={juego.clasificacionEdad} onChange={handleChange} className="form-control" placeholder="Ej: E, T, M, A, +18" />
         </div>
+
         <div className="mb-3">
           <label>ID Categoría</label>
           <input type="number" name="idCategoria" value={juego.idCategoria} onChange={handleChange} className="form-control" />
         </div>
+
+        {/* 🔥 Imagen */}
+        <div className="mb-3">
+          <label>Imagen del Juego</label>
+          <input type="file" accept="image/*" onChange={handleImage} className="form-control" />
+          {preview && (
+            <div className="mt-2">
+              <img src={preview} alt="Preview" style={{ width: "180px", height: "120px", objectFit: "cover", borderRadius: "8px" }} />
+            </div>
+          )}
+        </div>
+
         <button type="submit" className="btn btn-guardar">
           {id ? "Actualizar" : "Registrar"}
         </button>
