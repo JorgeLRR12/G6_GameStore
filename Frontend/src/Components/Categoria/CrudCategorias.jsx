@@ -1,8 +1,8 @@
 // src/Components/Categoria/CrudCategorias.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import HeaderAdmin from "../Header/HeaderAdmin";
 import { useAuth } from '../../Context/AuthContext';
-import { useNavigate } from 'react-router-dom'; // ← Importar useNavigate
 import './CrudCategorias.css';
 
 const API_URL = 'https://gamestorecr.onrender.com/API/categoria.php';
@@ -16,7 +16,6 @@ const CrudCategorias = () => {
   const [nuevaCategoria, setNuevaCategoria] = useState('');
   const [nuevoIdUsuario, setNuevoIdUsuario] = useState('');
   const [editando, setEditando] = useState(null);
-  const navigate = useNavigate(); // ← Hook para redirigir
 
   useEffect(() => {
     if (!usuario && isAuthenticated()) return;
@@ -97,18 +96,19 @@ const CrudCategorias = () => {
 
   return (
     <>
+
+       <HeaderAdmin />
+
       <div className={`categorias-wrapper ${mostrarFormulario || editando ? 'blur' : ''}`}>
         
-        {/* Botón de regreso */}
-        <button className="btn-volver" onClick={() => navigate('/admin/dashboard')}>
-           ⬅ Regresar al inicio
-        </button>
-
         <h2 className="titulo-categorias">Categorías Disponibles</h2>
-        <button className="btn-agregar" onClick={() => setMostrarFormulario(true)}>
-          + Agregar Categoría
-        </button>
 
+        <div className="contenedor-btn-agregar">
+          <button className="btn-agregar" onClick={() => setMostrarFormulario(true)}>
+            + Agregar Categoría
+          </button>
+        </div>
+        
         <table className="tabla-categorias">
           <thead>
             <tr>

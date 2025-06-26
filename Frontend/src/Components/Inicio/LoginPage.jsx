@@ -63,7 +63,7 @@ const LoginPage = () => {
         <div className="login-footer">
           <p>
             ¿No tienes una cuenta?{" "}
-            <Link to="/register">Regístrate para empezar a jugar</Link>
+            <Link to="/registro">Regístrate para empezar a jugar</Link>
           </p>
         </div>
       </form>

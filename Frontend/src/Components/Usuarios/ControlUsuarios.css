@@ -80,6 +80,7 @@
   border: none;
   border-radius: 8px;
   padding: 6px 12px;
+  margin-left: 10;
 }
 
 .btn-eliminar:hover {
@@ -151,4 +152,11 @@
 .modal-content .btn-secondary:hover {
   background-color: #ff4c4c;
   color: white;
+}
+
+.botones-accion {
+  display: flex;
+  gap: 7px; /* espacio entre los botones */
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
