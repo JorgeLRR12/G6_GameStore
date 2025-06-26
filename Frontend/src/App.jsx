@@ -12,9 +12,9 @@ import PrivateRoute from "./Routes/PrivateRoute.jsx";
 import ControlUsuarios from './Components/Usuarios/ControlUsuarios.jsx';
 import JuegosPage from "./Components/Juegos/JuegosPage.jsx";
 import ListaJuegos from "./Components/Juegos/ListaJuegos.jsx";
+
 import FormularioJuego from "./Components/Juegos/FormularioJuego.jsx";
 import CrudCategorias from "./Components/Categoria/CrudCategorias.jsx";
-
 
 
 import "./App.css";
@@ -60,6 +60,19 @@ function App() {
           </PrivateRoute>
         }
       />
+
+       <Route
+  path="/biblioteca"
+  element={
+    <PrivateRoute rolPermitido="Cliente">
+      <JuegosPage />
+    </PrivateRoute>
+  }
+/>
+
+
+    
+
          <Route
         path="/juegos"
         element={
@@ -70,7 +83,7 @@ function App() {
       />
 
 
-
+   
 
 
 
@@ -101,8 +114,7 @@ function App() {
         }
       />
 
-  
-       <Route
+      <Route
         path="/juegos-admin"
         element={
           <PrivateRoute rolPermitido="Administrador">
@@ -126,20 +138,6 @@ function App() {
           </PrivateRoute>
         }
       />
-      <Route
-        path="/admin/categorias"
-        element={
-          <PrivateRoute rolPermitido="Administrador">
-            <CrudCategorias />
-          </PrivateRoute>
-        }
-      />
-
-
-
-
-
-
 
 
     </Routes>

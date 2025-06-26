@@ -12,6 +12,7 @@ const ListaJuegos = () => {
       const datos = await obtenerJuegos();
       setJuegos(datos || []);
     } catch (error) {
+      console.error("Error al cargar juegos:", error);
       setJuegos([]);
     }
     setCargando(false);
@@ -54,22 +55,22 @@ const ListaJuegos = () => {
           <table className="table table-dark table-hover tabla-juegos">
             <thead>
               <tr>
-                <th>ID</th>
+                {/* 🚫 Ocultamos ID */}
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Precio</th>
-                <th>Fecha</th>
+                <th>Fecha Lanzamiento</th>
                 <th>Clasificación</th>
                 <th>ID Categoría</th>
                 <th>ID Usuario</th>
-                <th>Imagen</th> 
+                <th>Imagen</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
               {juegos.map((j) => (
                 <tr key={j.idJuego}>
-                  <td>{j.idJuego}</td>
+                  {/* 🚫 ID oculto */}
                   <td>{j.nombre}</td>
                   <td>{j.descripcion}</td>
                   <td>₡{parseFloat(j.precio).toLocaleString()}</td>
@@ -77,26 +78,30 @@ const ListaJuegos = () => {
                   <td>{j.clasificacionEdad}</td>
                   <td>{j.idCategoria}</td>
                   <td>{j.idUsuario}</td>
+                   <td>
+                {j.imagen ? (
+                  <img
+                    src={j.imagen}
+                    alt={j.nombre}
+                    style={{
+                      width: "80px",
+                      height: "60px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                      border: "1px solid #00bfff44",
+                      background: "#111",
+                    }}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/img/default.jpg";
+                    }}
+                  />
+                ) : (
+                  <span className="text-muted">Sin imagen</span>
+                )}
+              </td>
 
-                  {/* 🔥 Imagen después de ID Usuario */}
-                  <td>
-                    {j.imagen ? (
-                      <img
-                        src={j.imagen}
-                        alt={j.nombre}
-                        style={{
-                          width: "80px",
-                          height: "60px",
-                          objectFit: "cover",
-                          borderRadius: "8px",
-                          border: "1px solid #00bfff44",
-                          background: "#111"
-                        }}
-                      />
-                    ) : (
-                      <span className="text-muted">Sin imagen</span>
-                    )}
-                  </td>
+                
 
                   <td>
                     <Link

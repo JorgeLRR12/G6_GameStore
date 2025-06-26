@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { insertarJuego, actualizarJuego, obtenerJuegoPorId } from "../../Services/JuegoService";
+import React, { useEffect, useState } from "react";
+import {
+  insertarJuego,
+  actualizarJuego,
+  obtenerJuegoPorId,
+} from "../../Services/JuegoService";
+import { obtenerCategorias } from "../../Services/CategoriaService";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
 import "./Juego.css";
+
+const clasificaciones = ["E", "T", "M", "A", "+18"];
 
 const FormularioJuego = () => {
   const { usuario } = useAuth();
@@ -19,30 +26,95 @@ const FormularioJuego = () => {
     imagen: "",
   });
 
-  const [preview, setPreview] = useState(null);
+  const [categorias, setCategorias] = useState([]);
+  const [imagenPreview, setImagenPreview] = useState("");
+
+  useEffect(() => {
+    const cargarDatos = async () => {
+      try {
+        const categoriasBD = await obtenerCategorias();
+        setCategorias(categoriasBD);
+
+        if (id) {
+          const datos = await obtenerJuegoPorId(id);
+          if (datos) {
+            setJuego(datos);
+            if (datos.imagen) {
+              setImagenPreview(datos.imagen); // ✅ Ya debe venir con "/img/archivo.jpg"
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error al cargar datos", error);
+      }
+    };
+    cargarDatos();
+  }, [id]);
 
   const handleChange = (e) => {
-    setJuego({ ...juego, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+
+    if (name === "imagen") {
+      const archivo = files[0];
+      if (archivo) {
+        const rutaImagen = `/img/${archivo.name}`;
+        setJuego({ ...juego, imagen: rutaImagen });
+        setImagenPreview(URL.createObjectURL(archivo)); // ✅ Preview local mientras se sube
+      } else {
+        setJuego({ ...juego, imagen: "" });
+        setImagenPreview("");
+      }
+    } else {
+      setJuego({ ...juego, [name]: value });
+    }
   };
 
-  const handleImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = `/img/${file.name}`;
-      setJuego({ ...juego, imagen: imageUrl });
-      setPreview(URL.createObjectURL(file));
+  const validarCampos = () => {
+    const {
+      nombre,
+      descripcion,
+      precio,
+      fechaLanzamiento,
+      clasificacionEdad,
+      idCategoria,
+      imagen,
+    } = juego;
 
-      alert(`Recuerda mover la imagen a la carpeta public/img`);
+    if (
+      !nombre ||
+      !descripcion ||
+      !precio ||
+      !fechaLanzamiento ||
+      !clasificacionEdad ||
+      !idCategoria ||
+      !imagen
+    ) {
+      alert("⚠️ Debe completar todos los campos.");
+      return false;
     }
+
+    if (Number(precio) <= 0) {
+      alert("⚠️ El precio debe ser mayor a 0.");
+      return false;
+    }
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    const fechaSeleccionada = new Date(fechaLanzamiento);
+
+    if (fechaSeleccionada > hoy) {
+      alert("⚠️ La fecha de lanzamiento no puede ser futura.");
+      return false;
+    }
+
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validarCampos()) return;
 
-    const datos = {
-      ...juego,
-      idUsuario: usuario.idUsuario,
-    };
+    const datos = { ...juego, idUsuario: usuario.idUsuario };
 
     try {
       if (id) {
@@ -59,87 +131,117 @@ const FormularioJuego = () => {
     }
   };
 
- 
-useEffect(() => {
-  if (id) {
-    const cargarJuego = async () => {
-      try {
-        const datos = await obtenerJuegoPorId(id);
-      if (datos) {
-  const juegoData = datos;
-  setJuego({
-    nombre: juegoData.nombre,
-    descripcion: juegoData.descripcion,
-    precio: juegoData.precio,
-    fechaLanzamiento: juegoData.fechaLanzamiento,
-    clasificacionEdad: juegoData.clasificacionEdad,
-    idCategoria: juegoData.idCategoria,
-    imagen: juegoData.imagen,
-  });
-  setPreview(juegoData.imagen);
-} else {
-  console.warn("No se encontró el juego con id:", id);
-}
-
-      } catch (error) {
-        console.error("Error al cargar el juego:", error);
-      }
-    };
-    cargarJuego();
-  }
-}, [id]);
-
-
   return (
     <div className="container mt-5">
       <h2>{id ? "Editar Juego" : "Registrar Juego"}</h2>
       <form onSubmit={handleSubmit} className="formulario-juego">
-
         <div className="mb-3">
           <label>Nombre</label>
-          <input type="text" name="nombre" value={juego.nombre} onChange={handleChange} className="form-control" />
+          <input
+            type="text"
+            name="nombre"
+            value={juego.nombre}
+            onChange={handleChange}
+            className="form-control"
+          />
         </div>
-
         <div className="mb-3">
           <label>Descripción</label>
-          <textarea name="descripcion" value={juego.descripcion} onChange={handleChange} className="form-control" />
+          <textarea
+            name="descripcion"
+            value={juego.descripcion}
+            onChange={handleChange}
+            className="form-control"
+          />
         </div>
-
         <div className="mb-3">
           <label>Precio</label>
-          <input type="number" name="precio" value={juego.precio} onChange={handleChange} className="form-control" />
+          <input
+            type="number"
+            name="precio"
+            min="1"
+            value={juego.precio}
+            onChange={handleChange}
+            className="form-control"
+          />
         </div>
-
         <div className="mb-3">
           <label>Fecha Lanzamiento</label>
-          <input type="date" name="fechaLanzamiento" value={juego.fechaLanzamiento} onChange={handleChange} className="form-control" />
+          <input
+            type="date"
+            name="fechaLanzamiento"
+            value={juego.fechaLanzamiento}
+            onChange={handleChange}
+            className="form-control"
+          />
         </div>
-
         <div className="mb-3">
           <label>Clasificación Edad</label>
-          <input type="text" name="clasificacionEdad" value={juego.clasificacionEdad} onChange={handleChange} className="form-control" placeholder="Ej: E, T, M, A, +18" />
+          <select
+            name="clasificacionEdad"
+            value={juego.clasificacionEdad}
+            onChange={handleChange}
+            className="form-control"
+          >
+            <option value="">Seleccione</option>
+            {clasificaciones.map((clase) => (
+              <option key={clase} value={clase}>
+                {clase}
+              </option>
+            ))}
+          </select>
         </div>
-
         <div className="mb-3">
-          <label>ID Categoría</label>
-          <input type="number" name="idCategoria" value={juego.idCategoria} onChange={handleChange} className="form-control" />
+          <label>Categoría</label>
+          <select
+            name="idCategoria"
+            value={juego.idCategoria}
+            onChange={handleChange}
+            className="form-control"
+          >
+            <option value="">Seleccione una categoría</option>
+            {categorias.map((cat) => (
+              <option key={cat.idCategoria} value={cat.idCategoria}>
+                {cat.nombre}
+              </option>
+            ))}
+          </select>
         </div>
-
-        {/* Imagen */}
         <div className="mb-3">
           <label>Imagen del Juego</label>
-          <input type="file" accept="image/*" onChange={handleImage} className="form-control" />
-          {preview && (
-            <div className="mt-2">
-              <img src={preview} alt="Preview" style={{ width: "180px", height: "120px", objectFit: "cover", borderRadius: "8px" }} />
-            </div>
-          )}
-        </div>
+          <input
+            type="file"
+            name="imagen"
+            onChange={handleChange}
+            className="form-control"
+            accept="image/*"
+          />
+           {imagenPreview && (
+  <div className="mt-2">
+    <img
+      src={imagenPreview}
+      alt={juego.nombre}
+      style={{
+        width: "80px",
+        height: "60px",
+        objectFit: "cover",
+        borderRadius: "8px",
+        border: "1px solid #00bfff44",
+        background: "#111"
+      }}
+    />
+  </div>
+)}
 
+        </div>
         <button type="submit" className="btn btn-guardar">
           {id ? "Actualizar" : "Registrar"}
         </button>
-        <button type="button" className="btn btn-cancelar ms-2" onClick={() => navigate("/juegos-admin")}>
+        <button
+          type="button"
+          className="btn btn-cancelar ms-2"
+          onClick={() => navigate("/juegos-admin")}
+        >
           Cancelar
         </button>
       </form>

@@ -23,7 +23,10 @@ export const actualizarJuego = async (juego) => {
   return res.data;
 };
 
-export const eliminarJuego = async (id) => {
-  const res = await axios.delete(API_URL, { data: { id: id } });
+export const eliminarJuego = async (idJuego) => {
+  const res = await axios.delete(API_URL, {
+    data: { idJuego: idJuego }, //  Nombre correcto
+  });
   return res.data;
 };
+
