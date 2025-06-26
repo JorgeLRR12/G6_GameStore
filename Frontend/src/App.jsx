@@ -9,6 +9,7 @@ import CarritoPage from "./Components/Carrito/CarritoPage.jsx";
 import RegistroCompra from "./Components/Compra/RegistroCompra.jsx";
 import Unauthorized from "./Components/Inicio/Unauthorized.jsx";
 import PrivateRoute from "./Routes/PrivateRoute.jsx";
+import Promociones from "./Components/Promociones/Promociones.jsx";
 import ControlUsuarios from './Components/Usuarios/ControlUsuarios.jsx';
 import JuegosPage from "./Components/Juegos/JuegosPage.jsx";
 import ListaJuegos from "./Components/Juegos/ListaJuegos.jsx";
@@ -45,7 +46,7 @@ function App() {
         }
       />
       <Route
-        path="/Compra/Registro"
+        path="/Compras"
         element={
           <PrivateRoute rolPermitido="Cliente">
             <RegistroCompra />
@@ -65,6 +66,14 @@ function App() {
         element={
           <PrivateRoute rolPermitido="Cliente">
             <JuegosPage />
+          </PrivateRoute>
+        }
+      />
+       <Route
+        path="/Promociones"
+        element={
+          <PrivateRoute rolPermitido="Cliente">
+            <Promociones />
           </PrivateRoute>
         }
       />
