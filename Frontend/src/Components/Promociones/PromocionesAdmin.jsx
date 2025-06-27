@@ -32,7 +32,7 @@ const PromocionesAdmin = () => {
     };
 
     axios
-      .post("https://gamestorecr.onrender.com/API/Promocion.php", data)
+      .post("https://gamestorecr.onrender.com/API/promocion.php", data)
       .then((res) => {
         if (res.data.codigo === 200) {
           setMensaje("Promoción creada exitosamente");
@@ -51,7 +51,6 @@ const PromocionesAdmin = () => {
   return (
     <>
     <HeaderAdmin />
-    <PromocionesAdmin/>
     <div className="container mt-4 promociones-admin-container">
       <h2 className="text-white text-center mb-4">🎯 Promociones Actuales</h2>
 
