@@ -63,11 +63,6 @@ const ClienteNavbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link className="nav-link" to="/Biblioteca">
-              Biblioteca
-            </Link>
-          </li>
-          <li className="nav-item">
             <Link className="nav-link" to="/Soporte">
               Soporte
             </Link>
