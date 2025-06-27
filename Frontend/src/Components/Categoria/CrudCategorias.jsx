@@ -5,8 +5,8 @@ import HeaderAdmin from "../Header/HeaderAdmin";
 import { useAuth } from '../../Context/AuthContext';
 import './CrudCategorias.css';
 
-const API_URL = 'https://gamestorecr.onrender.com/API/categoria.php';
-const API_USUARIOS = 'https://gamestorecr.onrender.com/API/usuario.php';
+const API_URL = 'http://localhost/G6_GameStore/Backend/API/categoria.php';
+const API_USUARIOS = 'http://localhost/G6_GameStore/Backend/API/usuario.php';
 
 const CrudCategorias = () => {
   const { usuario, isAuthenticated } = useAuth();

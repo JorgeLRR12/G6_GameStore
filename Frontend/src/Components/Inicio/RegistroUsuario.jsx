@@ -24,7 +24,7 @@ const RegistroUsuario = () => {
       };
 
       const respuesta = await axios.post(
-        'https://gamestorecr.onrender.com/API/usuario.php',
+        'http://localhost/G6_GameStore/Backend/API/usuario.php',
         JSON.stringify(nuevoUsuario),
         {
           headers: { 'Content-Type': 'application/json' }
@@ -33,14 +33,14 @@ const RegistroUsuario = () => {
 
       if (respuesta.data.codigo === 200 || respuesta.data.codigo === 201) {
 
-        setMensaje('✅ Registro exitoso. Redirigiendo al login...');
+        setMensaje('Registro exitoso. Redirigiendo al login...');
         setTimeout(() => navigate('/login'), 2000);
       } else {
-        setMensaje('❌ Error: ' + respuesta.data.mensaje);
+        setMensaje('Error: ' + respuesta.data.mensaje);
       }
     } catch (error) {
       console.error(error);
-      setMensaje('❌ Hubo un problema con el registro.');
+      setMensaje('Hubo un problema con el registro.');
     }
   };
 

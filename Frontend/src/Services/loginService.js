@@ -1,7 +1,7 @@
 import axios from "axios";
 
 //const API_URL = "http://localhost/G6_GameStore/Backend/API/autenticacion.php";
-const API_URL = "https://gamestorecr.onrender.com/API/autenticacion.php";
+const API_URL = "http://localhost/G6_GameStore/Backend/API/autenticacion.php";
 
 //const API_URL = 'http://localhost/2025/ProyectoApi/G6_GameStore/Backend/API/autenticacion.php'; // prueba Fernando
 

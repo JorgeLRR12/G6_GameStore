@@ -1,13 +1,13 @@
 
 import axios from "axios";
 
-const URL = "https://gamestorecr.onrender.com/API/juegodesarrollador.php";
+const URL = "http://localhost/G6_GameStore/Backend/API/juegodesarrollador.php";
 
 
 export const crearRelacionJuegoDesarrollador = async (idJuego, idDesarrollador) => {
   try {
     const response = await axios.post(
-      'https://gamestorecr.onrender.com/API/juegodesarrollador.php',
+      'http://localhost/G6_GameStore/Backend/API/juegodesarrollador.php',
       {
         idJuego: idJuego,
         idDesarrollador: idDesarrollador,

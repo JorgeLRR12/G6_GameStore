@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://gamestorecr.onrender.com/API/valoracion.php';
+const API_URL = 'http://localhost/G6_GameStore/Backend/API/valoracion.php';
 
 
 export const obtenerValoraciones = async () => {

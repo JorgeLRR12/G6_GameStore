@@ -41,18 +41,18 @@ const JuegosPage = () => {
     if (!usuario) return;
     try {
       const resCarrito = await axios.get(
-        `https://gamestorecr.onrender.com/API/carrito.php?idUsuario=${usuario.idUsuario}`
+        `http://localhost/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
       );
       let carrito = resCarrito.data.datos && resCarrito.data.datos[0];
       if (!carrito) {
         const nuevo = await axios.post(
-          "https://gamestorecr.onrender.com/API/carrito.php",
+          "http://localhost/G6_GameStore/Backend/API/carrito.php",
           { idUsuario: usuario.idUsuario }
         );
         carrito = nuevo.data.datos;
       }
       await axios.post(
-        "https://gamestorecr.onrender.com/API/carritojuego.php",
+        "http://localhost/G6_GameStore/Backend/API/carritojuego.php",
         { idCarrito: carrito.idCarrito, idJuego }
       );
       setToast({

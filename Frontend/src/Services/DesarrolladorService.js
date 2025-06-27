@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://gamestorecr.onrender.com/API/desarrollador.php";
+const API_URL = "http://localhost/G6_GameStore/Backend/API/desarrollador.php";
 
 export const obtenerDesarrolladores = async () => {
   const res = await axios.get(API_URL);

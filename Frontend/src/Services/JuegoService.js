@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://gamestorecr.onrender.com/API/juego.php";
+const API_URL = "http://localhost/G6_GameStore/Backend/API/juego.php";
 
 // 🔥 Este es el método que te falta
 export const obtenerJuegoPorId = async (id) => {

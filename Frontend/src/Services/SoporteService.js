@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://gamestorecr.onrender.com/API/soporte.php';
+const API_URL = 'http://localhost/G6_GameStore/Backend/API/soporte.php';
 
 
 export const obtenerTickets = async () => {
@@ -36,7 +36,7 @@ export const actualizarTicket = async (ticket) => {
 export const eliminarTikc = async (id) => {
   try {
     const response = await axios.delete(`${API_URL}`, {
-      data: { idSoporte: id }, // Asegúrate que tu backend lo espera así
+      data: { idSoporte: id }, 
     });
     return response.data;
   } catch (error) {

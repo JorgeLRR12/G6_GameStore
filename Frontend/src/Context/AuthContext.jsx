@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (correo, clave) => {
     try {
       const response = await axios.post(
-        "https://gamestorecr.onrender.com/API/autenticacion.php",
+        "http://localhost/G6_GameStore/Backend/API/autenticacion.php",
         { correo, clave }
       );
 

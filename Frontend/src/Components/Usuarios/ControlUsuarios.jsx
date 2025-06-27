@@ -13,7 +13,7 @@ const ControlUsuarios = () => {
   const { usuario } = useAuth();
   
 
-  const API_URL = 'https://gamestorecr.onrender.com/API/usuario.php';
+  const API_URL = 'http://localhost/G6_GameStore/Backend/API/usuario.php';
 
   useEffect(() => {
     cargarUsuarios();

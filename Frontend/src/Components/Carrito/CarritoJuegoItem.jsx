@@ -1,8 +1,6 @@
 import React from "react";
 
-// Componente para mostrar un juego dentro del carrito
 const CarritoJuegoItem = ({ juego, onEliminar, onCantidad }) => {
-  // Maneja el cambio de cantidad del input
   const handleCantidad = (e) => {
     const nuevaCantidad = Math.max(1, parseInt(e.target.value) || 1);
     onCantidad(juego.idJuego, nuevaCantidad);
@@ -10,10 +8,11 @@ const CarritoJuegoItem = ({ juego, onEliminar, onCantidad }) => {
 
   return (
     <tr>
+      {/* Nombre + imagen del juego */}
       <td className="d-flex align-items-center">
         <img
-          src={juego.imagen}
-          alt={juego.nombre}
+          src={juego.imagen || "/default.png"} // Valor por defecto si no hay imagen
+          alt={juego.nombre || "Juego"}
           className="img-juego-carrito me-2"
           style={{
             width: 72,
@@ -26,10 +25,12 @@ const CarritoJuegoItem = ({ juego, onEliminar, onCantidad }) => {
         <span className="fw-semibold text-light">{juego.nombre}</span>
       </td>
 
+      {/* Precio unitario */}
       <td className="text-info fw-semibold">
-        ₡{juego.precio.toLocaleString("es-CR")}
+        ₡{parseFloat(juego.precio).toLocaleString("es-CR")}
       </td>
 
+      {/* Cantidad editable */}
       <td>
         <input
           type="number"
@@ -46,10 +47,12 @@ const CarritoJuegoItem = ({ juego, onEliminar, onCantidad }) => {
         />
       </td>
 
+      {/* Subtotal */}
       <td className="text-warning fw-semibold">
         ₡{(juego.precio * juego.cantidad).toLocaleString("es-CR")}
       </td>
 
+      {/* Botón eliminar */}
       <td>
         <button
           className="btn btn-outline-danger btn-sm"

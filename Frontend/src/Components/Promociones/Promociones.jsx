@@ -15,8 +15,8 @@ const PromocionesCliente = ({ usuario, mostrarTitulo = true }) => {
   useEffect(() => {
     const fetchPromos = async () => {
       try {
-        const resPromo = await axios.get("https://gamestorecr.onrender.com/API/promocion.php");
-        const resJuegos = await axios.get("https://gamestorecr.onrender.com/API/juego.php");
+        const resPromo = await axios.get("http://localhost/G6_GameStore/Backend/API/promocion.php");
+        const resJuegos = await axios.get("http://localhost/G6_GameStore/Backend/API/juego.php");
 
         const promos = resPromo.data.datos || [];
         const juegosAll = resJuegos.data.datos || [];
@@ -52,21 +52,21 @@ const PromocionesCliente = ({ usuario, mostrarTitulo = true }) => {
     if (!usuario || usuario.rol !== "Cliente") return;
     try {
       const resCarrito = await axios.get(
-        `https://gamestorecr.onrender.com/API/carrito.php?idUsuario=${usuario.idUsuario}`
+        `http://localhost/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
       );
 
       let carrito = resCarrito.data.datos && resCarrito.data.datos[0];
 
       if (!carrito) {
         const nuevo = await axios.post(
-          "https://gamestorecr.onrender.com/API/carrito.php",
+          "http://localhost/G6_GameStore/Backend/API/carrito.php",
           { idUsuario: usuario.idUsuario }
         );
         carrito = nuevo.data.datos;
       }
 
       await axios.post(
-        "https://gamestorecr.onrender.com/API/carritojuego.php",
+        "http://localhost/G6_GameStore/Backend/API/carritojuego.php",
         { idCarrito: carrito.idCarrito, idJuego }
       );
 

@@ -11,7 +11,7 @@ const PromocionesAdmin = () => {
 
   const cargarPromociones = () => {
     axios
-      .get("https://gamestorecr.onrender.com/API/promocion.php")
+      .get("http://localhost/G6_GameStore/Backend/API/promocion.php")
       .then((res) => setPromos(res.data.datos || []))
       .catch((err) => console.error("Error al cargar promociones", err));
   };
@@ -32,7 +32,7 @@ const PromocionesAdmin = () => {
     };
 
     axios
-      .post("https://gamestorecr.onrender.com/API/promocion.php", data)
+      .post("http://localhost/G6_GameStore/Backend/API/promocion.php", data)
       .then((res) => {
         if (res.data.codigo === 200) {
           setMensaje("Promoción creada exitosamente");
