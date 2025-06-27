@@ -60,29 +60,40 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    case 'DELETE':
-        // Eliminar un juego de un carrito (por query string o body JSON)
-        $datos = json_decode(file_get_contents("php://input"), true);
-        if (isset($_GET['idCarrito'], $_GET['idJuego'])) {
-            $idCarrito = $_GET['idCarrito'];
-            $idJuego = $_GET['idJuego'];
-        } elseif (isset($datos['idCarrito'], $datos['idJuego'])) {
-            $idCarrito = $datos['idCarrito'];
-            $idJuego = $datos['idJuego'];
-        } else {
-            RespuestaJSON::enviarError(400, "Faltan parámetros idCarrito o idJuego");
-            break;
-        }
+case 'DELETE':
+    $datos = json_decode(file_get_contents("php://input"), true);
+
+    // Si solo viene el idCarrito, eliminar todo lo del carrito
+    if (isset($datos['idCarrito']) && !isset($datos['idJuego'])) {
+        $idCarrito = $datos['idCarrito'];
         try {
-            $dao->eliminar($idCarrito, $idJuego);
-            RespuestaJSON::enviarRespuesta(200, "Juego eliminado del carrito correctamente");
+            $dao->eliminarTodoDelCarrito($idCarrito); // ⚠️ Asegúrate que este método exista
+            RespuestaJSON::enviarRespuesta(200, "Todos los juegos del carrito fueron eliminados");
         } catch (Exception $e) {
             RespuestaJSON::enviarError(500, $e->getMessage());
         }
         break;
+    }
 
-    default:
-        RespuestaJSON::enviarError(405, "Método HTTP no permitido");
+    // Eliminar un juego específico
+    if (isset($_GET['idCarrito'], $_GET['idJuego'])) {
+        $idCarrito = $_GET['idCarrito'];
+        $idJuego = $_GET['idJuego'];
+    } elseif (isset($datos['idCarrito'], $datos['idJuego'])) {
+        $idCarrito = $datos['idCarrito'];
+        $idJuego = $datos['idJuego'];
+    } else {
+        RespuestaJSON::enviarError(400, "Faltan parámetros idCarrito o idJuego");
         break;
-}
+    }
+
+    try {
+        $dao->eliminar($idCarrito, $idJuego);
+        RespuestaJSON::enviarRespuesta(200, "Juego eliminado del carrito correctamente");
+    } catch (Exception $e) {
+        RespuestaJSON::enviarError(500, $e->getMessage());
+    }
+    break;
+
+
 ?>

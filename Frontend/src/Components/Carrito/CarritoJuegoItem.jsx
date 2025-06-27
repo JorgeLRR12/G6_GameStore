@@ -1,5 +1,3 @@
-// Carrito: CarritoJuegoItem.jsx
-
 import React from "react";
 
 // Componente para mostrar un juego dentro del carrito
@@ -12,30 +10,49 @@ const CarritoJuegoItem = ({ juego, onEliminar, onCantidad }) => {
 
   return (
     <tr>
-      <td>
+      <td className="d-flex align-items-center">
         <img
           src={juego.imagen}
           alt={juego.nombre}
-          className="img-juego-carrito"
-          style={{ width: 72, height: 48, objectFit: "cover", borderRadius: 12 }}
+          className="img-juego-carrito me-2"
+          style={{
+            width: 72,
+            height: 48,
+            objectFit: "cover",
+            borderRadius: 12,
+            border: "2px solid #00cfff",
+          }}
         />
-        <span className="ms-2">{juego.nombre}</span>
+        <span className="fw-semibold text-light">{juego.nombre}</span>
       </td>
-      <td>₡{juego.precio.toLocaleString()}</td>
+
+      <td className="text-info fw-semibold">
+        ₡{juego.precio.toLocaleString("es-CR")}
+      </td>
+
       <td>
         <input
           type="number"
           min="1"
           value={juego.cantidad}
           onChange={handleCantidad}
-          className="form-control form-control-sm cantidad-input"
-          style={{ width: "70px" }}
+          className="form-control form-control-sm text-center cantidad-input"
+          style={{
+            width: "70px",
+            backgroundColor: "rgba(255,255,255,0.05)",
+            border: "1px solid #66c0f4",
+            color: "#fff",
+          }}
         />
       </td>
-      <td>₡{(juego.precio * juego.cantidad).toLocaleString()}</td>
+
+      <td className="text-warning fw-semibold">
+        ₡{(juego.precio * juego.cantidad).toLocaleString("es-CR")}
+      </td>
+
       <td>
         <button
-          className="btn btn-danger btn-sm"
+          className="btn btn-outline-danger btn-sm"
           onClick={() => onEliminar(juego.idJuego)}
           title="Eliminar del carrito"
         >
