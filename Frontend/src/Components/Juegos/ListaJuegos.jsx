@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { obtenerJuegos, eliminarJuego } from "../../Services/JuegoService";
 import { Link } from "react-router-dom";
 import ValoracionAdmin from "../Valoracion/ValoracionAdmin";
+import HeaderAdmin from "../Header/HeaderAdmin";
 
 import "./Juego.css";
 
@@ -39,6 +40,9 @@ const ListaJuegos = () => {
   }, []);
 
   return (
+
+    <>
+          <HeaderAdmin />
     <div className="juegos-container container mt-5 mb-5">
       <div className="d-flex justify-content-between mb-3">
         <h2 className="titulo-juegos">🎮 Gestión de Juegos</h2>
@@ -128,6 +132,7 @@ const ListaJuegos = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
