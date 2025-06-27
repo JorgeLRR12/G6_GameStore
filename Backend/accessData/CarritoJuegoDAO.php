@@ -98,7 +98,7 @@ class CarritoJuegoDAO {
     }
 
 
-    public function eliminarPorCarrito($idCarrito) {
+    public function eliminarTodoDelCarrito($idCarrito) {
         $conexion = Conexion::conectar();
         $sql = "DELETE FROM G6_carrito_juego WHERE idCarrito = ?";
         $consulta = $conexion->prepare($sql);
