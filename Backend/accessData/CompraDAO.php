@@ -4,29 +4,33 @@ require_once __DIR__ . '/../misc/Conexion.php';
 class CompraDAO {
 
     public function obtenerTodos() {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $stmt = $pdo->query("SELECT * FROM G6_compra");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 
     public function obtenerPorId($id) {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $stmt = $pdo->prepare("SELECT * FROM G6_compra WHERE idCompra = ?");
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 
     public function insertar($compra) {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $sql = "INSERT INTO G6_compra (idUsuario, total) VALUES (?, ?)";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
@@ -36,39 +40,44 @@ class CompraDAO {
             return $pdo->lastInsertId();
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 
     public function actualizar($idCompra, $compra) {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $stmt = $pdo->prepare("UPDATE G6_compra SET idUsuario = ?, total = ? WHERE idCompra = ?");
             $stmt->execute([
                 $compra->getIdUsuario(),
                 $compra->getTotal(),
                 $idCompra
             ]);
-            return $stmt->rowCount() > 0; // Devuelve true solo si se actualizó algo
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 
-
     public function eliminar($idCompra) {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $stmt = $pdo->prepare("DELETE FROM G6_compra WHERE idCompra = ?");
             $stmt->execute([$idCompra]);
-            return $stmt->rowCount() > 0; 
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
-    }   
+    }
+
     public function obtenerComprasDetalladas() {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
-            // Consulta para traer la compra, el nombre del usuario y los juegos asociados
             $sql = "
                 SELECT 
                     c.idCompra,
@@ -88,7 +97,6 @@ class CompraDAO {
             $stmt = $pdo->query($sql);
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Agrupar juegos por compra
             $compras = [];
             foreach ($resultados as $row) {
                 $idCompra = $row['idCompra'];
@@ -98,7 +106,7 @@ class CompraDAO {
                         "idUsuario" => $row["idUsuario"],
                         "nombreUsuario" => $row["nombreUsuario"],
                         "total" => $row["total"],
-                        "fecha" => $row["fecha"],
+                        "fecha" => $row["fechaCompra"],
                         "juegos" => []
                     ];
                 }
@@ -114,8 +122,9 @@ class CompraDAO {
             return array_values($compras);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 }
-
-
+?>

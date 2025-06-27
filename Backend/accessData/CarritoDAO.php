@@ -2,96 +2,112 @@
 require_once __DIR__ . '/../misc/Conexion.php';
 require_once __DIR__ . '/../Model/Carrito.php';
 
-// DAO para manejar operaciones de carrito en la base de datos
 class CarritoDAO {
-    // Obtener todos los carritos
+
     public function obtenerTodos() {
         $conexion = Conexion::conectar();
-        $sql = "SELECT * FROM G6_carrito";
-        $consulta = $conexion->query($sql);
-        $resultado = [];
-        while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
-            $resultado[] = [
-                'idCarrito' => $fila['idCarrito'],
-                'idUsuario' => $fila['idUsuario'],
-                'fechaCreacion' => $fila['fechaCreacion']
-            ];
+        try {
+            $sql = "SELECT * FROM G6_carrito";
+            $consulta = $conexion->query($sql);
+            $resultado = [];
+
+            while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                $resultado[] = [
+                    'idCarrito' => $fila['idCarrito'],
+                    'idUsuario' => $fila['idUsuario'],
+                    'fechaCreacion' => $fila['fechaCreacion']
+                ];
+            }
+            return $resultado;
+        } finally {
+            $conexion = null;
         }
-        return $resultado;
     }
 
-    // Obtener un carrito por su ID
     public function obtenerPorId($idCarrito) {
         $conexion = Conexion::conectar();
-        $sql = "SELECT * FROM G6_carrito WHERE idCarrito = ?";
-        $consulta = $conexion->prepare($sql);
-        $consulta->execute([$idCarrito]);
-        if ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
-            return [
-                'idCarrito' => $fila['idCarrito'],
-                'idUsuario' => $fila['idUsuario'],
-                'fechaCreacion' => $fila['fechaCreacion']
-            ];
+        try {
+            $sql = "SELECT * FROM G6_carrito WHERE idCarrito = ?";
+            $consulta = $conexion->prepare($sql);
+            $consulta->execute([$idCarrito]);
+
+            if ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                return [
+                    'idCarrito' => $fila['idCarrito'],
+                    'idUsuario' => $fila['idUsuario'],
+                    'fechaCreacion' => $fila['fechaCreacion']
+                ];
+            }
+            return null;
+        } finally {
+            $conexion = null;
         }
-        return null;
     }
 
-public function insertar(Carrito $carrito) {
-    $conexion = Conexion::conectar();
+    public function insertar(Carrito $carrito) {
+        $conexion = Conexion::conectar();
+        try {
+            // Validar que el usuario exista
+            $sqlUsuario = "SELECT 1 FROM G6_usuarios WHERE idUsuario = ?";
+            $consultaUsuario = $conexion->prepare($sqlUsuario);
+            $consultaUsuario->execute([$carrito->getIdUsuario()]);
+            if (!$consultaUsuario->fetch()) {
+                throw new Exception("El usuario no existe");
+            }
 
-    // Validar que el usuario exista
-    $sqlUsuario = "SELECT 1 FROM G6_usuarios WHERE idUsuario = ?";
-    $consultaUsuario = $conexion->prepare($sqlUsuario);
-    $consultaUsuario->execute([$carrito->getIdUsuario()]);
-    if (!$consultaUsuario->fetch()) {
-        throw new Exception("El usuario no existe");
+            // Insertar el carrito
+            if (empty($carrito->getFechaCreacion())) {
+                $sql = "INSERT INTO G6_carrito (idUsuario) VALUES (?)";
+                $consulta = $conexion->prepare($sql);
+                $consulta->execute([$carrito->getIdUsuario()]);
+            } else {
+                $sql = "INSERT INTO G6_carrito (idUsuario, fechaCreacion) VALUES (?, ?)";
+                $consulta = $conexion->prepare($sql);
+                $consulta->execute([
+                    $carrito->getIdUsuario(),
+                    $carrito->getFechaCreacion()
+                ]);
+            }
+
+            return $conexion->lastInsertId();
+        } finally {
+            $conexion = null;
+        }
     }
 
-    // Insertar el carrito
-    if ($carrito->getFechaCreacion() === null || $carrito->getFechaCreacion() === "") {
-        $sql = "INSERT INTO G6_carrito (idUsuario) VALUES (?)";
-        $consulta = $conexion->prepare($sql);
-        $consulta->execute([$carrito->getIdUsuario()]);
-    } else {
-        $sql = "INSERT INTO G6_carrito (idUsuario, fechaCreacion) VALUES (?, ?)";
-        $consulta = $conexion->prepare($sql);
-        $consulta->execute([
-            $carrito->getIdUsuario(),
-            $carrito->getFechaCreacion()
-        ]);
-    }
-
-    // ✅ Aquí devolvés el ID generado por la base de datos
-    return $conexion->lastInsertId();
-}
-
-
-    // Actualizar un carrito (por ejemplo, cambiar el usuario asociado)
     public function actualizar(Carrito $carrito) {
         $conexion = Conexion::conectar();
-        // Validar que el usuario exista
-        $sqlUsuario = "SELECT 1 FROM G6_usuarios WHERE idUsuario = ?";
-        $consultaUsuario = $conexion->prepare($sqlUsuario);
-        $consultaUsuario->execute([$carrito->getIdUsuario()]);
-        if (!$consultaUsuario->fetch()) {
-            throw new Exception("El usuario no existe");
+        try {
+            // Validar que el usuario exista
+            $sqlUsuario = "SELECT 1 FROM G6_usuarios WHERE idUsuario = ?";
+            $consultaUsuario = $conexion->prepare($sqlUsuario);
+            $consultaUsuario->execute([$carrito->getIdUsuario()]);
+            if (!$consultaUsuario->fetch()) {
+                throw new Exception("El usuario no existe");
+            }
+
+            // Actualizar carrito
+            $sql = "UPDATE G6_carrito SET idUsuario = ?, fechaCreacion = ? WHERE idCarrito = ?";
+            $consulta = $conexion->prepare($sql);
+            return $consulta->execute([
+                $carrito->getIdUsuario(),
+                $carrito->getFechaCreacion(),
+                $carrito->getIdCarrito()
+            ]);
+        } finally {
+            $conexion = null;
         }
-        // Actualizar el carrito
-        $sql = "UPDATE G6_carrito SET idUsuario = ?, fechaCreacion = ? WHERE idCarrito = ?";
-        $consulta = $conexion->prepare($sql);
-        return $consulta->execute([
-            $carrito->getIdUsuario(),
-            $carrito->getFechaCreacion(),
-            $carrito->getIdCarrito()
-        ]);
     }
 
-    // Eliminar un carrito por su ID
     public function eliminar($idCarrito) {
         $conexion = Conexion::conectar();
-        $sql = "DELETE FROM G6_carrito WHERE idCarrito = ?";
-        $consulta = $conexion->prepare($sql);
-        return $consulta->execute([$idCarrito]);
+        try {
+            $sql = "DELETE FROM G6_carrito WHERE idCarrito = ?";
+            $consulta = $conexion->prepare($sql);
+            return $consulta->execute([$idCarrito]);
+        } finally {
+            $conexion = null;
+        }
     }
 }
 ?>

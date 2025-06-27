@@ -4,29 +4,33 @@ require_once __DIR__ . '/../misc/Conexion.php';
 class PromocionDAO {
 
     public function obtenerTodos() {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $stmt = $pdo->query("SELECT * FROM G6_promocion");
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 
     public function obtenerPorId($id) {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $stmt = $pdo->prepare("SELECT * FROM G6_promocion WHERE idPromocion = ?");
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 
     public function insertar($promocion) {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $sql = "INSERT INTO G6_promocion (idJuego, porcentajeDescuento, fechaInicio, fechaFin, idUsuario)
                     VALUES (?, ?, ?, ?, ?)";
             $stmt = $pdo->prepare($sql);
@@ -40,15 +44,17 @@ class PromocionDAO {
             return $pdo->lastInsertId();
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 
     public function actualizar($id, $promocion) {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $stmt = $pdo->prepare("UPDATE G6_promocion 
-                                SET nombre = ?, descripcion = ?, porcentajeDescuento = ?, fechaInicio = ?, fechaFin = ?
-                                WHERE idPromocion = ?");
+                SET nombre = ?, descripcion = ?, porcentajeDescuento = ?, fechaInicio = ?, fechaFin = ?
+                WHERE idPromocion = ?");
             $stmt->execute([
                 $promocion->getNombre(),
                 $promocion->getDescripcion(),
@@ -57,21 +63,25 @@ class PromocionDAO {
                 $promocion->getFechaFin(),
                 $id
             ]);
-            return $stmt->rowCount() > 0; // Solo devuelve true si se actualizó algo
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
 
     public function eliminar($idPromocion) {
+        $pdo = Conexion::conectar();
         try {
-            $pdo = Conexion::conectar();
             $stmt = $pdo->prepare("DELETE FROM G6_promocion WHERE idPromocion = ?");
             $stmt->execute([$idPromocion]);
-            return $stmt->rowCount() > 0; // Verifica si se eliminó algo realmente
+            return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
+        } finally {
+            $pdo = null;
         }
     }
-
 }
+?>

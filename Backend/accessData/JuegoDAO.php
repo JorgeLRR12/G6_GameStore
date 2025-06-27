@@ -4,8 +4,8 @@ require_once __DIR__ . '/../Model/Juego.php';
 
 class JuegoDAO {
     public static function obtenerTodos() {
+        $conexion = Conexion::conectar();
         try {
-            $conexion = Conexion::conectar();
             $sql = "SELECT * FROM G6_juego";
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
@@ -22,12 +22,14 @@ class JuegoDAO {
             return $juegos;
         } catch (PDOException $e) {
             throw new Exception("Error al obtener juegos: " . $e->getMessage());
+        } finally {
+            $conexion = null;
         }
     }
 
     public static function obtenerPorId($id) {
+        $conexion = Conexion::conectar();
         try {
-            $conexion = Conexion::conectar();
             $sql = "SELECT * FROM G6_juego WHERE idJuego = ?";
             $stmt = $conexion->prepare($sql);
             $stmt->execute([$id]);
@@ -43,12 +45,14 @@ class JuegoDAO {
             return null;
         } catch (PDOException $e) {
             throw new Exception("Error al obtener juego por ID: " . $e->getMessage());
+        } finally {
+            $conexion = null;
         }
     }
 
     public static function insertar(Juego $juego) {
+        $conexion = Conexion::conectar();
         try {
-            $conexion = Conexion::conectar();
             $sql = "INSERT INTO G6_juego (nombre, descripcion, precio, fechaLanzamiento, clasificacionEdad, idCategoria, idUsuario, imagen)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conexion->prepare($sql);
@@ -64,50 +68,48 @@ class JuegoDAO {
             ]);
         } catch (PDOException $e) {
             throw new Exception("Error al insertar juego: " . $e->getMessage());
+        } finally {
+            $conexion = null;
+        }
+    }
+
+    public static function actualizar(Juego $juego) {
+        $conexion = Conexion::conectar();
+        try {
+            $sql = "UPDATE G6_juego 
+                    SET nombre = ?, descripcion = ?, precio = ?, fechaLanzamiento = ?, 
+                        clasificacionEdad = ?, idCategoria = ?, idUsuario = ?, imagen = ?
+                    WHERE idJuego = ?";
+            $stmt = $conexion->prepare($sql);
+            return $stmt->execute([
+                $juego->getNombre(),
+                $juego->getDescripcion(),
+                $juego->getPrecio(),
+                $juego->getFechaLanzamiento(),
+                $juego->getClasificacionEdad(),
+                $juego->getIdCategoria(),
+                $juego->getIdUsuario(),
+                $juego->getImagen(),
+                $juego->getIdJuego()
+            ]);
+        } catch (PDOException $e) {
+            throw new Exception("Error en la actualización: " . $e->getMessage());
+        } finally {
+            $conexion = null;
         }
     }
 
     public static function eliminar($id) {
+        $conexion = Conexion::conectar();
         try {
-            $conexion = Conexion::conectar();
             $sql = "DELETE FROM G6_juego WHERE idJuego = ?";
             $stmt = $conexion->prepare($sql);
             return $stmt->execute([$id]);
         } catch (PDOException $e) {
             throw new Exception("Error al eliminar juego: " . $e->getMessage());
+        } finally {
+            $conexion = null;
         }
     }
-    
-
- public static function actualizar(Juego $juego) {
-    try {
-        $conexion = Conexion::conectar();
-        $sql = "UPDATE G6_juego 
-                SET nombre = ?, descripcion = ?, precio = ?, fechaLanzamiento = ?, 
-                    clasificacionEdad = ?, idCategoria = ?, idUsuario = ?, imagen = ?
-                WHERE idJuego = ?";
-        $stmt = $conexion->prepare($sql);
-        return $stmt->execute([
-            $juego->getNombre(),
-            $juego->getDescripcion(),
-            $juego->getPrecio(),
-            $juego->getFechaLanzamiento(),
-            $juego->getClasificacionEdad(),
-            $juego->getIdCategoria(),
-            $juego->getIdUsuario(),
-            $juego->getImagen(),
-            $juego->getIdJuego() // ✔️ Aquí debe ir
-        ]);
-    } catch (PDOException $e) {
-        throw new Exception("Error en la actualización: " . $e->getMessage());
-    }
- }
-
 }
-
- 
-
-
-
-
-
+?>
