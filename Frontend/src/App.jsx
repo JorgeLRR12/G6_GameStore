@@ -17,6 +17,9 @@ import ListaJuegos from "./Components/Juegos/ListaJuegos.jsx";
 import FormularioJuego from "./Components/Juegos/FormularioJuego.jsx";
 import CrudCategorias from "./Components/Categoria/CrudCategorias.jsx";
 import Footer from "./Components/Footer/Footer";
+import ComprasAdmin from "./Components/Compra/ComprasAdmin.jsx";
+import PromocionesAdmin from "./Components/Promociones/PromocionesAdmin.jsx";
+
 
 import "./App.css";
 
@@ -99,13 +102,13 @@ function App() {
           }
         />
         <Route
-        path="/admin/categorias"
-        element={
-          <PrivateRoute rolPermitido="Administrador">
-            <CrudCategorias />
-          </PrivateRoute>
-        }
-      />
+          path="/admin/categorias"
+          element={
+            <PrivateRoute rolPermitido="Administrador">
+              <CrudCategorias />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/admin/usuarios"
           element={
@@ -148,6 +151,23 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/admin/compras"
+          element={
+            <PrivateRoute rolPermitido="Administrador">
+              <ComprasAdmin />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/promociones"
+          element={
+            <PrivateRoute rolPermitido="Administrador">
+              <PromocionesAdmin />
+            </PrivateRoute>
+          }
+        />
+
       </Routes>
       <Footer />
     </>

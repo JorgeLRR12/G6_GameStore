@@ -29,6 +29,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
+    case 'GET':
+        if (isset($_GET['detallado'])) {
+            $respuesta = $compraDAO->obtenerComprasDetalladas();
+        } elseif (isset($_GET['idCompra'])) {
+            $respuesta = $compraDAO->obtenerPorId($_GET['idCompra']);
+        } else {
+            $respuesta = $compraDAO->obtenerTodos();
+        }
+    break;
+
+
     case 'POST':
         $datos = json_decode(file_get_contents("php://input"), true);
 
