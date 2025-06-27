@@ -50,6 +50,7 @@ const PromocionesAdmin = () => {
 
   return (
     <>
+    <HeaderAdmin />
     <PromocionesAdmin/>
     <div className="container mt-4 promociones-admin-container">
       <h2 className="text-white text-center mb-4">🎯 Promociones Actuales</h2>
