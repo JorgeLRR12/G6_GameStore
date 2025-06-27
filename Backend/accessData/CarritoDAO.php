@@ -36,32 +36,35 @@ class CarritoDAO {
         return null;
     }
 
-    // Insertar un nuevo carrito, validando que el usuario exista
-    public function insertar(Carrito $carrito) {
-        $conexion = Conexion::conectar();
-        // Validar que el usuario exista
-        $sqlUsuario = "SELECT 1 FROM G6_usuarios WHERE idUsuario = ?";
-        $consultaUsuario = $conexion->prepare($sqlUsuario);
-        $consultaUsuario->execute([$carrito->getIdUsuario()]);
-        if (!$consultaUsuario->fetch()) {
-            throw new Exception("El usuario no existe");
-        }
-        // Si no se especifica fecha, omitirla en el INSERT para que MySQL ponga el valor por defecto
-        if ($carrito->getFechaCreacion() === null || $carrito->getFechaCreacion() === "") {
-            $sql = "INSERT INTO G6_carrito (idUsuario) VALUES (?)";
-            $consulta = $conexion->prepare($sql);
-            return $consulta->execute([
-                $carrito->getIdUsuario()
-            ]);
-        } else {
-            $sql = "INSERT INTO G6_carrito (idUsuario, fechaCreacion) VALUES (?, ?)";
-            $consulta = $conexion->prepare($sql);
-            return $consulta->execute([
-                $carrito->getIdUsuario(),
-                $carrito->getFechaCreacion()
-            ]);
-        }
+public function insertar(Carrito $carrito) {
+    $conexion = Conexion::conectar();
+
+    // Validar que el usuario exista
+    $sqlUsuario = "SELECT 1 FROM G6_usuarios WHERE idUsuario = ?";
+    $consultaUsuario = $conexion->prepare($sqlUsuario);
+    $consultaUsuario->execute([$carrito->getIdUsuario()]);
+    if (!$consultaUsuario->fetch()) {
+        throw new Exception("El usuario no existe");
     }
+
+    // Insertar el carrito
+    if ($carrito->getFechaCreacion() === null || $carrito->getFechaCreacion() === "") {
+        $sql = "INSERT INTO G6_carrito (idUsuario) VALUES (?)";
+        $consulta = $conexion->prepare($sql);
+        $consulta->execute([$carrito->getIdUsuario()]);
+    } else {
+        $sql = "INSERT INTO G6_carrito (idUsuario, fechaCreacion) VALUES (?, ?)";
+        $consulta = $conexion->prepare($sql);
+        $consulta->execute([
+            $carrito->getIdUsuario(),
+            $carrito->getFechaCreacion()
+        ]);
+    }
+
+    // ✅ Aquí devolvés el ID generado por la base de datos
+    return $conexion->lastInsertId();
+}
+
 
     // Actualizar un carrito (por ejemplo, cambiar el usuario asociado)
     public function actualizar(Carrito $carrito) {

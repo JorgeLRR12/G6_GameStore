@@ -30,28 +30,33 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 
-    case 'POST':
-        // Crear un nuevo carrito
-        $datos = json_decode(file_get_contents("php://input"), true);
-        if (isset($datos['idUsuario'])) {
-            try {
-                // Si no se manda fecha, usar la fecha y hora local actual
-                if (isset($datos['fechaCreacion']) && $datos['fechaCreacion'] !== "") {
-                    $fechaCreacion = $datos['fechaCreacion'];
-                } else {
-                    date_default_timezone_set('America/Costa_Rica'); // Cambia a tu zona horaria local
-                    $fechaCreacion = date('Y-m-d H:i:s');
-                }
-                $carrito = new Carrito(null, $datos['idUsuario'], $fechaCreacion);
-                $dao->insertar($carrito);
-                RespuestaJSON::enviarRespuesta(201, "Carrito creado correctamente");
-            } catch (Exception $e) {
-                RespuestaJSON::enviarError(400, $e->getMessage());
+case 'POST':
+    $datos = json_decode(file_get_contents("php://input"), true);
+    if (isset($datos['idUsuario'])) {
+        try {
+            if (isset($datos['fechaCreacion']) && $datos['fechaCreacion'] !== "") {
+                $fechaCreacion = $datos['fechaCreacion'];
+            } else {
+                date_default_timezone_set('America/Costa_Rica');
+                $fechaCreacion = date('Y-m-d H:i:s');
             }
-        } else {
-            RespuestaJSON::enviarError(400, "Datos incompletos para crear carrito");
+
+            $carrito = new Carrito(null, $datos['idUsuario'], $fechaCreacion);
+            $idGenerado = $dao->insertar($carrito); // ← importante capturar el ID
+
+          
+            RespuestaJSON::enviarRespuesta(201, [
+                "mensaje" => "Carrito creado correctamente",
+                "idCarrito" => $idGenerado
+            ]);
+        } catch (Exception $e) {
+            RespuestaJSON::enviarError(400, $e->getMessage());
         }
-        break;
+    } else {
+        RespuestaJSON::enviarError(400, "Datos incompletos para crear carrito");
+    }
+    break;
+
 
     case 'PUT':
         // Actualizar un carrito existente
