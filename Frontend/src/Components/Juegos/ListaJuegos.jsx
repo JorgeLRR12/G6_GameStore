@@ -62,7 +62,7 @@ const ListaJuegos = () => {
           <table className="table table-dark table-hover tabla-juegos">
             <thead>
               <tr>
-                {/* 🚫 Ocultamos ID */}
+                {/*  Ocultamos ID */}
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Precio</th>
@@ -77,7 +77,7 @@ const ListaJuegos = () => {
             <tbody>
               {juegos.map((j) => (
                 <tr key={j.idJuego}>
-                  {/* 🚫 ID oculto */}
+                  {/*  ID oculto */}
                   <td>{j.nombre}</td>
                   <td>{j.descripcion}</td>
                   <td>₡{parseFloat(j.precio).toLocaleString()}</td>

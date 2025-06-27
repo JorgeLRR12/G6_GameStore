@@ -38,18 +38,35 @@
 }
 
 /* Tabla */
-.tabla-juegos {
+/* .tabla-juegos {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 14px;
+} */
+
+.tabla-juegos {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  word-break: break-word;
 }
 
-.tabla-juegos th,
+
+
+/* .tabla-juegos th,
 .tabla-juegos td {
   padding: 16px;
   text-align: left;
   border: none;
+} */
+
+.tabla-juegos th,
+.tabla-juegos td {
+  padding: 10px;
+  vertical-align: middle;
+  text-align: center;
 }
+
 
 .tabla-juegos th {
   color: #8fdfff;
@@ -65,9 +82,87 @@
   transition: background 0.18s, box-shadow 0.18s;
 }
 
-.tabla-juegos tr:nth-child(even) {
+/* .tabla-juegos tr:nth-child(even) {
   background: rgba(38, 42, 50, 0.96);
+} */
+
+.tabla-juegos th:nth-child(1),
+.tabla-juegos td:nth-child(1) {
+  width: 120px; /* Nombre */
 }
+
+.tabla-juegos th:nth-child(2),
+.tabla-juegos td:nth-child(2) {
+  width: 250px; /* Descripción */
+}
+
+.tabla-juegos th:nth-child(3),
+.tabla-juegos td:nth-child(3) {
+  width: 80px; /* Precio */
+}
+
+.tabla-juegos th:nth-child(4),
+.tabla-juegos td:nth-child(4) {
+  width: 140px; /* Fecha */
+}
+
+.tabla-juegos th:nth-child(5),
+.tabla-juegos td:nth-child(5) {
+  width: 80px; /* Clasificación */
+}
+
+.tabla-juegos th:nth-child(6),
+.tabla-juegos td:nth-child(6) {
+  width: 80px; /* Categoría */
+}
+
+.tabla-juegos th:nth-child(7),
+.tabla-juegos td:nth-child(7) {
+  width: 80px; /* Usuario */
+}
+
+.tabla-juegos th:nth-child(8),
+.tabla-juegos td:nth-child(8) {
+  width: 100px; /* Imagen */
+}
+
+.tabla-juegos th:nth-child(9),
+.tabla-juegos td:nth-child(9) {
+  width: 180px; /* Acciones */
+}
+
+
+.tabla-juegos img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #00bfff44;
+  background-color: #111;
+}
+
+@media (max-width: 992px) {
+  .tabla-juegos {
+    font-size: 0.9rem;
+  }
+
+  .tabla-juegos th,
+  .tabla-juegos td {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .tabla-juegos {
+    font-size: 0.75rem;
+  }
+
+  .tabla-juegos th:nth-child(2),
+  .tabla-juegos td:nth-child(2) {
+    width: 180px;
+  }
+}
+
 
 .tabla-juegos tr:hover {
   background: rgba(0, 191, 255, 0.08);
@@ -301,9 +396,9 @@
   }
 }
 
-.tabla-juegos img {
+/* .tabla-juegos img {
   transition: transform 0.2s ease-in-out;
-}
+} */
 
 .tabla-juegos img:hover {
   transform: scale(1.05);
