@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+.valoracion-contenedor {
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 12px;
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.valoracion-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.valoracion-estrellas,
+.estrellas-input {
+  font-size: 1.4rem;
+  color: #999;
+  cursor: pointer;
+}
+
+.estrella.llena {
+  color: #FFD700;
+}
+
+.comentario {
+  font-style: italic;
+  margin: 0.5rem 0;
+}
+
+.fecha {
+  font-size: 0.8rem;
+  color: #aaa;
+}

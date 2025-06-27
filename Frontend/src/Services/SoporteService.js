@@ -9,6 +9,6 @@ export const crearTicket = (ticket) => axios.post(`${API_URL}`, ticket);
 
 export const actualizarTicket = (ticket) => axios.put(`${API_URL}`,ticket);
 
-export const eliminarTikcket = (id) => axios.delete(`${API_URL}`, id);
+export const eliminarTikc = (id) => axios.delete(`${API_URL}`, id);
 
 

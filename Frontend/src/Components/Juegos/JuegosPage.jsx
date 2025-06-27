@@ -4,6 +4,7 @@ import { useAuth } from "../../Context/AuthContext";
 import axios from "axios";
 import "./Juego.css";
 import ClienteNavbar from "../Header/HeaderCliente";
+import ValoracionesJuego from "../Valoracion/ValoracionCliente.jsx";
 
 
 const JuegosPage = () => {
@@ -195,6 +196,7 @@ const JuegosPage = () => {
               <div className="modal-juego-precio">
                 ₡{parseFloat(modalJuego.precio).toLocaleString()}
               </div>
+              <ValoracionesJuego idJuego={modalJuego.idJuego} />
               {usuario && (
                 <button
                   className="btn btn-info w-100 fw-bold modal-juego-btn"

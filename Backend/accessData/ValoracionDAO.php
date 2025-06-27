@@ -23,25 +23,29 @@ class ValoracionDAO {
         return $valoraciones;
     }
 
-    public function obtenerPorJuego($idJuego) {
-        $conexion = Conexion::conectar();
-        $sql = "SELECT * FROM G6_valoracion WHERE idJuego = ?";
-        $stmt = $conexion->prepare($sql);
-        $stmt->execute([$idJuego]);
+        public function obtenerPorJuego($idJuego) {
+            $conexion = Conexion::conectar();
+            $sql = "SELECT v.*, u.nombre AS nombreUsuario
+                    FROM G6_valoracion v
+                    INNER JOIN G6_usuarios u ON v.idUsuario = u.idUsuario
+                    WHERE v.idJuego = ?";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute([$idJuego]);
 
-        $valoraciones = [];
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $fila) {
-            $valoraciones[] = [
-                'idValoracion' => $fila['idValoracion'],
-                'idUsuario' => $fila['idUsuario'],
-                'idJuego' => $fila['idJuego'],
-                'puntuacion' => $fila['puntuacion'],
-                'comentario' => $fila['comentario'],
-                'fechaValoracion' => $fila['fechaValoracion']
-            ];
+            $valoraciones = [];
+            foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $fila) {
+                $valoraciones[] = [
+                    'idValoracion' => $fila['idValoracion'],
+                    'idUsuario' => $fila['idUsuario'],
+                    'idJuego' => $fila['idJuego'],
+                    'puntuacion' => $fila['puntuacion'],
+                    'comentario' => $fila['comentario'],
+                    'fechaValoracion' => $fila['fechaValoracion'],
+                    'nombreUsuario' => $fila['nombreUsuario']
+                ];
+            }
+            return $valoraciones;
         }
-        return $valoraciones;
-    }
 
     public function insertar(Valoracion $valoracion) {
         $conexion = Conexion::conectar();

@@ -8,7 +8,14 @@ $dao = new ValoracionDAO();
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
         try {
-            if (isset($_GET['idJuego'])) {
+            if (isset($_GET['idValoracion'])) {
+                $valoracion = $dao->obtenerPorId($_GET['idValoracion']);
+                if ($valoracion) {
+                    RespuestaJSON::enviarRespuesta(200, "Valoración encontrada", $valoracion);
+                } else {
+                    RespuestaJSON::enviarError(404, "Valoración no encontrada");
+                }
+            } elseif (isset($_GET['idJuego'])) {
                 $valoraciones = $dao->obtenerPorJuego($_GET['idJuego']);
                 RespuestaJSON::enviarRespuesta(200, "Valoraciones encontradas", $valoraciones);
             } else {
@@ -19,6 +26,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             RespuestaJSON::enviarError(500, $e->getMessage());
         }
         break;
+
 
     case 'POST':
         $datos = json_decode(file_get_contents("php://input"), true);

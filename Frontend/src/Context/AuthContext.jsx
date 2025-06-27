@@ -1,55 +1,24 @@
+import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [usuario, setUsuario] = useState(null);
 
-  /* const [usuario, setUsuario] = useState(() => {
-  // Solo para pruebas: usuario "logueado" por defecto
-  const mockUsuario = {
-    idUsuario: 11,
-    nombre: "Jorge",
-    correo: "jorgelcr09@gmail.com",
-    rol: "Administrador",
-  };
-  localStorage.setItem("usuario", JSON.stringify(mockUsuario)); // Opcional: persistirlo
-
-  return mockUsuario;
-});  */
+  useEffect(() => {
+    const storedUser = localStorage.getItem("usuario");
+    if (storedUser) {
+      setUsuario(JSON.parse(storedUser));
+    }
+  }, []);
 
   const login = async (correo, clave) => {
     try {
-      // const response = await axios.post("http://localhost/2025/Proyecto2/G6_GameStore/Backend/API/autenticacion.php", {
-      //   correo,
-      //   clave,
-      // });
       const response = await axios.post(
         "https://gamestorecr.onrender.com/API/autenticacion.php",
-        {
-          correo,
-          clave,
-        }
+        { correo, clave }
       );
-
-      // Uso mi ruta para pruebas locales Luis
-      /*const response = await axios.post(
-        "http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/autenticacion.php",
-        {
-          correo,
-          clave,
-        }
-      );*/
-
-
-      /*{Prueba de Fernando
-       const response = await axios.post("http://localhost/G6_GameStore/Backend/API/autenticacion.php", {
-         correo,
-         clave,
-      });*/
-
-      
 
       if (response.data.codigo === 200) {
         const userData = response.data.datos;
@@ -70,11 +39,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("usuario");
   };
 
-  const isAuthenticated = () => {
-    const storedUser = localStorage.getItem("usuario");
-    if (storedUser && !usuario) setUsuario(JSON.parse(storedUser)); // sincroniza si hace falta
-    return storedUser !== null;
-  };
+  const isAuthenticated = () => !!usuario;
 
   return (
     <AuthContext.Provider value={{ usuario, login, logout, isAuthenticated }}>

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { crearTicket } from "../../Services/SoporteService";
+import { useAuth } from "../../Context/AuthContext.jsx";
+
 import "./FormsTicket.css";
 
 const FormularioSoporte = () => {
+  const { usuario } = useAuth(); // ← Obtener usuario autenticado
+
   const [formulario, setFormulario] = useState({
-    idUsuario: "",
     asunto: "",
     descripcion: "",
   });
@@ -19,11 +22,16 @@ const FormularioSoporte = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    crearTicket(formulario)
+    const datosTicket = {
+      ...formulario,
+      idUsuario: usuario.idUsuario, // ← Lo agregás directamente aquí
+    };
+
+    crearTicket(datosTicket)
       .then((res) => {
         if (res.data.codigo === 201) {
           setMensaje("✅ Ticket creado correctamente.");
-          setFormulario({ idUsuario: "", asunto: "", descripcion: "" });
+          setFormulario({ asunto: "", descripcion: "" });
         } else {
           setMensaje("❌ Error: " + res.data.mensaje);
         }
@@ -38,18 +46,6 @@ const FormularioSoporte = () => {
     <div className="formulario-soporte">
       <h3>Crear nuevo ticket de soporte</h3>
       <form onSubmit={handleSubmit} className="mt-3">
-        <div className="mb-3">
-          <label className="form-label">ID Usuario</label>
-          <input
-            type="number"
-            name="idUsuario"
-            className="form-control"
-            value={formulario.idUsuario}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
         <div className="mb-3">
           <label className="form-label">Asunto</label>
           <input
@@ -74,10 +70,7 @@ const FormularioSoporte = () => {
           ></textarea>
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          {" "}
-          Enviar{" "}
-        </button>
+        <button type="submit" className="btn btn-primary">Enviar</button>
       </form>
 
       {mensaje && <div className="alert alert-info mt-3">{mensaje}</div>}
