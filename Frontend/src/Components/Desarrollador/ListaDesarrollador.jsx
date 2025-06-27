@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavDes from "../Header/HeaderAdmin"
 import { obtenerDesarrolladores, eliminarDesarrollador } from "../../Services/DesarrolladorService";
 import { Link } from "react-router-dom";
-import "./Desarrollador.css"; z
+import "./Desarrollador.css"; 
 
 const ListaDesarrollador = () => {
   const [desarrolladores, setDesarrolladores] = useState([]);
@@ -37,7 +37,7 @@ const ListaDesarrollador = () => {
 
   return (
     <>
-      {/* <NavDes /> */}
+      <NavDes />
       <div className="desarrolladores-container container mt-5 mb-5">
         <div className="d-flex justify-content-between mb-3">
           <h2 className="titulo-desarrolladores">👨‍💻 Gestión de Desarrolladores</h2>

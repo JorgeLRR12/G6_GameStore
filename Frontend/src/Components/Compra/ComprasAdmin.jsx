@@ -14,7 +14,7 @@ const ComprasAdmin = () => {
 
     return (
         <>
-            {/* <compraNavbar /> */}
+            <compraNavbar />
             <div className="admin-compras-container container mt-4">
                 <h2 className="text-white text-center mb-4">🧾 Compras Registradas</h2>
 
