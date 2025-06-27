@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../Context/AuthContext";
+import promoNavbar from "../Header/HeaderAdmin"
 
 const PromocionesAdmin = () => {
   const [promos, setPromos] = useState([]);
@@ -48,6 +49,8 @@ const PromocionesAdmin = () => {
   };
 
   return (
+    <>
+    {/* <PromocioKnesAdmin/> */}
     <div className="container mt-4 promociones-admin-container">
       <h2 className="text-white text-center mb-4">🎯 Promociones Actuales</h2>
 
@@ -105,6 +108,7 @@ const PromocionesAdmin = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 
