@@ -211,8 +211,6 @@ const handleCloseModal = (e) => {
                 >
                   Agregar al carrito
                 </button>
-        
-                
               )}
               <ValoracionesJuego idJuego={modalJuego.idJuego} />
             </div>

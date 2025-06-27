@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { obtenerJuegos, eliminarJuego } from "../../Services/JuegoService";
 import { Link } from "react-router-dom";
+import ValoracionAdmin from "../Valoracion/ValoracionAdmin";
+
 import "./Juego.css";
+
 
 const ListaJuegos = () => {
   const [juegos, setJuegos] = useState([]);
@@ -116,6 +119,7 @@ const ListaJuegos = () => {
                     >
                       Eliminar
                     </button>
+                    <ValoracionAdmin idJuego={j.idJuego} />
                   </td>
                 </tr>
               ))}

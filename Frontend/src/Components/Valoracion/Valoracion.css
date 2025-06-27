@@ -35,3 +35,37 @@
   font-size: 0.8rem;
   color: #aaa;
 }
+
+.botones-valoracion {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-warning,
+.btn-danger,
+.btn-success {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 500;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  color: white;
+}
+
+textarea.comentario {
+  resize: vertical;
+  min-height: 80px;
+}
+

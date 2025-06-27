@@ -20,4 +20,4 @@ export const crearValoracion= (Valoracion) => axios.post(`${API_URL}`, Valoracio
 
 export const actualizarValoracion = (Valoracion) => axios.put(`${API_URL}`,Valoracion);
 
-export const eliminarValoracion = (id) => axios.delete(`${API_URL}`, id);
+export const eliminarValoracion = (id) => axios.delete(`${API_URL}`, { data: { idValoracion: id } });
