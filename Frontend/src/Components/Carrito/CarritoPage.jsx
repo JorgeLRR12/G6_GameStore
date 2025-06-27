@@ -27,13 +27,13 @@ const CarritoPage = () => {
     const fetchOrCreateCarrito = async () => {
       try {
         const res = await axios.get(
-          `https://gamestorecr.onrender.com/API/carrito.php?idUsuario=${usuario.idUsuario}`
+          `http://localhost/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
         );
         let carrito = res.data.datos && res.data.datos[0];
 
         if (!carrito) {
           const nuevo = await axios.post(
-            "https://gamestorecr.onrender.com/API/carrito.php",
+            "http://localhost/G6_GameStore/Backend/API/carrito.php",
             {
               idUsuario: usuario.idUsuario,
             }
@@ -44,7 +44,7 @@ const CarritoPage = () => {
         setIdCarrito(carrito.idCarrito);
 
         const resCarrito = await axios.get(
-          `https://gamestorecr.onrender.com/API/carritojuego.php?idCarrito=${carrito.idCarrito}`
+          `http://localhost/G6_GameStore/Backend/API/carritojuego.php?idCarrito=${carrito.idCarrito}`
         );
         const juegosCarrito = resCarrito.data.datos || [];
 
@@ -57,7 +57,7 @@ const CarritoPage = () => {
         const juegosConInfo = await Promise.all(
           juegosCarrito.map(async (item) => {
             const resJuego = await axios.get(
-              `https://gamestorecr.onrender.com/API/juego.php?id=${item.idJuego}`
+              `http://localhost/G6_GameStore/Backend/API/juego.php?id=${item.idJuego}`
             );
             const juego = resJuego.data.datos;
             return {
@@ -84,7 +84,7 @@ const CarritoPage = () => {
     const fetchPromos = async () => {
       try {
         const res = await axios.get(
-          "https://gamestorecr.onrender.com/API/promocion.php"
+          "http://localhost/G6_GameStore/Backend/API/promocion.php"
         );
         setPromos(res.data.datos || []);
       } catch (error) {
@@ -110,7 +110,7 @@ const CarritoPage = () => {
   const eliminarJuego = (idJuego) => {
     setJuegos(juegos.filter((j) => j.idJuego !== idJuego));
     if (idCarrito) {
-      axios.delete(`https://gamestorecr.onrender.com/API/carritojuego.php`, {
+      axios.delete(`http://localhost/G6_GameStore/Backend/API/carritojuego.php`, {
         data: { idCarrito, idJuego },
       });
     }
