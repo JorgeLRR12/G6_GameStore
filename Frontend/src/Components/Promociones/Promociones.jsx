@@ -4,7 +4,7 @@ import "./Promociones.css";
 import axios from "axios";
 import ClienteNavbar from "../Header/HeaderCliente";
 
-const PromocionesCliente = ({ usuario }) => {
+const PromocionesCliente = ({ usuario, mostrarTitulo = true }) => {
   const [juegos, setJuegos] = useState([]);
   const [toast, setToast] = useState({
     show: false,
@@ -15,17 +15,17 @@ const PromocionesCliente = ({ usuario }) => {
   useEffect(() => {
     const fetchPromos = async () => {
       try {
-        // const resPromo = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/promocion.php');
-        const resPromo = await axios.get('https://gamestorecr.onrender.com/API/promocion.php');
-        // const resJuegos = await axios.get('http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/juego.php');
-        const resJuegos = await axios.get('https://gamestorecr.onrender.com/API/juego.php');
+        const resPromo = await axios.get("https://gamestorecr.onrender.com/API/promocion.php");
+        const resJuegos = await axios.get("https://gamestorecr.onrender.com/API/juego.php");
+
         const promos = resPromo.data.datos || [];
         const juegosAll = resJuegos.data.datos || [];
+
         const juegosPromo = promos
           .map((promo) => {
             const juego = juegosAll.find((j) => j.idJuego === promo.idJuego);
             if (!juego) return null;
-            // Ahora la imagen viene directamente desde la base de datos
+
             return {
               ...juego,
               imagen: juego.imagen,
@@ -39,6 +39,7 @@ const PromocionesCliente = ({ usuario }) => {
             };
           })
           .filter(Boolean);
+
         setJuegos(juegosPromo);
       } catch (error) {
         setJuegos([]);
@@ -47,15 +48,15 @@ const PromocionesCliente = ({ usuario }) => {
     fetchPromos();
   }, []);
 
-  // Aviso visual elegante al agregar al carrito
   const handleAgregarCarrito = async (idJuego) => {
     if (!usuario || usuario.rol !== "Cliente") return;
     try {
       const resCarrito = await axios.get(
-        //`http://localhost/MultimediosProyecto/G6_GameStore/Backend/API/carrito.php?idUsuario=${usuario.idUsuario}`
         `https://gamestorecr.onrender.com/API/carrito.php?idUsuario=${usuario.idUsuario}`
       );
+
       let carrito = resCarrito.data.datos && resCarrito.data.datos[0];
+
       if (!carrito) {
         const nuevo = await axios.post(
           "https://gamestorecr.onrender.com/API/carrito.php",
@@ -63,40 +64,40 @@ const PromocionesCliente = ({ usuario }) => {
         );
         carrito = nuevo.data.datos;
       }
-      // Intento agregar el juego al carrito
-      const resAdd = await axios.post(
+
+      await axios.post(
         "https://gamestorecr.onrender.com/API/carritojuego.php",
         { idCarrito: carrito.idCarrito, idJuego }
       );
-      // Si el backend responde con éxito
+
       setToast({
         show: true,
         mensaje: "¡Juego agregado al carrito!",
         tipo: "success",
       });
     } catch (error) {
-      // Si el juego ya está en el carrito, muestro un aviso elegante
       setToast({
         show: true,
         mensaje: "Este juego ya está en tu carrito.",
         tipo: "info",
       });
     }
-    setTimeout(
-      () => setToast({ show: false, mensaje: "", tipo: "success" }),
-      2000
-    );
+    setTimeout(() => setToast({ show: false, mensaje: "", tipo: "success" }), 2000);
   };
 
   return (
     <>
       <ClienteNavbar />
-      <div className="contenedor-promociones">
+      <div className={`contenedor-promociones ${mostrarTitulo ? "" : "promos-home-light"}`}>
+        {mostrarTitulo}
+
         <div className="container">
-          <h2 className="mb-4 fw-bold text-white text-center">
-            🎯 Selección de descuentos
-          </h2>
-          {/* Toast elegante para avisos */}
+          {mostrarTitulo && (
+            <h2 className="mb-4 fw-bold text-white text-center">
+              🎯 Selección de descuentos
+            </h2>
+          )}
+
           {toast.show && (
             <div
               className={`position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow-lg text-center fw-semibold toast-gamer ${toast.tipo}`}
@@ -110,26 +111,42 @@ const PromocionesCliente = ({ usuario }) => {
               {toast.mensaje}
             </div>
           )}
+
           <div className="row">
-            {juegos.map((juego) => (
-              <div
-                className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
-                key={juego.idJuego}
-              >
-                <JuegoCard
-                  {...juego}
-                  imagen={juego.imagen}
-                  onAgregarCarrito={
-                    usuario && usuario.rol === "Cliente"
-                      ? () => handleAgregarCarrito(juego.idJuego)
-                      : undefined
-                  }
-                  mostrarBotonAgregar={usuario && usuario.rol === "Cliente"}
-                  descripcion={juego.descripcion}
-                />
+            {juegos.length === 0 ? (
+              <div className="col-12 text-center">
+                <div className="col-12 d-flex justify-content-center">
+                  <div className="tarjeta-sin-promos">
+                    <div className="fs-1 mb-3">🚫🎯</div>
+                    <h4>No hay promociones activas por el momento</h4>
+                    <p>¡Vuelve pronto! Estamos preparando nuevos descuentos exclusivos para vos 🎮✨</p>
+                    <a href="/juegos" className="btn">Ir a la tienda</a>
+                  </div>
+                </div>
+
               </div>
-            ))}
+            ) : (
+              juegos.map((juego) => (
+                <div
+                  className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"
+                  key={juego.idJuego}
+                >
+                  <JuegoCard
+                    {...juego}
+                    imagen={juego.imagen}
+                    onAgregarCarrito={
+                      usuario && usuario.rol === "Cliente"
+                        ? () => handleAgregarCarrito(juego.idJuego)
+                        : undefined
+                    }
+                    mostrarBotonAgregar={usuario && usuario.rol === "Cliente"}
+                    descripcion={juego.descripcion}
+                  />
+                </div>
+              ))
+            )}
           </div>
+
         </div>
       </div>
     </>

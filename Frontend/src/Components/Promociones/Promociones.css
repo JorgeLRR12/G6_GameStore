@@ -1,46 +1,82 @@
+/* Fondo general de promociones */
 .contenedor-promociones {
-  background-image: url("/img/fondojuegos.jpg"); /* Ruta relativa si está en /public/img */
+  background-image: url("/img/fondojuegos.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   min-height: 100vh;
-  padding: 3rem 0;
+  padding-bottom: 12rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-blend-mode: darken;
 
-  background-color: rgba(0, 0, 0, 0.4); /* Más transparente */
-  background-blend-mode: darken; /* Mantiene la fusión para oscurecer */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* ← aquí va el centrado vertical */
 }
 
+
+/* Tarjeta visual cuando no hay promociones */
+.tarjeta-sin-promos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin: 1rem;
+  max-width: 520px;
+  padding: 2rem;
+  text-align: center;
+
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+  border: 2px solid #00f0ff;
+  box-shadow: 0 0 15px #00f0ff88;
+}
+
+.tarjeta-sin-promos img {
+  width: 100px;
+  margin-bottom: 1rem;
+  opacity: 0.75;
+}
+
+.tarjeta-sin-promos h4 {
+  color: #00e5ff;
+  font-size: 1.6rem;
+  font-family: "Orbitron", sans-serif;
+}
+
+.tarjeta-sin-promos p {
+  color: #ccc;
+  font-size: 1.05rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.tarjeta-sin-promos a.btn {
+  border-radius: 0.75rem;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  background-color: transparent;
+  border: 2px solid #00e5ff;
+  color: #00e5ff;
+  transition: 0.3s ease;
+}
+
+.tarjeta-sin-promos a.btn:hover {
+  background-color: #00e5ff;
+  color: black;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
   .contenedor-promociones {
     padding: 1.2rem 0.2rem;
   }
-  .row > [class^="col-"] {
+
+  .row>[class^="col-"] {
     flex: 0 0 100%;
     max-width: 100%;
-  }
-}
-
-.toast-gamer {
-  background: linear-gradient(90deg, #00bfff 60%, #232a34 100%);
-  color: #fff;
-  border: 2px solid #00bfff;
-  box-shadow:
-    0 4px 18px 0 rgba(0, 191, 255, 0.18),
-    0 2px 8px 0 #000c;
-  font-family: "Orbitron", sans-serif;
-  animation: toastFadeIn 0.2s;
-}
-.toast-gamer.info {
-  background: linear-gradient(90deg, #ffaa00 60%, #232a34 100%);
-  border-color: #ffaa00;
-}
-@keyframes toastFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

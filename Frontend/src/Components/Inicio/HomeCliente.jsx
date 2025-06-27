@@ -214,7 +214,7 @@ const HomeCliente = () => {
         {/* Logo flotante tipo DVD */}
         <img
           ref={logoRef}
-          src="/img/pacman.jpg"
+          src="../../../public/img/logoStoreCR.png"
           alt="Logo flotante"
           className="logo-dvd-float"
           style={{
