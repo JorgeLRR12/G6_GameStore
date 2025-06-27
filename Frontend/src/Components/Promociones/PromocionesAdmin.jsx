@@ -31,7 +31,7 @@ const PromocionesAdmin = () => {
     };
 
     axios
-      .post("https://gamestorecr.onrender.com/API/promocion.php", data)
+      .post("https://gamestorecr.onrender.com/API/Promocion.php", data)
       .then((res) => {
         if (res.data.codigo === 200) {
           setMensaje("Promoción creada exitosamente");

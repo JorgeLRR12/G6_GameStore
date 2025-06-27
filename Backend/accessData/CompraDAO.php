@@ -79,10 +79,10 @@ class CompraDAO {
                     j.idJuego,
                     j.nombre AS nombreJuego
                 FROM G6_compra c
-                JOIN G6_usuario u ON c.idUsuario = u.idUsuario
+                JOIN G6_usuarios u ON c.idUsuario = u.idUsuario
                 LEFT JOIN G6_compra_juego cj ON c.idCompra = cj.idCompra
                 LEFT JOIN G6_juego j ON cj.idJuego = j.idJuego
-                ORDER BY c.fecha DESC
+                ORDER BY c.fechaCompra DESC
             ";
 
             $stmt = $pdo->query($sql);
