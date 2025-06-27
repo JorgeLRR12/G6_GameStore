@@ -75,7 +75,7 @@ class CompraDAO {
                     c.idUsuario,
                     u.nombre AS nombreUsuario,
                     c.total,
-                    c.fecha,
+                    c.fechaCompra,
                     j.idJuego,
                     j.nombre AS nombreJuego
                 FROM G6_compra c
