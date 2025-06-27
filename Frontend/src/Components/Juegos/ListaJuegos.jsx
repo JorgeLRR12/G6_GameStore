@@ -109,7 +109,6 @@ const ListaJuegos = () => {
               </td>
 
                 
-
                   <td>
                     <Link
                       to={`/juegos/editar/${j.idJuego}`}

@@ -13,6 +13,10 @@ import Promociones from "./Components/Promociones/Promociones.jsx";
 import ControlUsuarios from "./Components/Usuarios/ControlUsuarios.jsx";
 import JuegosPage from "./Components/Juegos/JuegosPage.jsx";
 import ListaJuegos from "./Components/Juegos/ListaJuegos.jsx";
+import ListaDesarrollador from "./Components/Desarrollador/ListaDesarrollador.jsx";
+import FormularioDesarrollador from "./Components/Desarrollador/FormularioDesarrollador.jsx";
+import DesarrolladorPage from "./Components/Desarrollador/DesarrolladorPage.jsx";
+
 
 import FormularioJuego from "./Components/Juegos/FormularioJuego.jsx";
 import CrudCategorias from "./Components/Categoria/CrudCategorias.jsx";
@@ -117,6 +121,46 @@ function App() {
             </PrivateRoute>
           }
         />
+
+
+        <Route
+  path="/desarrolladores-admin"
+  element={
+    <PrivateRoute rolPermitido="Administrador">
+      <ListaDesarrollador />
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/desarrolladores/registrar"
+  element={
+    <PrivateRoute rolPermitido="Administrador">
+      <FormularioDesarrollador />
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/desarrolladores/editar/:id"
+  element={
+    <PrivateRoute rolPermitido="Administrador">
+      <FormularioDesarrollador />
+    </PrivateRoute>
+  }
+/>
+<Route
+  path="/desarrolladores"
+  element={
+    <PrivateRoute rolPermitido="Cliente">
+      <DesarrolladorPage />
+    </PrivateRoute>
+  }
+/>
+
+
+
+
+
+
 
         <Route
           path="/admin/soporte"

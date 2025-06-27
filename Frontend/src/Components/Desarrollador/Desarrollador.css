@@ -1,0 +1,63 @@
+/* Desarrollador.css */
+
+.titulo-desarrollador {
+  color: #00bfff;
+  font-family: "Orbitron", sans-serif;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.btn-agregar-desarrollador {
+  background-color: #00bfff;
+  color: #000;
+  border: none;
+}
+
+.btn-agregar-desarrollador:hover {
+  background-color: #009acd;
+  color: white;
+}
+
+.tabla-desarrollador {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.tabla-desarrollador th,
+.tabla-desarrollador td {
+  vertical-align: middle;
+}
+
+.desarrollador-container {
+  background-color: #111;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 191, 255, 0.2);
+}
+
+.btn-editar,
+.btn-eliminar {
+  font-size: 0.9rem;
+}
+
+.btn-editar {
+  background-color: #007bff; /* Celeste oscuro */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-weight: 500;
+}
+
+.btn-editar:hover {
+   background-color: #0056b3; 
+}
+
+.btn-eliminar {
+  background-color: #dc3545;
+  border: none;
+}
+
+.btn-eliminar:hover {
+  background-color: #c82333;
+  color: white;
+}
