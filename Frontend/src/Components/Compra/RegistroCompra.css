@@ -1,36 +1,45 @@
-/* Estilos básicos para la vista de registro de compra */
-/* Compra:RegistroCompra.css */
 .registro-compra-container {
-  min-height: 60vh;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start; /* o center si quiero centrar completo */
+  min-height: 80vh;
+  padding-top: 4rem;
+}
+
+.tarjeta-sin-compras {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: transparent;
-}
 
-.registro-compra-card {
-  background: rgba(30, 34, 40, 0.98);
-  border-radius: 12px;
-  box-shadow: 0 0 18px 0 rgba(0, 191, 255, 0.1);
-  padding: 2.5rem 2rem;
-  color: #e0e0e0;
-  max-width: 420px;
-  width: 100%;
+  margin: 1rem; /* espacio arriba y abajo */
+  max-width: 500px;
+  padding: 2rem;
   text-align: center;
+
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
+  border: 2px solid #00f0ff;
+  box-shadow: 0 0 15px #00f0ff55;
 }
 
-.registro-compra-card h2 {
-  color: #00bfff;
-  font-family: "Orbitron", sans-serif;
+.tarjeta-sin-compras img {
+  width: 100px;
+  margin-bottom: 1rem;
+  opacity: 0.7;
 }
-
-@media (max-width: 600px) {
-  .registro-compra-card {
-    padding: 1.2rem 0.5rem;
-    font-size: 0.98rem;
-    max-width: 98vw;
-  }
-  .registro-compra-card h2 {
-    font-size: 1.2rem;
-  }
+.tarjeta-sin-compras h4 {
+  color: #00e5ff;
+  font-size: 1.5rem;
+}
+.tarjeta-sin-compras p {
+  color: #aaa;
+  font-size: 1rem;
+}
+.tarjeta-sin-compras a.btn {
+  border-radius: 0.75rem;
+  font-weight: bold;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
 }

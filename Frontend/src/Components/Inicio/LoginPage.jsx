@@ -35,7 +35,7 @@ const LoginPage = () => {
         <div className="login-card-gamer shadow-lg">
           <div className="login-logo-wrapper">
             <img
-              src="/img/logoStoreCR.png"
+              src="../../../public/img/logoStoreCR.png"
               alt="Logo GameStore"
               className="login-logo-gamer"
             />

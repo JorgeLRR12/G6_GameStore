@@ -6,7 +6,7 @@ const Footer = () => (
     <div className="footer-content-gamer">
       <div className="footer-logo-section">
         <img
-          src="/img/logoStoreCR.png"
+          src="../../../public/img/logoStoreCR.png"
           alt="GameStore Logo"
           className="footer-logo-gamer"
         />

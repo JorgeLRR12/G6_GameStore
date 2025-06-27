@@ -1,10 +1,17 @@
 <?php
+<?php
 // Permitir solicitudes desde cualquier origen (CORS)
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Allow-Methods: *");
+header("Vary: Origin");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // Enviar encabezados CORS para la respuesta OPTIONS
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: *");
+    header("Access-Control-Allow-Methods: *");
+    header("Vary: Origin");
     http_response_code(200);
     exit();
 }
