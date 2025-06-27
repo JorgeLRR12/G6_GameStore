@@ -6,7 +6,7 @@ const API_URL = 'https://gamestorecr.onrender.com/API/soporte.php';
 export const obtenerTickets = async () => {
   try {
     const response = await axios.get(`${API_URL}`);
-    return response.data;
+    return response.data.datos;
   } catch (error) {
     console.error("Error al obtener tickets:", error);
     throw error;
