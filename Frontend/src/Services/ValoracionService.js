@@ -4,20 +4,55 @@ const API_URL = 'https://gamestorecr.onrender.com/API/valoracion.php';
 
 
 export const obtenerValoraciones = async () => {
-  const response = await axios.get(`${API_URL}`);
-  return response.data; 
+  try {
+    const response = await axios.get(`${API_URL}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener las valoraciones:", error);
+    throw error;
+  }
 };
-
 
 export const obtenerValoracionJuego = async (idJuego) => {
-  const response = await axios.get(`${API_URL}?idJuego=${idJuego}`);
-  return response.data;
+  try {
+    const response = await axios.get(`${API_URL}?idJuego=${idJuego}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error al obtener valoraciones del juego con ID ${idJuego}:`, error);
+    throw error;
+  }
 };
 
 
+export const crearValoracion = async (valoracion) => {
+  try {
+    const response = await axios.post(`${API_URL}`, valoracion);
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear valoración:", error);
+    throw error;
+  }
+};
 
-export const crearValoracion= (Valoracion) => axios.post(`${API_URL}`, Valoracion);
 
-export const actualizarValoracion = (Valoracion) => axios.put(`${API_URL}`,Valoracion);
+export const actualizarValoracion = async (valoracion) => {
+  try {
+    const response = await axios.put(`${API_URL}`, valoracion);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar valoración:", error);
+    throw error;
+  }
+};
 
-export const eliminarValoracion = (id) => axios.delete(`${API_URL}`, { data: { idValoracion: id } });
+export const eliminarValoracion = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}`, {
+      data: { idValoracion: id },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar valoración:", error);
+    throw error;
+  }
+};

@@ -3,12 +3,46 @@ import axios from 'axios';
 const API_URL = 'https://gamestorecr.onrender.com/API/soporte.php';
 
 
-export const obtenerTickets = () => axios.get(`${API_URL}`);
+export const obtenerTickets = async () => {
+  try {
+    const response = await axios.get(`${API_URL}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener tickets:", error);
+    throw error;
+  }
+};
 
-export const crearTicket = (ticket) => axios.post(`${API_URL}`, ticket);
+export const crearTicket = async (ticket) => {
+  try {
+    const response = await axios.post(`${API_URL}`, ticket);
+    return response.data;
+  } catch (error) {
+    console.error("Error al crear ticket:", error);
+    throw error;
+  }
+};
 
-export const actualizarTicket = (ticket) => axios.put(`${API_URL}`,ticket);
+export const actualizarTicket = async (ticket) => {
+  try {
+    const response = await axios.put(`${API_URL}`, ticket);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar ticket:", error);
+    throw error;
+  }
+};
 
-export const eliminarTikc = (id) => axios.delete(`${API_URL}`, id);
+export const eliminarTikc = async (id) => {
+  try {
+    const response = await axios.delete(`${API_URL}`, {
+      data: { idSoporte: id }, // Asegúrate que tu backend lo espera así
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar ticket:", error);
+    throw error;
+  }
+};
 
 

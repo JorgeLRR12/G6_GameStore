@@ -24,7 +24,7 @@ const RegistroCompra = () => {
         const comprasConJuegos = await Promise.all(
           comprasUsuario.map(async (compra) => {
             const resJuegos = await axios.get(
-              `https://gamestorecr.onrender.com/API/comprajuego.php?idCompra=${compra.idCompra}`
+              `https://gamestorecr.onrender.com/API/compra_juego.php?idCompra=${compra.idCompra}`
             );
             return {
               ...compra,

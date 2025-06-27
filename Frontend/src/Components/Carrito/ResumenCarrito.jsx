@@ -22,7 +22,7 @@ const ResumenCarrito = ({ total, juegos, setJuegos }) => {
 
       // 2. Insertar juegos comprados
       for (const juego of juegos) {
-        await axios.post("https://gamestorecr.onrender.com/API/comprajuego.php", {
+        await axios.post("https://gamestorecr.onrender.com/API/compra_juego.php", {
           idCompra,
           idJuego: juego.idJuego,
           cantidad: juego.cantidad,
