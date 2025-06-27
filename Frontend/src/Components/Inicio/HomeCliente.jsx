@@ -88,8 +88,8 @@ const HomeCliente = () => {
         ];
         // Diccionario para forzar la ruta correcta de las imágenes del carrusel
         const imagenesCarruselFix = {
-          "God of War: Ragnarok": "/img/god_of_war_ragnarok.jpg",
-          "GTA VI (Próximamente)": "/img/gta_vi_proximamente.jpg",
+          "God of War: Ragnarok": "../../../public/img/god_of_war_ragnarok.jpg",
+          "GTA VI (Próximamente)": "../../../public/img/gta_vi_proximamente.jpg",
         };
         const juegosFiltrados = (res.data.datos || [])
           .filter((j) =>
@@ -101,7 +101,7 @@ const HomeCliente = () => {
             ...j,
             imagenUrl:
               imagenesCarruselFix[j.nombre] ||
-              `/img/${j.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
+              `../../../public/img/${j.nombre.toLowerCase().replace(/[^a-z0-9]/g, "_")}.jpg`,
           }));
         setJuegosTop(juegosFiltrados);
       } catch (error) {

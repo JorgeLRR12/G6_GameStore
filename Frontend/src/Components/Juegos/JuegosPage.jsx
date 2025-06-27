@@ -124,12 +124,12 @@ const handleCloseModal = (e) => {
                   onClick={() => handleOpenModal(juego)}
                 >
                   <img
-                    src={juego.imagen || "/img/default.jpg"}
+                    src={juego.imagen || "../../../public/img/default.jpg"}
                     className="card-img-top juego-card-img"
                     alt={juego.nombre}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = "/img/default.jpg";
+                      e.target.src = "../../../public/img/default.jpg";
                     }}
                   />
                   <div className="card-body d-flex flex-column">
@@ -184,12 +184,12 @@ const handleCloseModal = (e) => {
               </button>
               <div className="modal-juego-img-wrapper">
                 <img
-                  src={modalJuego.imagen || "/img/default.jpg"}
+                  src={modalJuego.imagen || "../../../public/img/default.jpg"}
                   alt={modalJuego.nombre}
                   className="modal-juego-img"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "/img/default.jpg";
+                    e.target.src = "../../../public/img/default.jpg";
                   }}
                 />
               </div>

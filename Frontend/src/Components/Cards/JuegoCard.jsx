@@ -67,7 +67,7 @@ const JuegoCard = ({
     "Juego destacado en nuestra tienda. Consulta más detalles en la web oficial.";
 
   // Usar la imagen de la base de datos (imagen o imagenUrl), si no hay, mostrar una por defecto
-  const imgSrc = imagen || imagenUrl || "/img/default.jpg";
+  const imgSrc = imagen || imagenUrl || "../../../public/img/default.jpg";
 
   return (
     <>
@@ -84,7 +84,7 @@ const JuegoCard = ({
             style={{ objectFit: "cover", height: 200 }}
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "/img/default.jpg";
+              e.target.src = "../../../public/img/default.jpg";
             }}
           />
         </div>

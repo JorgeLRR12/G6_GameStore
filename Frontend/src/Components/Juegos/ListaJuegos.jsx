@@ -100,7 +100,7 @@ const ListaJuegos = () => {
                     }}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = "/img/default.jpg";
+                      e.target.src = "../../../public/img/default.jpg";
                     }}
                   />
                 ) : (

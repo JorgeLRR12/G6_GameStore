@@ -1,6 +1,6 @@
 /* Fondo general de promociones */
 .contenedor-promociones {
-  background-image: url("/img/fondojuegos.jpg");
+  background-image: url("../../../public/img/fondojuegos.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -50,7 +50,7 @@ const RegistroUsuario = () => {
         <div className="registro-card-gamer shadow-lg">
           <div className="registro-logo-wrapper">
             <img
-              src="/img/logoStoreCR.png"
+              src="../../../public/img/logoStoreCR.png"
               alt="Logo GameStore"
               className="registro-logo-gamer"
             />

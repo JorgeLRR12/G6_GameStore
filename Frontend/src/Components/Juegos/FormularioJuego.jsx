@@ -57,7 +57,7 @@ const FormularioJuego = () => {
     if (name === "imagen") {
       const archivo = files[0];
       if (archivo) {
-        const rutaImagen = `/img/${archivo.name}`;
+        const rutaImagen = `../../../public/img/${archivo.name}`;
         setJuego({ ...juego, imagen: rutaImagen });
         setImagenPreview(URL.createObjectURL(archivo)); //  Preview local mientras se sube
       } else {
