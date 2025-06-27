@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import compraNavbar from "../Header/HeaderAdmin"
+import CompraNavbar from "../Header/HeaderAdmin"
 
 const ComprasAdmin = () => {
     const [compras, setCompras] = useState([]);
@@ -14,7 +14,7 @@ const ComprasAdmin = () => {
 
     return (
         <>
-            <compraNavbar />
+            <CompraNavbar />
             <div className="admin-compras-container container mt-4">
                 <h2 className="text-white text-center mb-4">🧾 Compras Registradas</h2>
 
