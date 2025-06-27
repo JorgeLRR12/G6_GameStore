@@ -99,6 +99,14 @@ function App() {
           }
         />
         <Route
+        path="/admin/categorias"
+        element={
+          <PrivateRoute rolPermitido="Administrador">
+            <CrudCategorias />
+          </PrivateRoute>
+        }
+      />
+        <Route
           path="/admin/usuarios"
           element={
             <PrivateRoute rolPermitido="Administrador">
