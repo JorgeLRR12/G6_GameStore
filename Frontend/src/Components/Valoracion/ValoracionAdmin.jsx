@@ -1,4 +1,3 @@
-// ValoracionAdmin.jsx
 import React, { useEffect, useState } from "react";
 import { obtenerValoracionJuego, eliminarValoracion } from "../../Services/ValoracionService";
 import "./Valoracion.css";

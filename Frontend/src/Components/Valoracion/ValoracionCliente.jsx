@@ -1,4 +1,3 @@
-// ValoracionCliente.jsx
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import {

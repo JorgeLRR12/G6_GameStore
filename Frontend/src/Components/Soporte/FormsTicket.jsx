@@ -5,7 +5,7 @@ import { useAuth } from "../../Context/AuthContext.jsx";
 import "./FormsTicket.css";
 
 const FormularioSoporte = () => {
-  const { usuario } = useAuth(); // ← Obtener usuario autenticado
+  const { usuario } = useAuth(); 
 
   const [formulario, setFormulario] = useState({
     asunto: "",
@@ -24,7 +24,7 @@ const FormularioSoporte = () => {
 
     const datosTicket = {
       ...formulario,
-      idUsuario: usuario.idUsuario, // ← Lo agregás directamente aquí
+      idUsuario: usuario.idUsuario, 
     };
 
     crearTicket(datosTicket)
