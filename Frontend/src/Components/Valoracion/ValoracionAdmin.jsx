@@ -35,7 +35,7 @@ const ValoracionAdmin = ({ idJuego }) => {
         className="btn btn-outline-info btn-sm"
         onClick={() => setMostrarModal(true)}
       >
-        Ver valoraciones
+        Valoraciones
       </button>
 
       {mostrarModal && (
@@ -74,7 +74,7 @@ const ValoracionAdmin = ({ idJuego }) => {
                     className="btn btn-sm btn-danger mt-2"
                     onClick={() => eliminar(v.idValoracion)}
                   >
-                    Eliminar valoración
+                    Eliminar
                   </button>
                 </div>
               ))
