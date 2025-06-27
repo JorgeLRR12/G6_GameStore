@@ -10,7 +10,7 @@
   z-index: 100;
 }
 
-/* Hero mejorado */
+/* Hero  */
 .home-hero-destacado {
   background: linear-gradient(120deg, #232a34 70%, #00bfff22 100%);
   border-radius: 18px;
@@ -449,4 +449,68 @@
   background: #ffb300;
   color: #232a34;
   border-color: #ffb300;
+}
+
+/* Hero bienvenida gamer */
+.hero-bienvenida-gamer {
+  width: 100%;
+  max-width: 1400px;
+  margin: 2.5rem auto 2.5rem auto;
+  padding: 2.2rem 2.5rem;
+  background: linear-gradient(120deg, #232a34 80%, #00bfff22 100%);
+  border-radius: 22px;
+  box-shadow: 0 10px 40px rgba(0,191,255,0.13), 0 2px 12px #000a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bienvenida-texto {
+  width: 100%;
+  max-width: 900px;
+  font-size: 1.25rem;
+  color: #e0e0e0;
+  background: rgba(0, 191, 255, 0.07);
+  border-radius: 14px;
+  padding: 1.3rem 2.2rem;
+  font-weight: 500;
+  text-align: center;
+  border: 1.5px solid #00bfff33;
+  text-shadow: 0 1px 8px #000a;
+  box-shadow: 0 2px 16px #00bfff22;
+  margin: 0;
+  text-align: justify;
+}
+
+.hero-bienvenida-resaltado {
+  color: #00e6ff;
+  font-weight: 700;
+}
+
+.logo-dvd-float {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 70px;
+  height: 70px;
+  z-index: 10;
+  animation: dvd-float 16s linear infinite alternate;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 16px #000a);
+  opacity: 0.85;
+  background: transparent;
+  border-radius: 16px;
+}
+
+@keyframes dvd-float {
+  0%   { top: 0; left: 0; }
+  12%  { top: 0; left: 80%; }
+  25%  { top: 0; left: 90%; }
+  37%  { top: 70%; left: 90%; }
+  50%  { top: 80%; left: 90%; }
+  62%  { top: 80%; left: 0; }
+  75%  { top: 80%; left: 5%; }
+  87%  { top: 0; left: 5%; }
+  100% { top: 0; left: 0; }
 }

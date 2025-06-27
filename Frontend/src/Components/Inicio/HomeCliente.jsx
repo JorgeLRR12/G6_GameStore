@@ -40,6 +40,15 @@ const WITCHER_TRAILER = {
   url: "https://www.youtube-nocookie.com/embed/X8Bh7esrGkM?si=Zz70sfLy3YggnHmx&autoplay=1&mute=1&loop=1&playlist=X8Bh7esrGkM",
 };
 
+const LOGO_COLORS = [
+  "#00e6ff",
+  "#ffb300",
+  "#ff4c4c",
+  "#66c0f4",
+  "#8fdfff",
+  "#b0c4de",
+];
+
 const HomeCliente = () => {
   const [juegosTop, setJuegosTop] = useState([]);
   const [toast, setToast] = useState({
@@ -52,6 +61,13 @@ const HomeCliente = () => {
   const navigate = useNavigate();
   const [playingIdx, setPlayingIdx] = useState(null);
   const playerRefs = useRef([]);
+  const [logoColorIdx, setLogoColorIdx] = useState(0);
+  const logoRef = useRef();
+
+  // Cambia el color del logo en cada rebote
+  const handleLogoAnimationIteration = () => {
+    setLogoColorIdx((prev) => (prev + 1) % LOGO_COLORS.length);
+  };
 
   useEffect(() => {
     const fetchJuegos = async () => {
@@ -191,20 +207,34 @@ const HomeCliente = () => {
       <div className="header-home-wrapper">
         <NavbarCliente />
       </div>
-      <div className="home-hero home-hero-destacado">
-        <div className="hero-content">
-          <h1 className="titulo-hero">
-            <span className="icono-hero">🎮</span> Bienvenido a GameStore
-          </h1>
-          <p className="lead lead-hero">
-            Tu portal para descubrir, comprar y disfrutar los mejores
-            videojuegos del momento.
-          </p>
-          <p className="sublead-hero">
-            Explora títulos de todas las plataformas, aprovecha promociones y
-            gestiona tu biblioteca fácilmente.
-          </p>
-        </div>
+      <div
+        className="home-hero home-hero-destacado hero-bienvenida-gamer"
+        style={{ position: "relative", overflow: "hidden" }}
+      >
+        {/* Logo flotante tipo DVD */}
+        <img
+          ref={logoRef}
+          src="/img/logoStoreCR.png"
+          alt="Logo flotante"
+          className="logo-dvd-float"
+          style={{
+            border: `2.5px solid ${LOGO_COLORS[logoColorIdx]}`,
+            transition: "border-color 0.2s",
+          }}
+          onAnimationIteration={handleLogoAnimationIteration}
+        />
+        <h1 className="titulo-hero">
+          <span className="icono-hero">🎮</span> GameStore
+        </h1>
+        <p className="hero-bienvenida-texto">
+          Bienvenido a{" "}
+          <span className="hero-bienvenida-resaltado">GameStore</span>, tu
+          universo gamer en Costa Rica. Descubre, compra y disfruta los mejores
+          videojuegos de todas las plataformas en un solo lugar. Vive
+          promociones exclusivas, gestiona tu biblioteca digital y sumérgete en
+          la experiencia gamer definitiva. ¡Haz de cada partida una aventura
+          inolvidable!
+        </p>
       </div>
       {/* Toast para mensajes de éxito o info */}
       {toast.show && (
