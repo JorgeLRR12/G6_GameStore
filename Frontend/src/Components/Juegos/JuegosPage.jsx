@@ -74,17 +74,21 @@ const JuegosPage = () => {
   };
 
   // Abre el modal con la info del juego
-  const handleOpenModal = (juego) => setModalJuego(juego);
+const handleOpenModal = (juego) => {
+  document.body.style.overflow = "hidden"; // 🔒 Bloquea scroll del fondo
+  setModalJuego(juego);
+};
   // Cierra el modal
-  const handleCloseModal = (e) => {
-    if (
-      !e ||
-      e.target.classList.contains("modal-juego-bg") ||
-      e.target.classList.contains("btn-cerrar-modal")
-    ) {
-      setModalJuego(null);
-    }
-  };
+const handleCloseModal = (e) => {
+  if (
+    !e ||
+    e.target.classList.contains("modal-juego-bg") ||
+    e.target.classList.contains("btn-cerrar-modal")
+  ) {
+    document.body.style.overflow = ""; // 🔓 Restaura scroll del fondo
+    setModalJuego(null);
+  }
+};
 
   return (
     <>
@@ -196,7 +200,7 @@ const JuegosPage = () => {
               <div className="modal-juego-precio">
                 ₡{parseFloat(modalJuego.precio).toLocaleString()}
               </div>
-              <ValoracionesJuego idJuego={modalJuego.idJuego} />
+              
               {usuario && (
                 <button
                   className="btn btn-info w-100 fw-bold modal-juego-btn"
@@ -207,7 +211,10 @@ const JuegosPage = () => {
                 >
                   Agregar al carrito
                 </button>
+        
+                
               )}
+              <ValoracionesJuego idJuego={modalJuego.idJuego} />
             </div>
           </div>
         )}
