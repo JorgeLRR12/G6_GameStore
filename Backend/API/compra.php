@@ -1,5 +1,5 @@
 <?php
-<?php
+//<?php
 // Permitir solicitudes desde cualquier origen (CORS)
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
