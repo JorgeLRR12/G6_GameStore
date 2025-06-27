@@ -33,7 +33,7 @@ const FormularioSoporte = () => {
           setMensaje("✅ Ticket creado correctamente.");
           setFormulario({ asunto: "", descripcion: "" });
         } else {
-          setMensaje("❌ Error: " + res.data.mensaje);
+          setMensaje("❌ Error: " + res.mensaje);
         }
       })
       .catch((err) => {
