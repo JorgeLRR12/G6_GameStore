@@ -29,7 +29,7 @@ const FormularioSoporte = () => {
 
     crearTicket(datosTicket)
       .then((res) => {
-        if (res.data.codigo === 201) {
+        if (res.codigo === 201) {
           setMensaje("✅ Ticket creado correctamente.");
           setFormulario({ asunto: "", descripcion: "" });
         } else {
