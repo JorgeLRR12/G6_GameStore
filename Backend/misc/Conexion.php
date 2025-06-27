@@ -3,9 +3,10 @@ class Conexion {
     public static function conectar() {
         // Parámetros de conexión
         $host = 'srv863.hstgr.io';
-        $dbname = 'u484426513_u484426513_ms3';
-        $usuario = 'u484426513_u484426513_ms3';
+        $dbname = 'u484426513_ms5';
+        $usuario = 'u484426513_ms5';
         $clave = 'F+gis~i>wC1';
+        
 
 
             // $host = 'srv863.hstgr.io';
